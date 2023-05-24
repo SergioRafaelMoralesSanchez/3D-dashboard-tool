@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "18739704-73bd-476e-9e11-785234ec724e"
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -16,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/3-d-dashboard-tool",
+            "outputPath": "dist/3d-dashboard-tool",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
