@@ -1,59 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { EncargosService } from 'src/app/services/encargos.service';
 import { Encargo } from 'src/app/shared/models/interfaces/encargo.interface';
-import { Material } from 'src/app/shared/models/interfaces/material.interface';
-import { EstadoEnum } from 'src/app/shared/models/interfaces/estado.enum';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  smartfillBlanco: Material = {
-    nombre: "smartfillBlanco",
-    precioKg: 16
+export class HomeComponent implements OnInit {
+
+  encargos: Encargo[] = []
+
+  constructor(private encargosService: EncargosService) { }
+  ngOnInit(): void {
+    this.encargos = this.encargosService.getAll()
+
   }
-  encargos: Encargo[] = [
-    {
-      estado:EstadoEnum.EnProceso,
-      nombre: "Accesorios Kafka",
-      piezas: [
-        {
-          nombre: "Accesorios",
-          material: this.smartfillBlanco,
-          horas: 5.25,
-          gramos: 95,
-          estado: EstadoEnum.Impreso,
-        },
-        {
-          nombre: "Pistola White",
-          material: this.smartfillBlanco,
-          horas: 31,
-          gramos: 626,
-          estado: EstadoEnum.Impreso,
-        },
-        {
-          nombre: "Pistola Black",
-          material: this.smartfillBlanco,
-          horas: 31,
-          gramos: 626,
-          estado: EstadoEnum.Impreso,
-        },
-        {
-          nombre: "cosaRandom",
-          material: this.smartfillBlanco,
-          horas: 5,
-          gramos: 200,
-          estado: EstadoEnum.Esperando,
-        }
-      ],
-      cliente: {
-        nombre: "Ruy"
-      },
-      precioHora: 0.3,
-      gastosAdicionales: [],
-      precioTotal: 45,
-      img: ""
-    }
-  ]
 }

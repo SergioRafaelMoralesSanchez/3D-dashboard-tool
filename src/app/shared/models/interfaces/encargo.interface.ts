@@ -4,6 +4,7 @@ import { GastoAdicional } from './gastoAdicional.interface'
 import { EstadoEnum } from './estado.enum'
 
 export interface Encargo {
+  id: number
   nombre: string
   piezas: Pieza[]
   cliente: Cliente
