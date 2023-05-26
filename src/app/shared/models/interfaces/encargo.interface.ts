@@ -1,6 +1,7 @@
 import { Cliente } from './cliente.interface'
 import { Pieza } from './pieza.interface'
 import { GastoAdicional } from './gastoAdicional.interface'
+import { EstadoEnum } from './estado.enum'
 
 export interface Encargo {
   nombre: string
@@ -10,4 +11,5 @@ export interface Encargo {
   gastosAdicionales: GastoAdicional[]
   precioTotal: number
   img: string
+  estado: EstadoEnum
 }

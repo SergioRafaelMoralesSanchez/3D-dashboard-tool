@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Encargo } from 'src/app/shared/models/interfaces/encargo.interface';
 import { Material } from 'src/app/shared/models/interfaces/material.interface';
-import { EstadoEnum } from 'src/app/shared/models/interfaces/pieza.interface';
+import { EstadoEnum } from 'src/app/shared/models/interfaces/estado.enum';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +15,7 @@ export class HomeComponent {
   }
   encargos: Encargo[] = [
     {
+      estado:EstadoEnum.EnProceso,
       nombre: "Accesorios Kafka",
       piezas: [
         {

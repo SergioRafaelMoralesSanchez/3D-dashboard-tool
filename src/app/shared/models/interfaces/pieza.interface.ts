@@ -1,3 +1,4 @@
+import { EstadoEnum } from './estado.enum'
 import { Material } from './material.interface'
 
 export interface Pieza {
@@ -8,8 +9,3 @@ export interface Pieza {
   estado: EstadoEnum
 }
 
-export enum EstadoEnum {
-  Esperando,
-  Preparado,
-  Impreso
-}
