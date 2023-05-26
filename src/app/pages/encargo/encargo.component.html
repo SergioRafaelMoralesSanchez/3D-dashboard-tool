@@ -1,0 +1,101 @@
+<div class="container" ondragstart="dropItLikeItsHot($event)">
+    <!-- {{encargo |json}} -->
+    <div class="row">
+        <div class="col-10">
+
+
+            <div class="row">
+                <div class="col-10 form">
+                    <div class="mx-3">
+                        <label for="nombrePieza" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombrePieza" placeholder="Nombre Pieza">
+                    </div>
+                    <div class="mx-3">
+                        <label for="horas" class="form-label">Horas</label>
+                        <input type="number" class="form-control" id="horas" placeholder="h">
+                    </div>
+                    <div class="mx-3">
+                        <label for="gramos" class="form-label">Gramos</label>
+                        <input type="number" class="form-control" id="gramos" placeholder="gr">
+                    </div>
+                    <div class="mx-3">
+                        <label for="horas" class="form-label">Horas</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option value="0">Smartfill Blanco</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-2">
+            <button type="button" class="btn btn-success">Añadir</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8" *ngIf="encargo">
+            <h3>Piezas</h3>
+            <table class="table table-striped">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">horas</th>
+                        <th scope="col">Gramos</th>
+                        <th scope="col">Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pieza of encargo.piezas">
+                        <td>{{pieza.nombre}}</td>
+                        <td>{{pieza.material.nombre}}</td>
+                        <td>{{estados[pieza.estado]}}</td>
+                        <td>{{pieza.horas}} h</td>
+                        <td>{{pieza.gramos}} gr</td>
+                        <td>{{calculoPrecioPieza(pieza)|number: "0.0-2"}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Total</th>
+                        <td></td>
+                        <td></td>
+                        <td>{{totalHoras()}} h</td>
+                        <td>{{totalGramos()}} gr</td>
+                        <td>{{totalPrecio()}} €</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4" *ngIf="encargo">
+            <h3>Gastos Adicionales</h3>
+            <table class="table">
+                <caption></caption>
+                <tbody>
+                    <tr *ngFor="let gasto of encargo.gastosAdicionales">
+                        <th>{{gasto.nombre}}</th>
+                        <th>{{gasto.precio}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Pieza</h1>
+            </div>
+
+        </div>
+    </div>
+</div>
