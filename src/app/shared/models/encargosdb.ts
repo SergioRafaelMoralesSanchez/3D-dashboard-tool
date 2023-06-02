@@ -1,9 +1,18 @@
 import { Encargo } from './interfaces/encargo.interface'
 import { EstadoEnum } from './interfaces/estado.enum'
-export const smartfillBlanco = {
-  nombre: 'smartfillBlanco',
-  precioKg: 16
-}
+import { Material } from './interfaces/material.interface'
+export const MATERIALESDB: Material[] = [
+  {
+    id: 0,
+    nombre: 'SmartFill Blanco',
+    precioKg: 16
+  },
+  {
+    id: 1,
+    nombre: 'Amazon Transparente',
+    precioKg: 20
+  }
+]
 export const ENCARGOSDB: Encargo[] = [
   {
     id: 1,
@@ -14,28 +23,28 @@ export const ENCARGOSDB: Encargo[] = [
     piezas: [
       {
         nombre: 'Accesorios',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5.25,
         gramos: 95,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola White',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola Black',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'cosaRandom',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5,
         gramos: 200,
         estado: EstadoEnum.Esperando
@@ -59,7 +68,50 @@ export const ENCARGOSDB: Encargo[] = [
     nombre: 'Accesorios Kafka',
     fechaCreacion: new Date(),
     fechaFinalizacion: undefined,
-    piezas: [],
+    piezas: [
+      {
+        "nombre": "Frontal-2",
+        "horas": 7.13,
+        "gramos": 170,
+        "material": MATERIALESDB[0],
+        "estado": 0
+    },
+    {
+        "nombre": "Frontal-1",
+        "horas": 6.85,
+        "gramos": 154,
+        "material": MATERIALESDB[0],
+        "estado": 0
+    },
+    {
+      "nombre": "Frontal-2Again",
+      "horas": 7.13,
+      "gramos": 170,
+      "material": MATERIALESDB[0],
+      "estado": 0
+  },
+  {
+      "nombre": "Frontal-1Again",
+      "horas": 6.85,
+      "gramos": 154,
+      "material": MATERIALESDB[0],
+      "estado": 0
+  },
+      {
+          "nombre": "handgrip",
+          "horas": 7.7,
+          "gramos": 183,
+          "material": MATERIALESDB[0],
+          "estado": 0
+      },
+      {
+          "nombre": "lateral",
+          "horas": 5.52,
+          "gramos": 126,
+          "material": MATERIALESDB[0],
+          "estado": 0
+      }
+  ],
     cliente: {
       id: 2,
       nombre: 'Rafa'
@@ -78,28 +130,28 @@ export const ENCARGOSDB: Encargo[] = [
     piezas: [
       {
         nombre: 'Accesorios',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5.25,
         gramos: 95,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola White',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola Black',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'cosaRandom',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5,
         gramos: 200,
         estado: EstadoEnum.Esperando
@@ -123,28 +175,28 @@ export const ENCARGOSDB: Encargo[] = [
     piezas: [
       {
         nombre: 'Accesorios',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5.25,
         gramos: 95,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola White',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola Black',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'cosaRandom',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5,
         gramos: 200,
         estado: EstadoEnum.Esperando
@@ -168,28 +220,28 @@ export const ENCARGOSDB: Encargo[] = [
     piezas: [
       {
         nombre: 'Accesorios',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5.25,
         gramos: 95,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola White',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola Black',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'cosaRandom',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5,
         gramos: 200,
         estado: EstadoEnum.Esperando
@@ -213,28 +265,28 @@ export const ENCARGOSDB: Encargo[] = [
     piezas: [
       {
         nombre: 'Accesorios',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5.25,
         gramos: 95,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola White',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola Black',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'cosaRandom',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5,
         gramos: 200,
         estado: EstadoEnum.Esperando
@@ -258,28 +310,28 @@ export const ENCARGOSDB: Encargo[] = [
     piezas: [
       {
         nombre: 'Accesorios',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5.25,
         gramos: 95,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola White',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola Black',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'cosaRandom',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5,
         gramos: 200,
         estado: EstadoEnum.Esperando
@@ -303,28 +355,28 @@ export const ENCARGOSDB: Encargo[] = [
     piezas: [
       {
         nombre: 'Accesorios',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5.25,
         gramos: 95,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola White',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'Pistola Black',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 31,
         gramos: 626,
         estado: EstadoEnum.Impreso
       },
       {
         nombre: 'cosaRandom',
-        material: smartfillBlanco,
+        material: MATERIALESDB[0],
         horas: 5,
         gramos: 200,
         estado: EstadoEnum.Esperando

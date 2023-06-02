@@ -16,10 +16,10 @@
           <label for="gramos" class="form-label">Gramos</label>
           <input [(ngModel)]="fichero.gramos" type="number" class="form-control" id="gramos" placeholder="gr">
         </div>
-        <div class="mx-3">
-          <label for="horas" class="form-label">Horas</label>
-          <select class="form-select" aria-label="Default select example">
-            <option value="0">Smartfill Blanco</option>
+        <div class="mx-3" *ngIf="materiales">
+          <label for="horas" class="form-label">Horas</label>{{fichero.material|json}}
+          <select [(ngModel)]="fichero.material" class="form-select" aria-label="Default select example">
+            <option *ngFor="let material of materiales" [value]="material.id">{{material.nombre}}</option>
           </select>
         </div>
       </div>
@@ -52,7 +52,8 @@
             <th scope="col">Estado</th>
             <th scope="col">horas</th>
             <th scope="col">Gramos</th>
-            <th scope="col">Precio</th>
+            <th scope="col">Precio Material</th>
+            <th scope="col">Precio Pieza</th>
           </tr>
         </thead>
         <tbody>
@@ -62,15 +63,17 @@
             <td>{{estados[pieza.estado]}}</td>
             <td>{{pieza.horas}} h</td>
             <td>{{pieza.gramos}} gr</td>
-            <td>{{calculoPrecioPieza(pieza)|number: "0.0-2"}}</td>
+            <td>{{(pieza.material.precioKg / 1000) * pieza.gramos|number :"0.0-2"}} €</td>
+            <td>{{calculoPrecioPieza(pieza)|number: "0.0-2"}}€</td>
           </tr>
           <tr>
             <th scope="col">Total</th>
             <td></td>
             <td></td>
-            <td>{{totalHoras()}} h</td>
-            <td>{{totalGramos()}} gr</td>
-            <td>{{totalPrecio()}} €</td>
+            <td>{{totalHoras()|number :"0.0-2"}} h</td>
+            <td>{{totalGramos()|number :"0.0-2"}} gr</td>
+            <td>{{totalPrecioPieza()|number :"0.0-2"}} €</td>
+            <td>{{totalPrecio()|number :"0.0-2"}} €</td>
           </tr>
 
         </tbody>

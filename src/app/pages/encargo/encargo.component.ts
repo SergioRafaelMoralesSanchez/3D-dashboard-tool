@@ -1,10 +1,11 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { EncargosService } from 'src/app/services/encargos.service'
-import { smartfillBlanco } from 'src/app/shared/models/encargosdb'
+import { MATERIALESDB } from 'src/app/shared/models/encargosdb'
 import { Undefinable } from 'src/app/shared/models/helpers/Undefinable.interface'
 import { Encargo } from 'src/app/shared/models/interfaces/encargo.interface'
 import { EstadoEnum } from 'src/app/shared/models/interfaces/estado.enum'
+import { Material } from 'src/app/shared/models/interfaces/material.interface'
 import { Pieza } from 'src/app/shared/models/interfaces/pieza.interface'
 
 @Component({
@@ -16,8 +17,12 @@ export class EncargoComponent {
   estados = EstadoEnum
   encargoId: Undefinable<number>
   encargo: Undefinable<Encargo>
-
-  ficherosNuevos: Pieza[] = [{} as Pieza]
+  materiales = MATERIALESDB
+  ficherosNuevos: Pieza[] = [
+    {
+      material: {} as Material
+    } as Pieza
+  ]
 
   files: any
   constructor (
@@ -25,22 +30,18 @@ export class EncargoComponent {
     private encargosService: EncargosService
   ) {
     activatedRoute.params.subscribe(parametros => {
-      debugger
       if (parametros['id']) {
         this.encargoId = parametros['id']
         this.encargo = encargosService.getById(Number(parametros['id']))
       } else {
-        this.encargo = {
-   
-        } as Encargo
+        this.encargo = {} as Encargo
       }
     })
   }
   calculoPrecioPieza (pieza: Pieza) {
     if (this.encargo) {
       return (
-        pieza.horas * this.encargo.precioHora +
-        (pieza.material.precioKg / 1000) * pieza.gramos
+        pieza.horas * this.encargo.precioHora + this.calculoMaterialPieza(pieza)
       )
     }
     return 0
@@ -57,14 +58,24 @@ export class EncargoComponent {
         nombre,
         horas: Number((Number(hour) + Number(min) / 60).toFixed(2)),
         gramos: Number(gramos.replace('g', '')),
-        material: smartfillBlanco,
+        material: {} as Material,
         estado: EstadoEnum.Esperando
       })
     }
   }
+  getMaterial (id: number): Undefinable<Material> {
+    return this.materiales.find(material => material.id === id)
+  }
   addPiezas () {
+    console.log(
+      '🚀 ~ file: encargo.component.ts:72 ~ EncargoComponent ~ addPiezas ~ this.ficherosNuevos:',
+      this.ficherosNuevos
+    )
     for (const fichero of this.ficherosNuevos) {
-      this.encargo?.piezas.push(fichero)
+      this.encargo?.piezas.push({
+        ...fichero,
+        material: this.getMaterial(fichero.material.id) || this.materiales[0]
+      })
     }
   }
   totalHoras () {
@@ -94,6 +105,19 @@ export class EncargoComponent {
       )
     }
     return 0
+  }
+  totalPrecioPieza () {
+    if (this.encargo) {
+      return this.encargo.piezas.reduce(
+        (accumulator, pieza: Pieza) =>
+          accumulator + this.calculoMaterialPieza(pieza),
+        0
+      )
+    }
+    return 0
+  }
+  calculoMaterialPieza (pieza: Pieza) {
+    return (pieza.material.precioKg / 1000) * pieza.gramos
   }
   dropItLikeItsHot (jamon: Event) {
     console.log(jamon)
