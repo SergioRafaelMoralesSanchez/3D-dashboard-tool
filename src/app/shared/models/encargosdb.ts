@@ -70,48 +70,48 @@ export const ENCARGOSDB: Encargo[] = [
     fechaFinalizacion: undefined,
     piezas: [
       {
-        "nombre": "Frontal-2",
-        "horas": 7.13,
-        "gramos": 170,
-        "material": MATERIALESDB[0],
-        "estado": 0
-    },
-    {
-        "nombre": "Frontal-1",
-        "horas": 6.85,
-        "gramos": 154,
-        "material": MATERIALESDB[0],
-        "estado": 0
-    },
-    {
-      "nombre": "Frontal-2Again",
-      "horas": 7.13,
-      "gramos": 170,
-      "material": MATERIALESDB[0],
-      "estado": 0
-  },
-  {
-      "nombre": "Frontal-1Again",
-      "horas": 6.85,
-      "gramos": 154,
-      "material": MATERIALESDB[0],
-      "estado": 0
-  },
-      {
-          "nombre": "handgrip",
-          "horas": 7.7,
-          "gramos": 183,
-          "material": MATERIALESDB[0],
-          "estado": 0
+        nombre: 'Frontal-2',
+        horas: 7.13,
+        gramos: 170,
+        material: MATERIALESDB[0],
+        estado: 0
       },
       {
-          "nombre": "lateral",
-          "horas": 5.52,
-          "gramos": 126,
-          "material": MATERIALESDB[0],
-          "estado": 0
+        nombre: 'Frontal-1',
+        horas: 6.85,
+        gramos: 154,
+        material: MATERIALESDB[0],
+        estado: 0
+      },
+      {
+        nombre: 'Frontal-2Again',
+        horas: 7.13,
+        gramos: 170,
+        material: MATERIALESDB[0],
+        estado: 0
+      },
+      {
+        nombre: 'Frontal-1Again',
+        horas: 6.85,
+        gramos: 154,
+        material: MATERIALESDB[0],
+        estado: 0
+      },
+      {
+        nombre: 'handgrip',
+        horas: 7.7,
+        gramos: 183,
+        material: MATERIALESDB[0],
+        estado: 0
+      },
+      {
+        nombre: 'lateral',
+        horas: 5.52,
+        gramos: 126,
+        material: MATERIALESDB[0],
+        estado: 0
       }
-  ],
+    ],
     cliente: {
       id: 2,
       nombre: 'Rafa'
@@ -217,36 +217,7 @@ export const ENCARGOSDB: Encargo[] = [
     nombre: 'Accesorios Kafka',
     fechaCreacion: new Date(),
     fechaFinalizacion: undefined,
-    piezas: [
-      {
-        nombre: 'Accesorios',
-        material: MATERIALESDB[0],
-        horas: 5.25,
-        gramos: 95,
-        estado: EstadoEnum.Impreso
-      },
-      {
-        nombre: 'Pistola White',
-        material: MATERIALESDB[0],
-        horas: 31,
-        gramos: 626,
-        estado: EstadoEnum.Impreso
-      },
-      {
-        nombre: 'Pistola Black',
-        material: MATERIALESDB[0],
-        horas: 31,
-        gramos: 626,
-        estado: EstadoEnum.Impreso
-      },
-      {
-        nombre: 'cosaRandom',
-        material: MATERIALESDB[0],
-        horas: 5,
-        gramos: 200,
-        estado: EstadoEnum.Esperando
-      }
-    ],
+    piezas: [],
     cliente: {
       id: 5,
       nombre: 'Ruy'
