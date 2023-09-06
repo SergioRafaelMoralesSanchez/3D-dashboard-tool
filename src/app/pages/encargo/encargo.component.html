@@ -2,9 +2,21 @@
 <div class="container" *ngIf="encargo">
 
     <div class="row">
-        <div class="col-3">
-
+        <div class="col-4">
             <img [src]="encargo.img" class="card-img-top" alt="">
+        </div>
+        <div class="col-4">
+            <div>
+                <h2>{{encargo.nombre}}</h2>
+                <h2>{{encargo.observaciones}}</h2>
+
+                <!-- <textarea name="" id="" style="width: 100%; height: 100%;" readonly></textarea> -->
+            </div>
+        </div>
+        <div class="col-4">
+            <h3>
+                Cliente
+            </h3>
         </div>
     </div>
     <div class="my-3">
@@ -91,7 +103,7 @@
 
                     <div class="mx-3">
                         <label for="precio" class="form-label">Precio</label>
-                        <input [(ngModel)]="gastoAdicional.precio" type=" number" class="form-control" id="precio"
+                        <input [(ngModel)]="gastoAdicional.precio" type="number" class="form-control" id="precio"
                             placeholder="€">
                     </div>
 
@@ -117,7 +129,7 @@
     </div>
 
     <div class="row">
-        <div class="col-8" *ngIf="encargo">
+        <div class="col-12 col-lg-8" *ngIf="encargo">
             <h3>Piezas</h3>
             <table class="table table-striped">
                 <caption></caption>
@@ -178,14 +190,14 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-4" *ngIf="encargo">
+        <div class="col-12 col-lg-4" *ngIf="encargo">
             <h3>Desglose</h3>
             <table class="table">
                 <caption>Listado de gastos</caption>
                 <tbody>
                     <tr *ngFor="let gasto of encargo.gastosAdicionales; let i=index">
                         <td>{{gasto.nombre}}</td>
-                        <td class="d-flex justify-content-end"  >{{gasto.precio}} €</td>
+                        <td class="d-flex justify-content-end">{{gasto.precio}} €</td>
                         <!-- <td class="d-flex justify-content-end">
                             <button class="btn btn-danger" (click)="eliminarGasto(i)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -208,7 +220,7 @@
                     <tr>
                         <th scope="col">TOTAL ENCARGO</th>
                         <th class="d-flex justify-content-end" scope="col">
-                            {{totalEncargo() }} €
+                            {{totalEncargo()|number :"0.0-2" }} €
                         </th>
                     </tr>
                 </tbody>

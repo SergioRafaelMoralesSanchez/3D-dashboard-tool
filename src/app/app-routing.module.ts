@@ -4,18 +4,18 @@ import { HomeComponent } from './pages/home/home.component';
 import { EncargoComponent } from './pages/encargo/encargo.component';
 
 const routes: Routes = [
-  { path: "dashboard", component: HomeComponent },
-  { path: "encargo/new", component: EncargoComponent },
-  { path: "encargo/:id", component: EncargoComponent },
-  // { path: "materiales" },
-  // { path: "material/:id" },
-  // { path: "clientes" },
-  // { path: "cliente/:id" },
-  { path: "", component: HomeComponent },
+    { path: "dashboard", component: HomeComponent },
+    { path: "encargo/new", component: EncargoComponent },
+    { path: "encargo/:id", component: EncargoComponent },
+    // { path: "materiales" },
+    // { path: "material/:id" },
+    // { path: "clientes" },
+    // { path: "cliente/:id" },
+    { path: "", component: HomeComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }
