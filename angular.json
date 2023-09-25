@@ -15,8 +15,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.ts"
+            },
             "outputPath": "dist/3d-dashboard-tool",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -45,7 +48,13 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -53,13 +62,19 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
               "browserTarget": "3D-dashboard-tool:build:production"

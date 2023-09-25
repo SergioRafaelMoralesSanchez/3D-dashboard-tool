@@ -1,17 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { EncargoComponent } from './pages/encargo/encargo.component';
-
 const routes: Routes = [
-    { path: "dashboard", component: HomeComponent },
-    { path: "encargo/new", component: EncargoComponent },
-    { path: "encargo/:id", component: EncargoComponent },
-    // { path: "materiales" },
-    // { path: "material/:id" },
-    // { path: "clientes" },
-    // { path: "cliente/:id" },
-    { path: "", component: HomeComponent },
+    {
+        path: 'dashboard',
+        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
+    },
+    {
+        path: 'materiales',
+        loadChildren: () => import('./modules/materiales/materiales.module').then(m => m.MaterialesModule),
+    },
+    {
+        path: 'encargos',
+        loadChildren: () => import('./modules/encargos/encargos.module').then(m => m.EncargosModule),
+    },
+    {
+        path: 'clientes',
+        loadChildren: () => import('./modules/clientes/clientes.module').then(m => m.ClientesModule)
+    },
+    { path: '**', redirectTo: 'dashboard' },
 ];
 
 @NgModule({
