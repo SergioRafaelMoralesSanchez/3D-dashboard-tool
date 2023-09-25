@@ -1,20 +1,10 @@
+<!-- <pre>
+    {{encargo|json}}
+</pre> -->
 <div *ngIf="encargo" class="card" style="width: 18rem;">
     <img [src]="encargo.img" class="card-img-top" alt="">
     <div class="card-body">
         <h5 class="card-title">{{encargo.nombre}}</h5>
-
-        <div class="row">
-            <div class="col-6">
-                <span class="card-text">
-                    Cliente
-                </span>
-            </div>
-            <div class="col-6">
-                <span class="card-text">
-                    {{encargo.cliente.nombre}}
-                </span>
-            </div>
-        </div>
         <div class="row">
             <div class="col-6">
                 <span class="card-text">
@@ -35,7 +25,7 @@
             </div>
             <div class="col-6">
                 <span class="card-text">
-                    {{getTotalHorasTeminados()}}/{{getTotalHoras()}}
+                    {{getTotalHorasTeminados()}}/{{getTotalHoras()| number :"0.0-2"}}
                 </span>
             </div>
         </div>

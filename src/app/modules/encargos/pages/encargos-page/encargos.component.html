@@ -1,6 +1,6 @@
 <div class="container">
     <div class="cardContainer">
-        <div class="content" *ngFor="let encargo of encargos" [routerLink]="['/encargo',encargo.id]" >
+        <div class="content" *ngFor="let encargo of encargos" [routerLink]="['/encargos',encargo.id]">
             <app-encargo-card [encargo]="encargo"></app-encargo-card>
         </div>
     </div>

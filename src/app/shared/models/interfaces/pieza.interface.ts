@@ -1,11 +1,18 @@
-import { EstadoEnum } from './estado.enum'
-import { Material } from './material.interface'
+import { EstadoEnum } from './estado.enum';
+import { Material } from './material.interface';
 
 export interface Pieza {
-  nombre: string
-  material: Material
-  horas: number
-  gramos: number
-  estado: EstadoEnum
+    nombre: string
+    material: Material
+    horas: number
+    gramos: number
+    estado: EstadoEnum
 }
 
+export interface PiezaDto {
+    nombre: string
+    materialId: string
+    horas: number
+    gramos: number
+    estado: EstadoEnum
+}
