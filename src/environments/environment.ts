@@ -1,6 +1,6 @@
 export const environment = {
     firebaseConfig: {
-        apiKey: "",
+        apiKey: process.env["apiKey"],
         authDomain: "three-d-dashboard-tool.firebaseapp.com",
         projectId: "three-d-dashboard-tool",
         storageBucket: "three-d-dashboard-tool.appspot.com",
