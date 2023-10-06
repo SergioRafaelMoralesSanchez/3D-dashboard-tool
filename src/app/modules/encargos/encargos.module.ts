@@ -9,6 +9,7 @@ import { NuevaPiezaComponent } from './components/nueva-pieza/nueva-pieza.compon
 import { EncargosRoutingModule } from "./encargos-routing.module";
 import { EncargoComponent } from "./pages/encargo-page/encargo.component";
 import { EncargosComponent } from "./pages/encargos-page/encargos.component";
+import { LoadingSpinnerComponent } from "../../shared/components/loading-spinner/loading-spinner.component";
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { EncargosComponent } from "./pages/encargos-page/encargos.component";
         EncargosRoutingModule,
         FormsModule,
         CommonModule,
-        EncargoCardComponent
+        EncargoCardComponent,
+        LoadingSpinnerComponent
     ],
     providers: [MaterialesService,
     ],

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Material } from "../../../../shared/models/interfaces/material.interface";
 import { Pieza } from "../../../../shared/models/interfaces/pieza.interface";
-import { EstadoEnum } from "../../../../shared/models/interfaces/estado.enum";
+import { EstadoPiezaEnum } from "../../../../shared/models/interfaces/estado-pieza.enum";
 import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { Encargo } from "../../../../shared/models/interfaces/encargo.interface";
 
@@ -36,7 +36,7 @@ export class NuevaPiezaComponent {
                 nombre: "",
                 horas: 0,
                 gramos: 0,
-                estado: EstadoEnum.Esperando,
+                estado: EstadoPiezaEnum.Esperando,
                 material: this.materiales[0]
             } as Pieza
         ];
@@ -61,12 +61,12 @@ export class NuevaPiezaComponent {
                 horas: Number((hour + min / 60).toFixed(2)),
                 gramos: Number(gramos.replace('g', '')),
                 material: this.materiales[0],
-                estado: EstadoEnum.Esperando
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Esperando
             });
         }
     }
     addPiezas() {
-        console.log("🚀 ~ file: nueva-pieza.component.ts:69 ~ NuevaPiezaComponent ~ addPiezas ~ this.encargo:", this.encargo);
         if (this.piezasNuevas && this.encargo) {
             for (const fichero of this.piezasNuevas) {
                 if (this.indiceEdit) {
@@ -76,10 +76,12 @@ export class NuevaPiezaComponent {
                     };
 
                 } else {
-                    this.encargo.piezas.push({
-                        ...fichero,
-                        material: this.getMaterial(fichero.material.id)
-                    });
+                    for (let cantidad = 0; cantidad < fichero.cantidad; cantidad++) {
+                        this.encargo.piezas.push({
+                            ...fichero,
+                            material: this.getMaterial(fichero.material.id)
+                        });
+                    }
                 }
             }
             this.encargoChange.emit(this.encargo);

@@ -1,0 +1,39 @@
+.divSpinner,
+.divSpinnerSmall {
+    width: 90vw;
+    height: 64vh;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.divSpinnerSmall {
+    width: 30px;
+    height: 30px;
+}
+
+.spinner,
+.spinnerSmall {
+    border: 10px solid rgb(24 121 208);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border-left-color: transparent;
+    animation: spin 1s linear infinite;
+}
+.spinnerSmall {
+    border: 3px solid rgb(24 121 208);
+    border-left-color: transparent;
+    width: 30px;
+    height: 30px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

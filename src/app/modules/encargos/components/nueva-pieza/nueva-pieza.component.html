@@ -1,5 +1,5 @@
-{{this.piezasNuevas|json}}
-{{this.indiceEdit|json}}
+<!-- {{this.piezasNuevas|json}}
+{{this.indiceEdit|json}} -->
 <div class="" id="nuevaPieza">
     <div class="card card-body">
         <div class="row">
@@ -19,6 +19,11 @@
                         <label for="gramos" class="form-label">Gramos</label>
                         <input [(ngModel)]="fichero.gramos" type="number" class="form-control" id="gramos"
                             placeholder="gr">
+                    </div>
+                    <div class="mx-3">
+                        <label for="gramos" class="form-label">Cantidad</label>
+                        <input [(ngModel)]="fichero.cantidad" type="number" class="form-control" id="1"
+                            placeholder="1">
                     </div>
                     <div class="mx-3" *ngIf="materiales && fichero.material">
                         <label for="horas" class="form-label">Horas</label>

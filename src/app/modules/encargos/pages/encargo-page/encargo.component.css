@@ -1,3 +1,8 @@
+.container-fluid{
+ width: 90%;    
+}
+
+
 .file-upload {
     background-color: #ffffff;
     width: 600px;

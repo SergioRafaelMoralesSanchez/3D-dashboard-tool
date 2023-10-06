@@ -1,4 +1,4 @@
-export enum EstadoEnum {
+export enum EstadoPiezaEnum {
     Esperando,
     Preparado,
     EnProceso,

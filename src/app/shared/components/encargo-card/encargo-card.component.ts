@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, Input } from '@angular/core';
 import { Undefinable } from '../../models/helpers/Undefinable.interface';
 import { EncargoDto } from '../../models/interfaces/encargo.interface';
-import { EstadoEnum } from '../../models/interfaces/estado.enum';
+import { EstadoPiezaEnum } from '../../models/interfaces/estado-pieza.enum';
 
 @Component({
     selector: 'app-encargo-card',
@@ -32,7 +32,7 @@ export class EncargoCardComponent {
         let horasTotal = 0;
         if (this.encargo) {
             this.encargo.piezas.forEach(pieza => {
-                if (pieza.estado === EstadoEnum.Impreso) {
+                if (pieza.estado === EstadoPiezaEnum.Impreso) {
                     horasTotal += pieza.horas;
                 }
             });
