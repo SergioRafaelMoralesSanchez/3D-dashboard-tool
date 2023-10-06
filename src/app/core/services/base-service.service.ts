@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { DocumentData, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import { appFirebase } from "../../../main";
 import { Undefinable } from "../../shared/models/helpers/Undefinable.interface";
 
@@ -40,14 +40,16 @@ export class BaseService<T> {
         }
     }
 
-    async addDoc(encargo: T) {
+    async addDoc(encargo: T):Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
         try {
             const docRef = await addDoc(collection(this.db, this.collectionName), encargo as DocumentData);
 
             console.log("Document written with ID: ", docRef.id);
+            return docRef;
         } catch (e) {
             console.error("Error adding document: ", e);
         }
+        return undefined;
     }
 
     async updateDoc(documentId: string, document: T) {

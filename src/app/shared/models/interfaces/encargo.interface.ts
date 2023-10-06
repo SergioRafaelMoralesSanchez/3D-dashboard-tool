@@ -1,6 +1,6 @@
 import { Nullable } from "../helpers/Nullable.interface";
 import { Cliente } from './cliente.interface';
-import { EstadoEnum } from './estado.enum';
+import { EstadoEncargoEnum } from "./estado-encargo.enum";
 import { GastoAdicional } from './gastoAdicional.interface';
 import { Pieza, PiezaDto } from './pieza.interface';
 
@@ -16,7 +16,8 @@ export interface Encargo {
     gastosAdicionales: GastoAdicional[]
     precioTotal: number
     img: string
-    estado: EstadoEnum
+    estado: EstadoEncargoEnum
+
 }
 export interface EncargoDto {
     id: string
@@ -30,5 +31,5 @@ export interface EncargoDto {
     gastosAdicionales: GastoAdicional[]
     precioTotal: number
     img: string
-    estado: EstadoEnum
+    estado: EstadoEncargoEnum
 }

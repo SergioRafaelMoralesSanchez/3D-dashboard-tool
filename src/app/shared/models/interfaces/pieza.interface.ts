@@ -1,4 +1,4 @@
-import { EstadoEnum } from './estado.enum';
+import { EstadoPiezaEnum } from './estado-pieza.enum';
 import { Material } from './material.interface';
 
 export interface Pieza {
@@ -6,7 +6,8 @@ export interface Pieza {
     material: Material
     horas: number
     gramos: number
-    estado: EstadoEnum
+    cantidad: number
+    estado: EstadoPiezaEnum
 }
 
 export interface PiezaDto {
@@ -14,5 +15,6 @@ export interface PiezaDto {
     materialId: string
     horas: number
     gramos: number
-    estado: EstadoEnum
+    cantidad: number
+    estado: EstadoPiezaEnum
 }

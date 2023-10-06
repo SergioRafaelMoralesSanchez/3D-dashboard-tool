@@ -1,5 +1,6 @@
 import { Encargo } from '../shared/models/interfaces/encargo.interface';
-import { EstadoEnum } from '../shared/models/interfaces/estado.enum';
+import { EstadoEncargoEnum } from "../shared/models/interfaces/estado-encargo.enum";
+import { EstadoPiezaEnum } from '../shared/models/interfaces/estado-pieza.enum';
 import { Material } from '../shared/models/interfaces/material.interface';
 export const MATERIALESDB: Material[] = [
     {
@@ -16,7 +17,7 @@ export const MATERIALESDB: Material[] = [
 export const ENCARGOSDB: Encargo[] = [
     {
         id: "1",
-        estado: EstadoEnum.EnProceso,
+        estado: EstadoEncargoEnum.EnProceso,
         nombre: 'Accesorios Kafka',
         fechaCreacion: new Date(),
         fechaFinalizacion: null,
@@ -26,28 +27,32 @@ export const ENCARGOSDB: Encargo[] = [
                 material: MATERIALESDB[0],
                 horas: 5.25,
                 gramos: 95,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola White',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola Black',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'cosaRandom',
                 material: MATERIALESDB[0],
                 horas: 5,
                 gramos: 200,
-                estado: EstadoEnum.Esperando
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Esperando
             }
         ],
         cliente: {
@@ -64,7 +69,7 @@ export const ENCARGOSDB: Encargo[] = [
     },
     {
         id: "2",
-        estado: EstadoEnum.EnProceso,
+        estado: EstadoEncargoEnum.EnProceso,
         nombre: 'Accesorios Kafka',
         fechaCreacion: new Date(),
         fechaFinalizacion: null,
@@ -73,6 +78,7 @@ export const ENCARGOSDB: Encargo[] = [
                 nombre: 'Frontal-2',
                 horas: 7.13,
                 gramos: 170,
+                cantidad: 1,
                 material: MATERIALESDB[0],
                 estado: 0
             },
@@ -80,6 +86,7 @@ export const ENCARGOSDB: Encargo[] = [
                 nombre: 'Frontal-1',
                 horas: 6.85,
                 gramos: 154,
+                cantidad: 1,
                 material: MATERIALESDB[0],
                 estado: 0
             },
@@ -87,6 +94,7 @@ export const ENCARGOSDB: Encargo[] = [
                 nombre: 'Frontal-2Again',
                 horas: 7.13,
                 gramos: 170,
+                cantidad: 1,
                 material: MATERIALESDB[0],
                 estado: 0
             },
@@ -94,6 +102,7 @@ export const ENCARGOSDB: Encargo[] = [
                 nombre: 'Frontal-1Again',
                 horas: 6.85,
                 gramos: 154,
+                cantidad: 1,
                 material: MATERIALESDB[0],
                 estado: 0
             },
@@ -101,6 +110,7 @@ export const ENCARGOSDB: Encargo[] = [
                 nombre: 'handgrip',
                 horas: 7.7,
                 gramos: 183,
+                cantidad: 1,
                 material: MATERIALESDB[0],
                 estado: 0
             },
@@ -108,6 +118,7 @@ export const ENCARGOSDB: Encargo[] = [
                 nombre: 'lateral',
                 horas: 5.52,
                 gramos: 126,
+                cantidad: 1,
                 material: MATERIALESDB[0],
                 estado: 0
             }
@@ -123,7 +134,7 @@ export const ENCARGOSDB: Encargo[] = [
     },
     {
         id: "3",
-        estado: EstadoEnum.EnProceso,
+        estado: EstadoEncargoEnum.EnProceso,
         nombre: 'Accesorios Kafka',
         fechaCreacion: new Date(),
         fechaFinalizacion: null,
@@ -133,28 +144,32 @@ export const ENCARGOSDB: Encargo[] = [
                 material: MATERIALESDB[0],
                 horas: 5.25,
                 gramos: 95,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola White',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola Black',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'cosaRandom',
                 material: MATERIALESDB[0],
                 horas: 5,
                 gramos: 200,
-                estado: EstadoEnum.Esperando
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Esperando
             }
         ],
         cliente: {
@@ -168,7 +183,7 @@ export const ENCARGOSDB: Encargo[] = [
     },
     {
         id: "4",
-        estado: EstadoEnum.EnProceso,
+        estado: EstadoEncargoEnum.EnProceso,
         nombre: 'Accesorios Kafka',
         fechaCreacion: new Date(),
         fechaFinalizacion: null,
@@ -178,28 +193,32 @@ export const ENCARGOSDB: Encargo[] = [
                 material: MATERIALESDB[0],
                 horas: 5.25,
                 gramos: 95,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola White',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola Black',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'cosaRandom',
                 material: MATERIALESDB[0],
                 horas: 5,
                 gramos: 200,
-                estado: EstadoEnum.Esperando
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Esperando
             }
         ],
         cliente: {
@@ -213,7 +232,7 @@ export const ENCARGOSDB: Encargo[] = [
     },
     {
         id: "5",
-        estado: EstadoEnum.EnProceso,
+        estado: EstadoEncargoEnum.EnProceso,
         nombre: 'Accesorios Kafka',
         fechaCreacion: new Date(),
         fechaFinalizacion: null,
@@ -229,7 +248,7 @@ export const ENCARGOSDB: Encargo[] = [
     },
     {
         id: "6",
-        estado: EstadoEnum.EnProceso,
+        estado: EstadoEncargoEnum.EnProceso,
         nombre: 'Accesorios Kafka',
         fechaCreacion: new Date(),
         fechaFinalizacion: null,
@@ -239,28 +258,32 @@ export const ENCARGOSDB: Encargo[] = [
                 material: MATERIALESDB[0],
                 horas: 5.25,
                 gramos: 95,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola White',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola Black',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'cosaRandom',
                 material: MATERIALESDB[0],
                 horas: 5,
                 gramos: 200,
-                estado: EstadoEnum.Esperando
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Esperando
             }
         ],
         cliente: {
@@ -274,7 +297,7 @@ export const ENCARGOSDB: Encargo[] = [
     },
     {
         id: "7",
-        estado: EstadoEnum.EnProceso,
+        estado: EstadoEncargoEnum.EnProceso,
         nombre: 'Accesorios Kafka',
         fechaCreacion: new Date(),
         fechaFinalizacion: null,
@@ -284,28 +307,32 @@ export const ENCARGOSDB: Encargo[] = [
                 material: MATERIALESDB[0],
                 horas: 5.25,
                 gramos: 95,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola White',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola Black',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'cosaRandom',
                 material: MATERIALESDB[0],
                 horas: 5,
                 gramos: 200,
-                estado: EstadoEnum.Esperando
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Esperando
             }
         ],
         cliente: {
@@ -319,7 +346,7 @@ export const ENCARGOSDB: Encargo[] = [
     },
     {
         id: "8",
-        estado: EstadoEnum.EnProceso,
+        estado: EstadoEncargoEnum.EnProceso,
         nombre: 'Accesorios Kafka',
         fechaCreacion: new Date(),
         fechaFinalizacion: null,
@@ -329,28 +356,32 @@ export const ENCARGOSDB: Encargo[] = [
                 material: MATERIALESDB[0],
                 horas: 5.25,
                 gramos: 95,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola White',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'Pistola Black',
                 material: MATERIALESDB[0],
                 horas: 31,
                 gramos: 626,
-                estado: EstadoEnum.Impreso
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Impreso
             },
             {
                 nombre: 'cosaRandom',
                 material: MATERIALESDB[0],
                 horas: 5,
                 gramos: 200,
-                estado: EstadoEnum.Esperando
+                cantidad: 1,
+                estado: EstadoPiezaEnum.Esperando
             }
         ],
         cliente: {
