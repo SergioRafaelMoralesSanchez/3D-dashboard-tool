@@ -4,21 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
-import { HeaderComponent } from './shared/components/header/header.component';
+import { SharedModule } from "./shared/components/shared.module";
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        FooterComponent,
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    SharedModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

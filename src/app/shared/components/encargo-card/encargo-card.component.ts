@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Undefinable } from '../../models/helpers/Undefinable.interface';
 import { EncargoDto } from '../../models/interfaces/encargo.interface';
 import { EstadoPiezaEnum } from '../../models/interfaces/estado-pieza.enum';
@@ -13,11 +13,18 @@ import { EstadoPiezaEnum } from '../../models/interfaces/estado-pieza.enum';
     ],
     standalone: true
 })
-export class EncargoCardComponent {
+export class EncargoCardComponent implements OnInit {
 
     @Input()
     encargo: Undefinable<EncargoDto>;
 
+    ngOnInit(): void {
+        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+        //Add 'implements OnInit' to the class.
+        if (this.encargo && !this.encargo.img.length) {
+            this.encargo.img = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/3DBenchy.png/1024px-3DBenchy.png";
+        }
+    }
     getTotalHoras() {
         let horasTotal = 0;
         if (this.encargo) {

@@ -1,164 +1,181 @@
 <!-- <pre>
     {{encargo |json}}
 </pre> -->
+<div id="gear" class="d-flex justify-content-end p-4">
+  <div class="dropdown">
+    <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <svg-gear></svg-gear>
+    </button>
+    <ul class="dropdown-menu">
+      <li><button class="dropdown-item text-info" *ngIf="!isEditing" (click)="isEditing=!isEditing">Editar
+          Encargo</button></li>
+      <li><button class="dropdown-item text-success" *ngIf="isEditing"
+          (click)="uploadEncargo()">Guardar Encargo</button></li>
+      <li><button class="dropdown-item text-danger" (click)="deleteEncargo()">Eliminar Encargo</button></li>
+    </ul>
+  </div>
+</div>
 <loading-spinner [loading]="!encargo"></loading-spinner>
-
 <div class="container-fluid" *ngIf="encargo">
 
-    <div class="row">
-        <div class="col-3">
-            <img [src]="encargo.img" class="rounded w-100" alt="">
-        </div>
-        <div class="col-4">
-            <div>
-                <h3>{{encargo.nombre}}</h3>
-
-                <textarea class="form-control" name="" id="" style="width: 100%; height: 100%;" [(ngModel)]="encargo.observaciones"></textarea>
-            </div>
-        </div>
-        <div class="col-5">
-            <div class="row">
-                <h3>
-                    Cliente
-                </h3>
-
-                <h5 *ngIf="encargo.cliente">{{encargo.cliente.nombre}}</h5>
-            </div>
-            <div class="row">
-
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-3">
+      <img [src]="encargo.img" class="rounded w-100" alt="">
     </div>
-    <div class="my-3">
-        <button class="btn btn-info" type="button" (click)="isNuevaPieza = !isNuevaPieza">
-            Nueva Pieza
-        </button>
-        <button class="mx-2 btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#gastoAdicional"
-            aria-expanded="false" aria-controls="gastoAdicional">
-            Gasto Adicional
-        </button>
-    </div>
-
-    <app-nueva-pieza *ngIf="isNuevaPieza" [(encargo)]="encargo" [materiales]="materiales" [piezasNuevas]="piezasNuevas"
-        [indiceEdit]="indiceEdit" (uploadEncargo)="uploadEncargo()"></app-nueva-pieza>
-    <app-gasto-adicional (uploadEncargo)="uploadEncargo()" [(encargo)]="encargo"></app-gasto-adicional>
-
-    <div class="row">
-        <div class="col-12 col-lg-8" *ngIf="encargo">
-            <h3>Piezas</h3>
-            <table class="table table-striped">
-                <caption></caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Material</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Horas</th>
-                        <th scope="col">Gramos</th>
-                        <th scope="col">Precio Horas</th>
-                        <th scope="col">Precio Material</th>
-                        <th scope="col">Precio Pieza</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let pieza of encargo.piezas; let i=index">
-                        <td>{{pieza.nombre}}</td>
-                        <td>{{pieza.material.nombre}}</td>
-                        <td>{{estados[pieza.estado]}}</td>
-                        <td>{{pieza.horas}} h</td>
-                        <td>{{pieza.gramos}} gr</td>
-                        <td>{{pieza.horas * encargo.precioHora | number :"0.0-2"}} €</td>
-                        <td>{{(pieza.material.precioKg / 1000) * pieza.gramos | number :"0.0-2"}} €</td>
-                        <td>{{calculoPrecioPieza(pieza) | number: "0.0-2"}}€</td>
-                        <td>
-                            <div class="d-flex">
-                                <div class="mx-1">
-                                    <div class="d-flex align-items-center" (click)="editartPieza(i)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                            <path
-                                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="mx-1">
-                                    <div class="d-flex align-items-center" (click)="deletePiezaFromEncargo(i)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                            <path
-                                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">Total</th>
-                        <td></td>
-                        <td></td>
-                        <td>{{totalHoras()| number :"0.0-2"}} h</td>
-                        <td>{{totalGramos()| number :"0.0-2"}} gr</td>
-                        <td>{{totalPrecioHoras()| number :"0.0-2"}} €</td>
-                        <td>{{totalPrecioPieza()| number :"0.0-2"}} €</td>
-                        <td>{{totalPrecio()| number :"0.0-2"}} €</td>
-                        <td></td>
-                    </tr>
-
-                </tbody>
-            </table>
+    <div class="col-4">
+      <div>
+        <div id="nombre-encargo">
+          <h3 *ngIf="!isEditing">{{encargo.nombre}}</h3>
+          <input *ngIf="isEditing" [(ngModel)]="encargo.nombre" type="text" class="form-control" placeholder="Nombre encargo">
         </div>
-        <div class="col-12 col-lg-4" *ngIf="encargo">
-            <h3>Desglose</h3>
-            <table class="table">
-                <caption>Listado de gastos</caption>
-                <tbody>
-                    <tr *ngFor="let gasto of encargo.gastosAdicionales; let i=index">
-                        <td>{{gasto.nombre}}</td>
-                        <td class="d-flex justify-content-end">
-                            <span class="m-2">{{gasto.precio}} €</span>
-
-                            <span class="d-flex align-items-center" (click)="eliminarGasto(i)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-trash3" viewBox="0 0 16 16">
-                                    <path
-                                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z">
-                                    </path>
-                                </svg>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Piezas impresas</td>
-                        <td class="d-flex justify-content-end">
-                            <span>
-                                {{totalPrecio()| number :"0.0-2"}} €
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">TOTAL ENCARGO</th>
-                        <th class="d-flex justify-content-end" scope="col">
-                            {{totalEncargo()| number :"0.0-2" }} €
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- <pre>{{encargo.piezas|json}}</pre> -->
+        <div id="observaciones">
+          <p *ngIf="!isEditing">
+            {{encargo.observaciones}}
+          </p>
+          <textarea *ngIf="isEditing" class="form-control" name="" id="" style="width: 100%; height: 100%;"
+            [(ngModel)]="encargo.observaciones"></textarea>
         </div>
+      </div>
     </div>
+    <div class="col-5">
+      <div class="row">
+        <h3>
+          Cliente
+        </h3>
+        <h5 *ngIf="!isEditing">{{encargo.cliente.nombre}}</h5>
+        <div class="dropdown" *ngIf="isEditing">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown button
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+  <div class="my-3">
+    <button class="btn btn-info" type="button" (click)="isNuevaPieza = !isNuevaPieza">
+      Nueva Pieza
+    </button>
+    <button class="mx-2 btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#gastoAdicional"
+      aria-expanded="false" aria-controls="gastoAdicional">
+      Gasto Adicional
+    </button>
+  </div>
+
+  <app-nueva-pieza *ngIf="isNuevaPieza" [(encargo)]="encargo" [materiales]="materiales" [piezasNuevas]="piezasNuevas"
+    [indiceEdit]="indiceEdit" (uploadEncargo)="uploadEncargo()"></app-nueva-pieza>
+  <app-gasto-adicional (uploadEncargo)="uploadEncargo()" [(encargo)]="encargo"></app-gasto-adicional>
+
+  <div class="row">
+    <div class="col-12 col-lg-8" *ngIf="encargo">
+      <h3>Piezas</h3>
+      <table class="table table-striped">
+        <caption></caption>
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Material</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Horas</th>
+            <th scope="col">Gramos</th>
+            <th scope="col">Precio Horas</th>
+            <th scope="col">Precio Material</th>
+            <th scope="col">Precio Pieza</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pieza of encargo.piezas; let i=index">
+            <td>{{pieza.nombre}}</td>
+            <td>{{pieza.material.nombre}}</td>
+            <td>{{estados[pieza.estado]}}</td>
+            <td>{{pieza.horas}} h</td>
+            <td>{{pieza.gramos}} gr</td>
+            <td>{{pieza.horas * encargo.precioHora | number :"0.0-2"}} €</td>
+            <td>{{(pieza.material.precioKg / 1000) * pieza.gramos | number :"0.0-2"}} €</td>
+            <td>{{calculoPrecioPieza(pieza) | number: "0.0-2"}}€</td>
+            <td>
+              <div class="d-flex">
+                <div class="mx-1">
+                  <div class="d-flex align-items-center" (click)="editartPieza(i)">
+                    <svg-edit></svg-edit>
+                  </div>
+                </div>
+                <div class="mx-1">
+                  <div class="d-flex align-items-center" (click)="deletePiezaFromEncargo(i)">
+                    <svg-trash></svg-trash>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col">Total</th>
+            <td></td>
+            <td></td>
+            <td>{{totalHoras()| number :"0.0-2"}} h</td>
+            <td>{{totalGramos()| number :"0.0-2"}} gr</td>
+            <td>{{totalPrecioHoras()| number :"0.0-2"}} €</td>
+            <td>{{totalPrecioPieza()| number :"0.0-2"}} €</td>
+            <td>{{totalPrecio()| number :"0.0-2"}} €</td>
+            <td></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 col-lg-4" *ngIf="encargo">
+      <h3>Desglose</h3>
+      <table class="table">
+        <caption>Listado de gastos</caption>
+        <tbody>
+          <tr *ngFor="let gasto of encargo.gastosAdicionales; let i=index">
+            <td>{{gasto.nombre}}</td>
+            <td class="d-flex justify-content-end">
+              <span class="m-2">{{gasto.precio}} €</span>
+
+              <span class="d-flex align-items-center" (click)="eliminarGasto(i)">
+                <svg-trash></svg-trash>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>Piezas impresas</td>
+            <td class="d-flex justify-content-end">
+              <span>
+                {{totalPrecio()| number :"0.0-2"}} €
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col">TOTAL ENCARGO</th>
+            <th class="d-flex justify-content-end" scope="col">
+              {{totalEncargo()| number :"0.0-2" }} €
+            </th>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- <pre>{{encargo.piezas|json}}</pre> -->
+    </div>
+  </div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Pieza</h1>
-            </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Pieza</h1>
+      </div>
 
-        </div>
     </div>
+  </div>
 </div>

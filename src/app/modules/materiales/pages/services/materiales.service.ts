@@ -2,11 +2,12 @@ import { Injectable } from "@angular/core";
 import { DocumentData, QuerySnapshot, collection, getDocs } from "firebase/firestore";
 import { BaseService } from "../../../../core/services/base-service.service";
 import { Material } from "../../../../shared/models/interfaces/material.interface";
+import { AuthService } from "../../../../core/services/auth.service";
 
 @Injectable()
 export class MaterialesService extends BaseService<Material> {
-    constructor() {
-        super();
+    constructor(authService: AuthService) {
+        super(authService);
         this.collectionName = "materiales";
     }
 
