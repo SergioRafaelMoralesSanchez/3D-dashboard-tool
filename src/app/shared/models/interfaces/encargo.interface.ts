@@ -32,4 +32,5 @@ export interface EncargoDto {
     precioTotal: number
     img: string
     estado: EstadoEncargoEnum
+    userId: string
 }

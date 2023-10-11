@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MATERIALESDB } from 'src/app/data/encargosdb';
 import { EncargosService } from 'src/app/modules/encargos/services/encargos.service';
 import { Undefinable } from 'src/app/shared/models/helpers/Undefinable.interface';
 import { Encargo, EncargoDto } from 'src/app/shared/models/interfaces/encargo.interface';
@@ -8,8 +7,11 @@ import { EstadoPiezaEnum } from 'src/app/shared/models/interfaces/estado-pieza.e
 import { GastoAdicional } from 'src/app/shared/models/interfaces/gastoAdicional.interface';
 import { Material } from 'src/app/shared/models/interfaces/material.interface';
 import { Pieza, PiezaDto } from 'src/app/shared/models/interfaces/pieza.interface';
+import { AuthService } from "../../../../core/services/auth.service";
+import { LocalUser } from "../../../../shared/models/interfaces/auth/local-user.interface";
 import { ClientesService } from "../../../clientes/pages/services/clientes.service";
 import { MaterialesService } from "../../../materiales/pages/services/materiales.service";
+import { Cliente } from "../../../../shared/models/interfaces/cliente.interface";
 
 @Component({
     selector: 'app-encargo',
@@ -21,23 +23,27 @@ export class EncargoComponent implements OnInit {
     encargo: Undefinable<Encargo>;
     materialesMapped: Map<string, Material> = new Map();
     materiales: Material[] = [];
-    materialPredeterminado = MATERIALESDB[0];
 
     estados = EstadoPiezaEnum;
-
+    isEditing = false;
     piezasNuevas: Pieza[] = [];
     isNuevaPieza = false;
     indiceEdit: Undefinable<number>;
     ficherosNuevos: Pieza[] = [];
-    // gastoAdicional: Undefinable<GastoAdicional>;
+    user: LocalUser;
+
+    clientes: Cliente[] = [];
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private encargosService: EncargosService,
         private clientesService: ClientesService,
         private materialesService: MaterialesService,
-        private router: Router
-    ) { }
+        private router: Router,
+        private authSevice: AuthService
+    ) {
+        this.user = this.authSevice.getCurrentUser()!;
+    }
     async ngOnInit(): Promise<void> {
         const routes = this.activatedRoute.snapshot.params;
         if (routes["id"]) {
@@ -45,10 +51,14 @@ export class EncargoComponent implements OnInit {
             await this.getStoredEncargo();
         } else {
             await this.storeAndLoadEncargo();
-            // await this.getVersionsFromContractId();
-
         }
+    }
 
+    async activarModoEdicion() {
+        this.isEditing = !this.isEditing;
+        if (!this.clientes.length) {
+            this.clientes = await this.clientesService.getAll();
+        }
     }
 
     async getStoredEncargo() {
@@ -61,6 +71,7 @@ export class EncargoComponent implements OnInit {
                     id: [...this.materialesMapped.keys()][index],
                     nombre: material.nombre,
                     precioKg: material.precioKg,
+                    userId: material.userId,
                 }));
                 console.log("🚀 ~ file: encargo.component.ts:55 ~ EncargoComponent ~ this.materiales=[...this.materialesMapped.values ~  this.materiales :", this.materiales);
                 if (cliente && this.materiales) {
@@ -73,26 +84,6 @@ export class EncargoComponent implements OnInit {
                 }
             }
         }
-        // else {
-        //     this.encargo = {
-        //         id: "",
-        //         fechaCreacion: new Date(),
-        //         fechaFinalizacion: null,
-        //         nombre: "",
-        //         observaciones: "",
-        //         piezas: [],
-        //         cliente: {
-
-        //         } as Cliente,
-        //         precioHora: 0,
-        //         gastosAdicionales: [],
-        //         precioTotal: 0,
-        //         img: "",
-        //         estado: EstadoPiezaEnum.Esperando,
-        //     };
-        //     console.log("🚀 ~ file: encargo.component.ts:63 ~ EncargoComponent ~ getStoredEncargo ~  this.encargo :", this.encargo);
-        // }
-        // });
     }
 
     async storeAndLoadEncargo() {
@@ -106,12 +97,11 @@ export class EncargoComponent implements OnInit {
             "precioTotal": 0,
             "observaciones": "",
             "piezas": [],
-            "img": "",
+            "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/3DBenchy.png/1024px-3DBenchy.png",
             "fechaFinalizacion": null,
             "id": "",
+            userId: this.user?.uid
         };
-
-        console.log("🚀 ~ file: encargo.component.ts:99 ~ storeAndLoadEncargo ~ encargoDto:", encargoDto);
         const documentRef = await this.encargosService.addDoc(encargoDto);
         if (documentRef) this.router.navigateByUrl("encargos/" + documentRef.id);
     }
@@ -173,7 +163,7 @@ export class EncargoComponent implements OnInit {
     totalEncargo() {
         if (this.encargo) {
 
-            return this.totalPrecio() + this.encargo.gastosAdicionales.reduce(
+            return this.encargo.precioTotal = this.totalPrecio() + this.encargo.gastosAdicionales.reduce(
                 (accumulator: number, gasto: GastoAdicional) => accumulator + gasto.precio, 0);
         }
         return 0;
@@ -245,12 +235,13 @@ export class EncargoComponent implements OnInit {
                 precioTotal: this.encargo.precioTotal,
                 img: this.encargo.img,
                 estado: this.encargo.estado,
+                userId: this.user.uid
             };
             await this.encargosService.addDoc(encargoDto);
-
         }
     }
     async uploadEncargo() {
+        this.isEditing = false;
         this.isNuevaPieza = false;
         if (this.encargo) {
             const encargoDto: EncargoDto = {
@@ -273,9 +264,15 @@ export class EncargoComponent implements OnInit {
                 precioTotal: this.encargo.precioTotal,
                 img: this.encargo.img,
                 estado: this.encargo.estado,
+                userId: this.user.uid
             };
             await this.encargosService.updateDoc(this.encargo.id, encargoDto);
-
+        }
+    }
+    async deleteEncargo() {
+        if (this.encargo) {
+            await this.encargosService.deleteDoc(this.encargo.id);
+            this.router.navigateByUrl("encargos");
         }
     }
 }

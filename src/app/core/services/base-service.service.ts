@@ -1,17 +1,25 @@
 import { Injectable } from "@angular/core";
-import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where }
+    from "firebase/firestore";
 import { appFirebase } from "../../../main";
 import { Undefinable } from "../../shared/models/helpers/Undefinable.interface";
+import { LocalUser } from "../../shared/models/interfaces/auth/local-user.interface";
+import { AuthService } from "./auth.service";
 
 @Injectable()
 export class BaseService<T> {
     db: Firestore;
     collectionName = "";
-    constructor() {
+    user: LocalUser;
+    constructor(private authService: AuthService) {
         this.db = getFirestore(appFirebase);
+        this.user = this.authService.getCurrentUser()!;
     }
     async getAll(): Promise<T[]> {
-        const querySnapshot = await getDocs(collection(this.db, this.collectionName));
+        const q = query(collection(this.db, this.collectionName)
+            , where("userId", "==", this.user.uid)
+        );
+        const querySnapshot = await getDocs(q);
         const data: T[] = querySnapshot.docs.map((d) => ({
             ...d.data() as T,
             id: d.id
@@ -19,7 +27,10 @@ export class BaseService<T> {
         return data;
     }
     async getAllMapped(): Promise<Map<string, T>> {
-        const querySnapshot = await getDocs(collection(this.db, this.collectionName));
+        const q = query(collection(this.db, this.collectionName)
+            , where("userId", "==", this.user.uid)
+        );
+        const querySnapshot = await getDocs(q);
         const data = new Map<string, T>();
         querySnapshot.docs.forEach((d) => { data.set(d.id, d.data() as T); });
         return data;
@@ -40,7 +51,7 @@ export class BaseService<T> {
         }
     }
 
-    async addDoc(encargo: T):Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
+    async addDoc(encargo: T): Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
         try {
             const docRef = await addDoc(collection(this.db, this.collectionName), encargo as DocumentData);
 
@@ -76,4 +87,4 @@ export class BaseService<T> {
             console.error("Error adding document: ", e);
         }
     }
-} 
+}

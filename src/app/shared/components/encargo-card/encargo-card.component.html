@@ -1,7 +1,7 @@
 <!-- <pre>
     {{encargo|json}}
 </pre> -->
-<div *ngIf="encargo" class="card" style="width: 18rem;">
+<div *ngIf="encargo" class="card" style="width: 18rem; min-height: 360px;">
     <img [src]="encargo.img" class="card-img-top" alt="">
     <div class="card-body">
         <h5 class="card-title">{{encargo.nombre}}</h5>
@@ -12,7 +12,7 @@
                 </span>
             </div>
             <div class="col-6">
-                <span class="card-text">
+                <span class="card-text"> 
                     {{encargo.piezas.length}}/{{encargo.piezas.length}}
                 </span>
             </div>
@@ -31,8 +31,6 @@
         </div>
     </div>
     <div class="card-footer">
-        {{encargo.precioTotal}} €
+        {{encargo.precioTotal | number :"0.0-2"}} €
     </div>
 </div>
-
-
