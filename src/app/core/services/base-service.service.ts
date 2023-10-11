@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
+import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where }
+    from "firebase/firestore";
 import { appFirebase } from "../../../main";
 import { Undefinable } from "../../shared/models/helpers/Undefinable.interface";
 import { LocalUser } from "../../shared/models/interfaces/auth/local-user.interface";
@@ -7,79 +8,83 @@ import { AuthService } from "./auth.service";
 
 @Injectable()
 export class BaseService<T> {
-  db: Firestore;
-  collectionName = "";
-  user: LocalUser;
-  constructor(private authService: AuthService) {
-    this.db = getFirestore(appFirebase);
-    this.user = this.authService.getCurrentUser()!;
-  }
-  async getAll(): Promise<T[]> {
-    const q = query(collection(this.db, this.collectionName), where("userId", "==", this.user.uid));
-    const querySnapshot = await getDocs(q);
-    const data: T[] = querySnapshot.docs.map((d) => ({
-      ...d.data() as T,
-      id: d.id
-    }));
-    return data;
-  }
-  async getAllMapped(): Promise<Map<string, T>> {
-    const q = query(collection(this.db, this.collectionName), where("userId", "==", this.user.uid));
-    const querySnapshot = await getDocs(q);
-    const data = new Map<string, T>();
-    querySnapshot.docs.forEach((d) => { data.set(d.id, d.data() as T); });
-    return data;
-  }
-
-  async getById(id: string): Promise<Undefinable<T>> {
-
-    const docRef = doc(this.db, this.collectionName, id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      return {
-        ...docSnap.data() as T,
-        id: docSnap.id
-      };
-    } else {
-      return undefined;
+    db: Firestore;
+    collectionName = "";
+    user: LocalUser;
+    constructor(private authService: AuthService) {
+        this.db = getFirestore(appFirebase);
+        this.user = this.authService.getCurrentUser()!;
     }
-  }
-
-  async addDoc(encargo: T): Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
-    try {
-      const docRef = await addDoc(collection(this.db, this.collectionName), encargo as DocumentData);
-
-      console.log("Document written with ID: ", docRef.id);
-      return docRef;
-    } catch (e) {
-      console.error("Error adding document: ", e);
+    async getAll(): Promise<T[]> {
+        const q = query(collection(this.db, this.collectionName)
+            , where("userId", "==", this.user.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        const data: T[] = querySnapshot.docs.map((d) => ({
+            ...d.data() as T,
+            id: d.id
+        }));
+        return data;
     }
-    return undefined;
-  }
-
-  async updateDoc(documentId: string, document: T) {
-    try {
-      const ref = doc(this.db, this.collectionName, documentId);
-
-      if (ref) {
-        await updateDoc(ref, document as DocumentData);
-      }
-
-    } catch (e) {
-      console.error("Error adding document: ", e);
+    async getAllMapped(): Promise<Map<string, T>> {
+        const q = query(collection(this.db, this.collectionName)
+            , where("userId", "==", this.user.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        const data = new Map<string, T>();
+        querySnapshot.docs.forEach((d) => { data.set(d.id, d.data() as T); });
+        return data;
     }
-  }
-  async deleteDoc(documentId: string) {
-    try {
-      const ref = doc(this.db, this.collectionName, documentId);
 
-      if (ref) {
-        await deleteDoc(ref);
-      }
+    async getById(id: string): Promise<Undefinable<T>> {
 
-    } catch (e) {
-      console.error("Error adding document: ", e);
+        const docRef = doc(this.db, this.collectionName, id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            return {
+                ...docSnap.data() as T,
+                id: docSnap.id
+            };
+        } else {
+            return undefined;
+        }
     }
-  }
+
+    async addDoc(encargo: T): Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
+        try {
+            const docRef = await addDoc(collection(this.db, this.collectionName), encargo as DocumentData);
+
+            console.log("Document written with ID: ", docRef.id);
+            return docRef;
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+        return undefined;
+    }
+
+    async updateDoc(documentId: string, document: T) {
+        try {
+            const ref = doc(this.db, this.collectionName, documentId);
+
+            if (ref) {
+                await updateDoc(ref, document as DocumentData);
+            }
+
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+    async deleteDoc(documentId: string) {
+        try {
+            const ref = doc(this.db, this.collectionName, documentId);
+
+            if (ref) {
+                await deleteDoc(ref);
+            }
+
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
 }

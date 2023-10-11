@@ -21,9 +21,7 @@ export class EncargoCardComponent implements OnInit {
     ngOnInit(): void {
         //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
         //Add 'implements OnInit' to the class.
-        if (this.encargo && !this.encargo.img.length) {
-            this.encargo.img = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/3DBenchy.png/1024px-3DBenchy.png";
-        }
+   
     }
     getTotalHoras() {
         let horasTotal = 0;

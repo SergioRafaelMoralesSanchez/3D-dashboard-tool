@@ -2,180 +2,213 @@
     {{encargo |json}}
 </pre> -->
 <div id="gear" class="d-flex justify-content-end p-4">
-  <div class="dropdown">
-    <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <svg-gear></svg-gear>
-    </button>
-    <ul class="dropdown-menu">
-      <li><button class="dropdown-item text-info" *ngIf="!isEditing" (click)="isEditing=!isEditing">Editar
-          Encargo</button></li>
-      <li><button class="dropdown-item text-success" *ngIf="isEditing"
-          (click)="uploadEncargo()">Guardar Encargo</button></li>
-      <li><button class="dropdown-item text-danger" (click)="deleteEncargo()">Eliminar Encargo</button></li>
-    </ul>
-  </div>
+    <div class="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <svg-gear></svg-gear>
+        </button>
+        <ul class="dropdown-menu">
+            <li><button class="dropdown-item text-info" *ngIf="!isEditing" (click)="activarModoEdicion()">Editar
+                    Encargo</button></li>
+            <li><button class="dropdown-item text-success" *ngIf="isEditing" (click)="uploadEncargo()">Guardar
+                    Encargo</button></li>
+            <li>
+                <button class="dropdown-item text-danger" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">Eliminar Encargo</button>
+            </li>
+        </ul>
+    </div>
 </div>
 <loading-spinner [loading]="!encargo"></loading-spinner>
 <div class="container-fluid" *ngIf="encargo">
 
-  <div class="row">
-    <div class="col-3">
-      <img [src]="encargo.img" class="rounded w-100" alt="">
-    </div>
-    <div class="col-4">
-      <div>
-        <div id="nombre-encargo">
-          <h3 *ngIf="!isEditing">{{encargo.nombre}}</h3>
-          <input *ngIf="isEditing" [(ngModel)]="encargo.nombre" type="text" class="form-control" placeholder="Nombre encargo">
+    <div class="row">
+        <div class="col-3">
+            <div style="width: 400px;position: relative;">
+                <img [src]="encargo.img" class="rounded" style="width: 100%" alt="">
+                <input *ngIf="isEditing" [(ngModel)]="encargo.img" type="text" class="form-control"
+                    placeholder="Nombre encargo">
+            </div>
         </div>
-        <div id="observaciones">
-          <p *ngIf="!isEditing">
-            {{encargo.observaciones}}
-          </p>
-          <textarea *ngIf="isEditing" class="form-control" name="" id="" style="width: 100%; height: 100%;"
-            [(ngModel)]="encargo.observaciones"></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="col-5">
-      <div class="row">
-        <h3>
-          Cliente
-        </h3>
-        <h5 *ngIf="!isEditing">{{encargo.cliente.nombre}}</h5>
-        <div class="dropdown" *ngIf="isEditing">
-          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Dropdown button
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="row">
-
-      </div>
-    </div>
-  </div>
-  <div class="my-3">
-    <button class="btn btn-info" type="button" (click)="isNuevaPieza = !isNuevaPieza">
-      Nueva Pieza
-    </button>
-    <button class="mx-2 btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#gastoAdicional"
-      aria-expanded="false" aria-controls="gastoAdicional">
-      Gasto Adicional
-    </button>
-  </div>
-
-  <app-nueva-pieza *ngIf="isNuevaPieza" [(encargo)]="encargo" [materiales]="materiales" [piezasNuevas]="piezasNuevas"
-    [indiceEdit]="indiceEdit" (uploadEncargo)="uploadEncargo()"></app-nueva-pieza>
-  <app-gasto-adicional (uploadEncargo)="uploadEncargo()" [(encargo)]="encargo"></app-gasto-adicional>
-
-  <div class="row">
-    <div class="col-12 col-lg-8" *ngIf="encargo">
-      <h3>Piezas</h3>
-      <table class="table table-striped">
-        <caption></caption>
-        <thead>
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Material</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Horas</th>
-            <th scope="col">Gramos</th>
-            <th scope="col">Precio Horas</th>
-            <th scope="col">Precio Material</th>
-            <th scope="col">Precio Pieza</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let pieza of encargo.piezas; let i=index">
-            <td>{{pieza.nombre}}</td>
-            <td>{{pieza.material.nombre}}</td>
-            <td>{{estados[pieza.estado]}}</td>
-            <td>{{pieza.horas}} h</td>
-            <td>{{pieza.gramos}} gr</td>
-            <td>{{pieza.horas * encargo.precioHora | number :"0.0-2"}} €</td>
-            <td>{{(pieza.material.precioKg / 1000) * pieza.gramos | number :"0.0-2"}} €</td>
-            <td>{{calculoPrecioPieza(pieza) | number: "0.0-2"}}€</td>
-            <td>
-              <div class="d-flex">
-                <div class="mx-1">
-                  <div class="d-flex align-items-center" (click)="editartPieza(i)">
-                    <svg-edit></svg-edit>
-                  </div>
+        <div class="col-4">
+            <div>
+                <div id="nombre-encargo">
+                    <h3 *ngIf="!isEditing">{{encargo.nombre}}</h3>
+                    <input *ngIf="isEditing" [(ngModel)]="encargo.nombre" type="text" class="form-control"
+                        placeholder="Nombre encargo">
                 </div>
-                <div class="mx-1">
-                  <div class="d-flex align-items-center" (click)="deletePiezaFromEncargo(i)">
-                    <svg-trash></svg-trash>
-                  </div>
+                <div id="observaciones">
+                    <p *ngIf="!isEditing">
+                        {{encargo.observaciones}}
+                    </p>
+                    <textarea *ngIf="isEditing" class="form-control" name="" id="" style="width: 100%; height: 100%;"
+                        [(ngModel)]="encargo.observaciones"></textarea>
                 </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="col">Total</th>
-            <td></td>
-            <td></td>
-            <td>{{totalHoras()| number :"0.0-2"}} h</td>
-            <td>{{totalGramos()| number :"0.0-2"}} gr</td>
-            <td>{{totalPrecioHoras()| number :"0.0-2"}} €</td>
-            <td>{{totalPrecioPieza()| number :"0.0-2"}} €</td>
-            <td>{{totalPrecio()| number :"0.0-2"}} €</td>
-            <td></td>
-          </tr>
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="row">
+                <h3>
+                    Cliente
+                </h3>
+                <h5 *ngIf="!isEditing">{{encargo.cliente.nombre}}</h5>
+                <div class="dropdown" *ngIf="isEditing">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                       {{encargo.cliente.nombre}}
+                    </button>
+                    <ul class="dropdown-menu" >
+                        <li *ngFor="let cliente of clientes">
+                            <span class="dropdown-item" (click)="encargo.cliente = cliente">{{cliente.nombre}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
 
-        </tbody>
-      </table>
+            </div>
+        </div>
     </div>
-    <div class="col-12 col-lg-4" *ngIf="encargo">
-      <h3>Desglose</h3>
-      <table class="table">
-        <caption>Listado de gastos</caption>
-        <tbody>
-          <tr *ngFor="let gasto of encargo.gastosAdicionales; let i=index">
-            <td>{{gasto.nombre}}</td>
-            <td class="d-flex justify-content-end">
-              <span class="m-2">{{gasto.precio}} €</span>
-
-              <span class="d-flex align-items-center" (click)="eliminarGasto(i)">
-                <svg-trash></svg-trash>
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td>Piezas impresas</td>
-            <td class="d-flex justify-content-end">
-              <span>
-                {{totalPrecio()| number :"0.0-2"}} €
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <th scope="col">TOTAL ENCARGO</th>
-            <th class="d-flex justify-content-end" scope="col">
-              {{totalEncargo()| number :"0.0-2" }} €
-            </th>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- <pre>{{encargo.piezas|json}}</pre> -->
+    <div class="my-3">
+        <button class="btn btn-info" type="button" (click)="isNuevaPieza = !isNuevaPieza">
+            Nueva Pieza
+        </button>
+        <button class="mx-2 btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#gastoAdicional"
+            aria-expanded="false" aria-controls="gastoAdicional">
+            Gasto Adicional
+        </button>
     </div>
-  </div>
+
+    <app-nueva-pieza *ngIf="isNuevaPieza" [(encargo)]="encargo" [materiales]="materiales" [piezasNuevas]="piezasNuevas"
+        [indiceEdit]="indiceEdit" (uploadEncargo)="uploadEncargo()"></app-nueva-pieza>
+    <app-gasto-adicional (uploadEncargo)="uploadEncargo()" [(encargo)]="encargo"></app-gasto-adicional>
+
+    <div class="row">
+        <div class="col-12 col-lg-8" *ngIf="encargo">
+            <h3>Piezas</h3>
+            <table class="table table-striped">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Horas</th>
+                        <th scope="col">Gramos</th>
+                        <th scope="col">Precio Horas</th>
+                        <th scope="col">Precio Material</th>
+                        <th scope="col">Precio Pieza</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pieza of encargo.piezas; let i=index">
+                        <td>{{pieza.nombre}}</td>
+                        <td>{{pieza.material.nombre}}</td>
+                        <td>{{estados[pieza.estado]}}</td>
+                        <td>{{pieza.horas}} h</td>
+                        <td>{{pieza.gramos}} gr</td>
+                        <td>{{pieza.horas * encargo.precioHora | number :"0.0-2"}} €</td>
+                        <td>{{(pieza.material.precioKg / 1000) * pieza.gramos | number :"0.0-2"}} €</td>
+                        <td>{{calculoPrecioPieza(pieza) | number: "0.0-2"}}€</td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="mx-1">
+                                    <div class="d-flex align-items-center" (click)="editartPieza(i)">
+                                        <svg-edit></svg-edit>
+                                    </div>
+                                </div>
+                                <div class="mx-1">
+                                    <div class="d-flex align-items-center" (click)="deletePiezaFromEncargo(i)">
+                                        <svg-trash></svg-trash>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Total</th>
+                        <td></td>
+                        <td></td>
+                        <td>{{totalHoras()| number :"0.0-2"}} h</td>
+                        <td>{{totalGramos()| number :"0.0-2"}} gr</td>
+                        <td>{{totalPrecioHoras()| number :"0.0-2"}} €</td>
+                        <td>{{totalPrecioPieza()| number :"0.0-2"}} €</td>
+                        <td>{{totalPrecio()| number :"0.0-2"}} €</td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 col-lg-4" *ngIf="encargo">
+            <h3>Desglose</h3>
+            <table class="table">
+                <caption>Listado de gastos</caption>
+                <tbody>
+                    <tr *ngFor="let gasto of encargo.gastosAdicionales; let i=index">
+                        <td>{{gasto.nombre}}</td>
+                        <td class="d-flex justify-content-end">
+                            <span class="m-2">{{gasto.precio}} €</span>
+
+                            <span class="d-flex align-items-center" (click)="eliminarGasto(i)">
+                                <svg-trash></svg-trash>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Piezas impresas</td>
+                        <td class="d-flex justify-content-end">
+                            <span>
+                                {{totalPrecio()| number :"0.0-2"}} €
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">TOTAL ENCARGO</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo()| number :"0.0-2" }} €
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- <pre>{{encargo.piezas|json}}</pre> -->
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Pieza</h1>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Pieza</h1>
+            </div>
 
+        </div>
     </div>
-  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Estas Seguro? Esta accion no se puede deshacer
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                    (click)="deleteEncargo()">Eliminar</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from "./core/guards/auth-guard.service";
 const routes: Routes = [
   {
-    path: 'dashboard',
+    path: 'home',
     loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
   },
   {
