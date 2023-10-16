@@ -3,43 +3,32 @@ import { Router } from "@angular/router";
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
 import { Nullable } from "../../shared/models/helpers/Nullable.interface";
 import { LocalUser } from "../../shared/models/interfaces/auth/local-user.interface";
+
 @Injectable()
 export class AuthService {
 
     constructor(
-        private router: Router) {
+        private router: Router
+    ) { }
 
-    }
     async googleSignin() {
 
         const provider = new GoogleAuthProvider();
         const auth = getAuth();
         signInWithPopup(auth, provider)
             .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 if (credential) {
                     const user = result.user;
                     localStorage.setItem("3d-user", JSON.stringify({
                         uid: user.uid,
                         displayName: user.displayName,
-                        accessToken: credential.accessToken,
                         photoURL: user.photoURL,
                     }));
                     this.router.navigateByUrl("encargos");
                 }
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
             }).catch((error) => {
                 console.log("🚀 ~ file: auth.service.ts:24 ~ AuthService ~ .then ~ error:", error);
-                // Handle Errors here.
-                // const errorCode = error.code;
-                // const errorMessage = error.message;
-                // // The email of the user's account used.
-                // const email = error.customData.email;
-                // // The AuthCredential type that was used.
-                // const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
             });
     }
 
