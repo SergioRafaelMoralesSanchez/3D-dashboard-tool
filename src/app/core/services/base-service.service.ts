@@ -1,38 +1,46 @@
 import { Injectable } from "@angular/core";
-import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where }
-    from "firebase/firestore";
+import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
 import { appFirebase } from "../../../main";
 import { Undefinable } from "../../shared/models/helpers/Undefinable.interface";
 import { LocalUser } from "../../shared/models/interfaces/auth/local-user.interface";
 import { AuthService } from "./auth.service";
+import { Nullable } from "../../shared/models/helpers/Nullable.interface";
 
 @Injectable()
 export class BaseService<T> {
     db: Firestore;
     collectionName = "";
-    user: LocalUser;
+    user: Nullable<LocalUser> = null;
     constructor(private authService: AuthService) {
         this.db = getFirestore(appFirebase);
-        this.user = this.authService.getCurrentUser()!;
     }
     async getAll(): Promise<T[]> {
-        const q = query(collection(this.db, this.collectionName)
-            , where("userId", "==", this.user.uid)
-        );
-        const querySnapshot = await getDocs(q);
-        const data: T[] = querySnapshot.docs.map((d) => ({
-            ...d.data() as T,
-            id: d.id
-        }));
-        return data;
+        const user: Nullable<LocalUser> = this.authService.getCurrentUser();
+
+        if (user) {
+            const q = query(collection(this.db, this.collectionName)
+                , where("userId", "==", user.uid)
+            );
+            const querySnapshot = await getDocs(q);
+            const data: T[] = querySnapshot.docs.map((d) => ({
+                ...d.data() as T,
+                id: d.id
+            }));
+            return data;
+        }
+        return [];
     }
     async getAllMapped(): Promise<Map<string, T>> {
-        const q = query(collection(this.db, this.collectionName)
-            , where("userId", "==", this.user.uid)
-        );
-        const querySnapshot = await getDocs(q);
+        const user: Nullable<LocalUser> = this.authService.getCurrentUser();
         const data = new Map<string, T>();
-        querySnapshot.docs.forEach((d) => { data.set(d.id, d.data() as T); });
+
+        if (user) {
+            const q = query(collection(this.db, this.collectionName)
+                , where("userId", "==", user.uid)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.docs.forEach((d) => { data.set(d.id, d.data() as T); });
+        }
         return data;
     }
 
