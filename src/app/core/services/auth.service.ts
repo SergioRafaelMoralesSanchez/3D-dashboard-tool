@@ -7,9 +7,12 @@ import { LocalUser } from "../../shared/models/interfaces/auth/local-user.interf
 @Injectable()
 export class AuthService {
 
+    user: Nullable<LocalUser>;
     constructor(
         private router: Router
-    ) { }
+    ) {
+        this.user = this.getCurrentUser();
+    }
 
     async googleSignin() {
 
