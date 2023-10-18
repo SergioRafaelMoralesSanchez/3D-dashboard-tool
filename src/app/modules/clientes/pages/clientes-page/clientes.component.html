@@ -1,3 +1,66 @@
-<pre>
-    {{clientes |json}}
-</pre>
+<!-- <pre>
+    {{encargo |json}}
+</pre> -->
+<div id="gear" class="d-flex justify-content-end p-4">
+    <div class="dropdown">
+        <button class="btn btn-primary " (click)="isNuevoCliente = !isNuevoCliente"> + </button>
+    </div>
+</div>
+
+<app-nuevo-cliente *ngIf="isNuevoCliente" (onGuardar)="getMappedClients()"></app-nuevo-cliente>
+<loading-spinner [loading]="loading"></loading-spinner>
+<div class="container-fluid" *ngIf="!loading">
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            <h3>Piezas</h3>
+            <table class="table table-striped">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Encargos Activos / Terminados</th>
+                        <th scope="col">Dinero Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cliente of clientes; let i=index">
+                        <td>{{cliente.nombre}}</td>
+                        <td>{{cliente.encargosActivos}}/{{cliente.encargosFinalizados}}</td>
+                        <td>{{cliente.dineroTotal}}</td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="mx-1">
+                                    <div class="d-flex align-items-center cursorPointer" [routerLink]="'/clientes/'+cliente.id">
+                                        Detalles
+                                    </div>
+                                </div>
+                                <div class="mx-1">
+                                    <div class="d-flex align-items-center cursorPointer" (click)="nuevoEncargo(cliente)" >
+                                        Nuevo Encargo
+                                    </div>
+                                </div>
+                                <div class="mx-1">
+                                    <!-- <div class="d-flex align-items-center" (click)="deleteCliente(cliente)">
+                                        <svg-trash></svg-trash>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Pieza</h1>
+            </div>
+
+        </div>
+    </div>
+</div>

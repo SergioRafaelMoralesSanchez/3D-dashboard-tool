@@ -6,16 +6,20 @@ import { EncargoCardComponent } from "../../shared/components/encargo-card/encar
 import { MaterialesRoutingModule } from "./materiales-routing.module";
 import { MaterialesComponent } from "./pages/materiales-page/materiales.component";
 import { MaterialesService } from "./pages/services/materiales.service";
+import { NuevoMaterialComponent } from "./components/nuevo-cliente/nuevo-material.component";
+import { SharedModule } from "../../shared/components/shared.module";
 
 @NgModule({
     declarations: [
-        MaterialesComponent
+        MaterialesComponent,
+        NuevoMaterialComponent
     ],
     imports: [
         MaterialesRoutingModule,
         FormsModule,
         CommonModule,
-        EncargoCardComponent
+        EncargoCardComponent,
+        SharedModule
     ],
     providers: [
         MaterialesService

@@ -23,8 +23,8 @@
 
     <div class="row">
         <div class="col-3">
-            <div style="width: 400px;position: relative;">
-                <img [src]="encargo.img" class="rounded" style="width: 100%" alt="">
+            <div style=" position: relative;">
+                <img [src]="encargo.img" class="rounded" style="height: 200px" alt="">
                 <input *ngIf="isEditing" [(ngModel)]="encargo.img" type="text" class="form-control"
                     placeholder="Nombre encargo">
             </div>
@@ -54,9 +54,9 @@
                 <div class="dropdown" *ngIf="isEditing">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                       {{encargo.cliente.nombre}}
+                        {{encargo.cliente.nombre}}
                     </button>
-                    <ul class="dropdown-menu" >
+                    <ul class="dropdown-menu">
                         <li *ngFor="let cliente of clientes">
                             <span class="dropdown-item" (click)="encargo.cliente = cliente">{{cliente.nombre}}</span>
                         </li>

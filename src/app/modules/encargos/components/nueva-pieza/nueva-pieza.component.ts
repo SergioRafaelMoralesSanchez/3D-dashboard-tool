@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Material } from "../../../../shared/models/interfaces/material.interface";
 import { Pieza } from "../../../../shared/models/interfaces/pieza.interface";
 import { EstadoPiezaEnum } from "../../../../shared/models/interfaces/estado-pieza.enum";
@@ -10,7 +10,10 @@ import { Encargo } from "../../../../shared/models/interfaces/encargo.interface"
     templateUrl: './nueva-pieza.component.html',
     styleUrls: ['./nueva-pieza.component.css']
 })
-export class NuevaPiezaComponent {
+export class NuevaPiezaComponent implements OnInit {
+    ngOnInit(): void {
+        this.cargaVaciaFicheros();
+    }
     @Input()
     materiales: Material[] = [];
 
@@ -37,9 +40,22 @@ export class NuevaPiezaComponent {
                 horas: 0,
                 gramos: 0,
                 estado: EstadoPiezaEnum.Esperando,
+                cantidad: 1,
                 material: this.materiales[0]
-            } as Pieza
+            }
         ];
+    }
+    addPiezaNueva() {
+        this.piezasNuevas.push(
+            {
+                nombre: "",
+                horas: 0,
+                gramos: 0,
+                estado: EstadoPiezaEnum.Esperando,
+                cantidad: 1,
+                material: this.materiales[0]
+            }
+        );
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,11 +109,16 @@ export class NuevaPiezaComponent {
     getMaterial(id: string): Material {
         return this.materiales.find(material => material.id === id)!;
     }
+
     deletePieza(index: number) {
         this.piezasNuevas.splice(index, 1);
         if (!this.piezasNuevas.length) {
             this.cargaVaciaFicheros();
         }
+    }
+
+    cambioMaterialPieza(pieza: Pieza, materialId: string) {
+        pieza.material = this.getMaterial(materialId);
     }
 }
 

@@ -3,3 +3,8 @@ export interface Cliente {
     nombre: string
     userId: string
 }
+export interface ClienteDto extends Cliente {
+    encargosActivos: number
+    encargosFinalizados: number
+    dineroTotal: number
+} 

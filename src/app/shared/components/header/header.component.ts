@@ -17,7 +17,6 @@ export class HeaderComponent {
         private authService: AuthService,
         private router: Router
     ) {
-        // this.user = this.authService.getCurrentUser();
         onAuthStateChanged(getAuth(), (user) => {
             if (user) {
                 this.user = {

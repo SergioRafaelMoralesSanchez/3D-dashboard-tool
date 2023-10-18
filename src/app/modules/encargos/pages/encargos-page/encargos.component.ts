@@ -18,6 +18,11 @@ export class EncargosComponent implements OnInit {
     ) { }
 
     async ngOnInit(): Promise<void> {
-        this.encargos = await this.encargosService.getAll();
+        try {
+            this.encargos = await this.encargosService.getAll();
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 }

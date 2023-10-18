@@ -49,62 +49,49 @@ export class EncargoComponent implements OnInit {
         if (routes["id"]) {
             this.encargoId = routes['id'];
             await this.getStoredEncargo();
-        } else {
-            await this.storeAndLoadEncargo();
         }
     }
 
     async activarModoEdicion() {
         this.isEditing = !this.isEditing;
         if (!this.clientes.length) {
-            this.clientes = await this.clientesService.getAll();
-        }
-    }
-
-    async getStoredEncargo() {
-        if (this.encargoId) {
-            const encargoDto = await this.encargosService.getById(this.encargoId);
-            if (encargoDto) {
-                const cliente = await this.clientesService.getById(encargoDto?.clienteId);
-                this.materialesMapped = await this.materialesService.getAllMapped();
-                this.materiales = [...this.materialesMapped.values()].map<Material>((material: Material, index: number) => ({
-                    id: [...this.materialesMapped.keys()][index],
-                    nombre: material.nombre,
-                    precioKg: material.precioKg,
-                    userId: material.userId,
-                }));
-                console.log("🚀 ~ file: encargo.component.ts:55 ~ EncargoComponent ~ this.materiales=[...this.materialesMapped.values ~  this.materiales :", this.materiales);
-                if (cliente && this.materiales) {
-                    this.encargo = {
-                        ...encargoDto,
-                        id: encargoDto.id,
-                        piezas: this.regeneratePiezas(encargoDto, this.materialesMapped),
-                        cliente,
-                    };
-                }
+            try {
+                this.clientes = await this.clientesService.getAll();
+            } catch (error) {
+                console.error(error);
             }
         }
     }
 
-    async storeAndLoadEncargo() {
-        const encargoDto: EncargoDto = {
-            "fechaCreacion": new Date(),
-            "precioHora": 0.3,
-            "gastosAdicionales": [],
-            "nombre": "",
-            "estado": 2,
-            "clienteId": "HF5FvmjSmitFYVWXfJGe",
-            "precioTotal": 0,
-            "observaciones": "",
-            "piezas": [],
-            "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/3DBenchy.png/1024px-3DBenchy.png",
-            "fechaFinalizacion": null,
-            "id": "",
-            userId: this.user?.uid
-        };
-        const documentRef = await this.encargosService.addDoc(encargoDto);
-        if (documentRef) this.router.navigateByUrl("encargos/" + documentRef.id);
+    async getStoredEncargo() {
+        try {
+            if (this.encargoId) {
+                const encargoDto = await this.encargosService.getById(this.encargoId);
+                if (encargoDto) {
+                    const cliente = await this.clientesService.getById(encargoDto?.clienteId);
+                    this.materialesMapped = await this.materialesService.getAllMapped();
+                    this.materiales = [...this.materialesMapped.values()].map<Material>((material: Material, index: number) => ({
+                        id: [...this.materialesMapped.keys()][index],
+                        nombre: material.nombre,
+                        precioKg: material.precioKg,
+                        userId: material.userId,
+                    }));
+                    if (cliente && this.materiales) {
+                        this.encargo = {
+                            ...encargoDto,
+                            id: encargoDto.id,
+                            piezas: this.regeneratePiezas(encargoDto, this.materialesMapped),
+                            cliente,
+                        };
+                    }
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
     }
+
     // ...pieza, material: materiales.get(pieza.materialId)!
     regeneratePiezas(encargoDto: EncargoDto, materiales: Map<string, Material>): Pieza[] {
         return encargoDto.piezas.map((pieza: PiezaDto) => {
@@ -204,7 +191,6 @@ export class EncargoComponent implements OnInit {
     }
     async deletePiezaFromEncargo(index: number) {
         this.encargo?.piezas.splice(index, 1);
-
         await this.uploadEncargo();
     }
     async eliminarGasto(indice: number) {
@@ -213,66 +199,81 @@ export class EncargoComponent implements OnInit {
     }
 
     async addEncargo() {
-        this.isNuevaPieza = false;
-        if (this.encargo) {
-            const encargoDto: EncargoDto = {
-                id: "",
-                fechaCreacion: this.encargo.fechaCreacion,
-                fechaFinalizacion: this.encargo.fechaFinalizacion,
-                nombre: this.encargo.nombre,
-                observaciones: this.encargo.observaciones,
-                piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
-                    nombre: pieza.nombre,
-                    materialId: pieza.material.id,
-                    horas: pieza.horas,
-                    gramos: pieza.gramos,
-                    cantidad: pieza.cantidad,
-                    estado: pieza.estado,
-                })),
-                clienteId: this.encargo.cliente.id,
-                precioHora: this.encargo.precioHora,
-                gastosAdicionales: this.encargo.gastosAdicionales,
-                precioTotal: this.encargo.precioTotal,
-                img: this.encargo.img,
-                estado: this.encargo.estado,
-                userId: this.user.uid
-            };
-            await this.encargosService.addDoc(encargoDto);
+        try {
+            this.isNuevaPieza = false;
+            if (this.encargo) {
+                const encargoDto: EncargoDto = {
+                    id: "",
+                    fechaCreacion: this.encargo.fechaCreacion,
+                    fechaFinalizacion: this.encargo.fechaFinalizacion,
+                    nombre: this.encargo.nombre,
+                    observaciones: this.encargo.observaciones,
+                    piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
+                        nombre: pieza.nombre,
+                        materialId: pieza.material.id,
+                        horas: pieza.horas,
+                        gramos: pieza.gramos,
+                        cantidad: pieza.cantidad,
+                        estado: pieza.estado,
+                    })),
+                    clienteId: this.encargo.cliente.id,
+                    precioHora: this.encargo.precioHora,
+                    gastosAdicionales: this.encargo.gastosAdicionales,
+                    precioTotal: this.encargo.precioTotal,
+                    img: this.encargo.img,
+                    estado: this.encargo.estado,
+                    userId: this.user.uid
+                };
+                await this.encargosService.addDoc(encargoDto);
+            }
+        } catch (error) {
+            console.error(error);
         }
+
     }
     async uploadEncargo() {
-        this.isEditing = false;
-        this.isNuevaPieza = false;
-        if (this.encargo) {
-            const encargoDto: EncargoDto = {
-                id: "",
-                fechaCreacion: this.encargo.fechaCreacion,
-                fechaFinalizacion: this.encargo.fechaFinalizacion,
-                nombre: this.encargo.nombre,
-                observaciones: this.encargo.observaciones,
-                piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
-                    nombre: pieza.nombre,
-                    materialId: pieza.material.id,
-                    horas: pieza.horas,
-                    gramos: pieza.gramos,
-                    cantidad: pieza.cantidad,
-                    estado: pieza.estado,
-                })),
-                clienteId: this.encargo.cliente.id,
-                precioHora: this.encargo.precioHora,
-                gastosAdicionales: this.encargo.gastosAdicionales,
-                precioTotal: this.encargo.precioTotal,
-                img: this.encargo.img,
-                estado: this.encargo.estado,
-                userId: this.user.uid
-            };
-            await this.encargosService.updateDoc(this.encargo.id, encargoDto);
+        try {
+
+            this.isEditing = false;
+            this.isNuevaPieza = false;
+            if (this.encargo) {
+                const encargoDto: EncargoDto = {
+                    id: "",
+                    fechaCreacion: this.encargo.fechaCreacion,
+                    fechaFinalizacion: this.encargo.fechaFinalizacion,
+                    nombre: this.encargo.nombre,
+                    observaciones: this.encargo.observaciones,
+                    piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
+                        nombre: pieza.nombre,
+                        materialId: pieza.material.id,
+                        horas: pieza.horas,
+                        gramos: pieza.gramos,
+                        cantidad: pieza.cantidad,
+                        estado: pieza.estado,
+                    })),
+                    clienteId: this.encargo.cliente.id,
+                    precioHora: this.encargo.precioHora,
+                    gastosAdicionales: this.encargo.gastosAdicionales,
+                    precioTotal: this.encargo.precioTotal,
+                    img: this.encargo.img,
+                    estado: this.encargo.estado,
+                    userId: this.user.uid
+                };
+                await this.encargosService.updateDoc(this.encargo.id, encargoDto);
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
     async deleteEncargo() {
-        if (this.encargo) {
-            await this.encargosService.deleteDoc(this.encargo.id);
-            this.router.navigateByUrl("encargos");
+        try {
+            if (this.encargo) {
+                await this.encargosService.deleteDoc(this.encargo.id);
+                this.router.navigateByUrl("encargos");
+            }
+        } catch (error) {
+            console.error(error);
         }
+
     }
 }

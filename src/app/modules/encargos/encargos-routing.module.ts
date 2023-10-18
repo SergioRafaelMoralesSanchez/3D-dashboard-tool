@@ -5,7 +5,6 @@ import { EncargoComponent } from "./pages/encargo-page/encargo.component";
 
 const routes: Routes = [
     { path: "", component: EncargosComponent },
-    { path: "new", component: EncargoComponent },
     { path: ":id", component: EncargoComponent },
 ];
 

@@ -3,57 +3,53 @@
 <div class="" id="nuevaPieza">
     <div class="card card-body">
         <div class="row">
-            <div class="col-12 ">
-                <div class="d-flex" *ngFor="let fichero of piezasNuevas; let i=index">
+            <div class="col-12 my-2">
+                <div class="d-flex">
+                    <div class="">
+                        <label for="formFileMultiple" class="form-label">Puedes seleccionar varios Ficheros a la
+                            vez</label>
+                        <input accept=".gcode" (change)="file_changed($event)" class="form-control" type="file"
+                            id="formFileMultiple" multiple>
+                        <button class="btn btn-primary" (click)="addPiezaNueva()"> + </button>
+                    </div>
+
+                </div>
+                <div class="d-flex" *ngFor="let pieza of piezasNuevas; let i=index">
+
                     <div class=" mx-3">
                         <label for="nombrePieza" class="form-label">Nombre</label>
-                        <input [(ngModel)]="fichero.nombre" type="text" class="form-control" id="nombrePieza"
+                        <input [(ngModel)]="pieza.nombre" type="text" class="form-control" id="nombrePieza"
                             placeholder="Nombre Pieza">
                     </div>
                     <div class="mx-3">
                         <label for="horas" class="form-label">Horas</label>
-                        <input [(ngModel)]="fichero.horas" type="number" class="form-control" id="horas"
-                            placeholder="h">
+                        <input [(ngModel)]="pieza.horas" type="number" class="form-control" id="horas" placeholder="h">
                     </div>
                     <div class="mx-3">
                         <label for="gramos" class="form-label">Gramos</label>
-                        <input [(ngModel)]="fichero.gramos" type="number" class="form-control" id="gramos"
+                        <input [(ngModel)]="pieza.gramos" type="number" class="form-control" id="gramos"
                             placeholder="gr">
                     </div>
                     <div class="mx-3">
                         <label for="gramos" class="form-label">Cantidad</label>
-                        <input [(ngModel)]="fichero.cantidad" type="number" class="form-control" id="1"
-                            placeholder="1">
+                        <input [(ngModel)]="pieza.cantidad" type="number" class="form-control" id="1" placeholder="1">
                     </div>
-                    <div class="mx-3" *ngIf="materiales && fichero.material">
-                        <label for="horas" class="form-label">Horas</label>
-                        <!-- {{fichero.material|json}} -->
-                        <select [(ngModel)]="fichero.material.id" class="form-select"
-                            aria-label="Default select example">
+                    <div class="mx-3" *ngIf="materiales && pieza.material">
+                        <label for="gramos" class="form-label">Material</label>
+
+                        <select class="form-control" name="materialId"
+                            (change)="cambioMaterialPieza(pieza,matSelect.value)" #matSelect>
                             <option *ngFor="let material of materiales" [value]="material.id">
                                 {{material.nombre}} - {{material.precioKg}} €
                             </option>
                         </select>
                     </div>
-                    <div class="mx-3 d-flex align-items-end">
+                    <div class=" mx-3 d-flex align-items-end">
                         <button class="btn btn-danger" (click)="deletePieza(i)">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-trash3" viewBox="0 0 16 16">
-                                <path
-                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z">
-                                </path>
-                            </svg>
+                            <svg-trash></svg-trash>
                         </button>
                     </div>
                 </div>
-                <div class="d-flex">
-                    <div class="m-3 ">
-                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-                        <input accept=".gcode" (change)="file_changed($event)" class="form-control" type="file"
-                            id="formFileMultiple" multiple>
-                    </div>
-                </div>
-
             </div>
 
             <div class="col-2">

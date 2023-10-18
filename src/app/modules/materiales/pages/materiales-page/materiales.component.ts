@@ -10,10 +10,38 @@ import { MaterialesService } from "../services/materiales.service";
 export class MaterialesComponent implements OnInit {
     materiales: Material[] = [];
 
-    constructor(private materialesService: MaterialesService) { }
+    constructor(
+        private materialesService: MaterialesService
+    ) { }
 
     async ngOnInit(): Promise<void> {
-        this.materiales = await this.materialesService.getAll();
+        await this.getMateriales();
+    }
+
+    loading = false;
+    isNuevoMaterial = false;
+
+    async getMateriales() {
+        this.isNuevoMaterial = false;
+        this.loading = true;
+        try {
+            this.materiales = await this.materialesService.getAll();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            this.loading = false;
+        }
+
+    }
+
+    async deleteMaterial(material: Material) {
+        try {
+            await this.materialesService.deleteDoc(material.id);
+            await this.getMateriales();
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 
 } 
