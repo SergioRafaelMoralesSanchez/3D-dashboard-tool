@@ -1,14 +1,11 @@
-<!-- <pre>
-    {{encargo |json}}
-</pre> -->
 <div id="gear" class="d-flex justify-content-end p-4">
     <div class="dropdown">
         <button class="btn btn-primary " (click)="isNuevoCliente = !isNuevoCliente"> + </button>
     </div>
 </div>
 
-<app-nuevo-cliente *ngIf="isNuevoCliente" (onGuardar)="getMappedClients()"></app-nuevo-cliente>
 <loading-spinner [loading]="loading"></loading-spinner>
+<app-nuevo-cliente *ngIf="isNuevoCliente" (onGuardar)="getMappedClients()"></app-nuevo-cliente>
 <div class="container-fluid" *ngIf="!loading">
     <div class="row">
         <div class="col-12 col-lg-8">
@@ -20,7 +17,7 @@
                         <th scope="col">Nombre</th>
                         <th scope="col">Encargos Activos / Terminados</th>
                         <th scope="col">Dinero Total</th>
-                        <th scope="col"></th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,20 +27,22 @@
                         <td>{{cliente.dineroTotal}}</td>
                         <td>
                             <div class="d-flex">
-                                <div class="mx-1">
-                                    <div class="d-flex align-items-center cursorPointer" [routerLink]="'/clientes/'+cliente.id">
+                                <!-- <div class="mx-1">
+                                    <div class="d-flex align-items-center cursorPointer"
+                                        [routerLink]="'/clientes/'+cliente.id">
                                         Detalles
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="mx-1">
-                                    <div class="d-flex align-items-center cursorPointer" (click)="nuevoEncargo(cliente)" >
+                                    <div class="d-flex align-items-center cursorPointer"
+                                        (click)="nuevoEncargo(cliente)">
                                         Nuevo Encargo
                                     </div>
                                 </div>
                                 <div class="mx-1">
-                                    <!-- <div class="d-flex align-items-center" (click)="deleteCliente(cliente)">
+                                    <div class="d-flex align-items-center" (click)="deleteCliente(cliente)">
                                         <svg-trash></svg-trash>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </td>

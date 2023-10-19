@@ -4,5 +4,9 @@
         <div class="content" *ngFor="let encargo of encargos" [routerLink]="['/encargos',encargo.id]">
             <app-encargo-card [encargo]="encargo"></app-encargo-card>
         </div>
+        <p *ngIf="!loading && !encargos.length" class="text-danger">
+            No se han encontrado encargos! <br>
+            Primero Añade un Cliente y un Material
+        </p>
     </div>
 </div>
