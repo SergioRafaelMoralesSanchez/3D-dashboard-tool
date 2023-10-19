@@ -1,19 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Material } from "../../../../shared/models/interfaces/material.interface";
-import { Pieza } from "../../../../shared/models/interfaces/pieza.interface";
-import { EstadoPiezaEnum } from "../../../../shared/models/interfaces/estado-pieza.enum";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { Encargo } from "../../../../shared/models/interfaces/encargo.interface";
+import { EstadoPiezaEnum } from "../../../../shared/models/interfaces/estado-pieza.enum";
+import { Material } from "../../../../shared/models/interfaces/material.interface";
+import { Pieza } from "../../../../shared/models/interfaces/pieza.interface";
 
 @Component({
     selector: 'app-nueva-pieza',
     templateUrl: './nueva-pieza.component.html',
     styleUrls: ['./nueva-pieza.component.css']
 })
-export class NuevaPiezaComponent implements OnInit {
-    ngOnInit(): void {
-        this.cargaVaciaFicheros();
-    }
+export class NuevaPiezaComponent {
+
     @Input()
     materiales: Material[] = [];
 
@@ -32,19 +30,6 @@ export class NuevaPiezaComponent implements OnInit {
     @Input()
     indiceEdit: Undefinable<number>;
 
-    cargaVaciaFicheros() {
-        this.indiceEdit = undefined;
-        this.piezasNuevas = [
-            {
-                nombre: "",
-                horas: 0,
-                gramos: 0,
-                estado: EstadoPiezaEnum.Esperando,
-                cantidad: 1,
-                material: this.materiales[0]
-            }
-        ];
-    }
     addPiezaNueva() {
         this.piezasNuevas.push(
             {
@@ -102,19 +87,16 @@ export class NuevaPiezaComponent implements OnInit {
             }
             this.encargoChange.emit(this.encargo);
             this.uploadEncargo.emit();
-            this.cargaVaciaFicheros();
         }
     }
 
     getMaterial(id: string): Material {
+        console.log("🚀 ~ file: nueva-pieza.component.ts:108 ~ NuevaPiezaComponent ~ getMaterial ~ id:", id);
         return this.materiales.find(material => material.id === id)!;
     }
 
     deletePieza(index: number) {
         this.piezasNuevas.splice(index, 1);
-        if (!this.piezasNuevas.length) {
-            this.cargaVaciaFicheros();
-        }
     }
 
     cambioMaterialPieza(pieza: Pieza, materialId: string) {

@@ -27,7 +27,6 @@ export class EncargoComponent implements OnInit {
     estados = EstadoPiezaEnum;
     isEditing = false;
     piezasNuevas: Pieza[] = [];
-    isNuevaPieza = false;
     indiceEdit: Undefinable<number>;
     ficherosNuevos: Pieza[] = [];
     user: LocalUser;
@@ -149,9 +148,9 @@ export class EncargoComponent implements OnInit {
 
     totalEncargo() {
         if (this.encargo) {
-
-            return this.encargo.precioTotal = this.totalPrecio() + this.encargo.gastosAdicionales.reduce(
+            this.encargo.precioTotal = this.totalPrecio() + this.encargo.gastosAdicionales.reduce(
                 (accumulator: number, gasto: GastoAdicional) => accumulator + gasto.precio, 0);
+            return this.encargo.precioTotal;
         }
         return 0;
     }
@@ -182,13 +181,25 @@ export class EncargoComponent implements OnInit {
         return (pieza.material.precioKg / 1000) * pieza.gramos;
     }
 
-    editartPieza(indice: number) {
-        if (this.encargo) {
+    openModalNuevaPieza(indice: Undefinable<number>) {
+        if (this.encargo && indice !== undefined) {
             this.indiceEdit = indice;
-            this.isNuevaPieza = true;
-            this.piezasNuevas[0] = { ...this.encargo.piezas[indice] };
+            this.piezasNuevas = [{ ...this.encargo.piezas[this.indiceEdit] }];
+        } else {
+            this.indiceEdit = undefined;
+            this.piezasNuevas = [
+                {
+                    nombre: "",
+                    horas: 0,
+                    gramos: 0,
+                    estado: EstadoPiezaEnum.Esperando,
+                    cantidad: 1,
+                    material: this.materiales[0]
+                }
+            ];
         }
     }
+
     async deletePiezaFromEncargo(index: number) {
         this.encargo?.piezas.splice(index, 1);
         await this.uploadEncargo();
@@ -200,7 +211,6 @@ export class EncargoComponent implements OnInit {
 
     async addEncargo() {
         try {
-            this.isNuevaPieza = false;
             if (this.encargo) {
                 const encargoDto: EncargoDto = {
                     id: "",
@@ -235,7 +245,6 @@ export class EncargoComponent implements OnInit {
         try {
 
             this.isEditing = false;
-            this.isNuevaPieza = false;
             if (this.encargo) {
                 const encargoDto: EncargoDto = {
                     id: "",
