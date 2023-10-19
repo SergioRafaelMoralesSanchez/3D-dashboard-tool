@@ -143,7 +143,7 @@
         <div class="col-12 col-lg-4" *ngIf="encargo">
             <h3>Desglose</h3>
             <table class="table">
-                <caption>Listado de gastos</caption>
+                <caption></caption>
                 <tbody>
                     <tr *ngFor="let gasto of encargo.gastosAdicionales; let i=index">
                         <td>{{gasto.nombre}}</td>
@@ -171,8 +171,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            <!-- <pre>{{encargo.piezas|json}}</pre> -->
         </div>
     </div>
 </div>

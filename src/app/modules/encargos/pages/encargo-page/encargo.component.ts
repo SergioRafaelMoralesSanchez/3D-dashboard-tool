@@ -149,9 +149,9 @@ export class EncargoComponent implements OnInit {
 
     totalEncargo() {
         if (this.encargo) {
-
-            return this.encargo.precioTotal = this.totalPrecio() + this.encargo.gastosAdicionales.reduce(
+            this.encargo.precioTotal = this.totalPrecio() + this.encargo.gastosAdicionales.reduce(
                 (accumulator: number, gasto: GastoAdicional) => accumulator + gasto.precio, 0);
+            return this.encargo.precioTotal;
         }
         return 0;
     }
