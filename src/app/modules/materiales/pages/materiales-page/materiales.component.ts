@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit } from '@angular/core';
 import { Material } from "../../../../shared/models/interfaces/material.interface";
 import { MaterialesService } from "../services/materiales.service";
+import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
+import { AuthService } from "../../../../core/services/auth.service";
 
 @Component({
     selector: 'app-materiales',
@@ -8,10 +10,18 @@ import { MaterialesService } from "../services/materiales.service";
     styleUrls: ['./materiales.component.css']
 })
 export class MaterialesComponent implements OnInit {
+    @Input()
     materiales: Material[] = [];
 
+    @Input()
+    isComponente = false;
+
+    materialNuevo: Undefinable<Material>;
+
+    indiceEdit: Undefinable<number>;
     constructor(
-        private materialesService: MaterialesService
+        private materialesService: MaterialesService,
+        private authService: AuthService
     ) { }
 
     async ngOnInit(): Promise<void> {
@@ -22,14 +32,34 @@ export class MaterialesComponent implements OnInit {
     isNuevoMaterial = false;
 
     async getMateriales() {
-        this.isNuevoMaterial = false;
-        this.loading = true;
-        try {
-            this.materiales = await this.materialesService.getAll();
-        } catch (error) {
-            console.error(error);
-        } finally {
-            this.loading = false;
+        if (!this.isComponente) {
+            this.isNuevoMaterial = false;
+            this.loading = true;
+            try {
+                this.materiales = await this.materialesService.getAll();
+            } catch (error) {
+                console.error(error);
+            } finally {
+                this.loading = false;
+            }
+        }
+
+    }
+
+    openModalNuevoMaterial(indice: Undefinable<number>) {
+        console.log("🚀 ~ file: materiales.component.ts:38 ~ MatrialesComponent ~ openModalNuevaPieza ~ indice:", indice);
+        if (indice !== undefined) {
+            this.indiceEdit = indice;
+            this.materialNuevo = { ...this.materiales[this.indiceEdit] };
+        } else {
+            this.indiceEdit = undefined;
+            this.materialNuevo = {
+                id: "",
+                nombre: "",
+                precioKg: 0,
+                userId: this.authService.getCurrentUser()?.uid ?? "",
+                tasaFallo: 0
+            };
         }
 
     }

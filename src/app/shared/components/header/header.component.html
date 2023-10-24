@@ -14,12 +14,15 @@
             <div class="collapse navbar-collapse mt-2" id="navbarNav">
                 <!-- Navbar brand -->
                 <a class="navbar-brand mt-2 mt-lg-0">
-                    <img [src]="'assets/img/logo.png'" height="35" alt="3D Dashboard Tool Logo" loading="lazy" />
+                    <img [routerLink]="['/home']" class="cursor-pointer" [src]="'assets/img/logo.png'" height="35" alt="3D Dashboard Tool Logo" loading="lazy" />
                 </a>
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a [routerLink]="['/home']" class="nav-link">Home</a>
+                        <a [routerLink]="['/home']" class="nav-link">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/simulador']" class="nav-link">Simulador</a>
                     </li>
                     <li class="nav-item" *ngIf="user!==null">
                         <a [routerLink]="['/encargos']" class="nav-link">Encargos</a>
@@ -31,7 +34,7 @@
                         <a [routerLink]="['/materiales']" class="nav-link">Materiales</a>
                     </li>
                     <li class="nav-item" *ngIf="user===null">
-                        <a [routerLink]="['/login']" class="nav-link">Login</a>
+                        <a [routerLink]="['/login']" class="nav-link">Inicio sesion</a>
                     </li>
 
                 </ul>
@@ -46,8 +49,7 @@
                 <div class="dropdown" *ngIf="user">
                     <a class="dropdown-toggle d-flex align-items-center hidden-arrow" id="navbarDropdownMenuAvatar"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img [src]="user.photoURL" class="rounded-circle" height="25"
-                            alt="user Img" loading="lazy" />
+                        <img [src]="user.photoURL" class="rounded-circle" height="25" alt="user Img" loading="lazy" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                         <li>

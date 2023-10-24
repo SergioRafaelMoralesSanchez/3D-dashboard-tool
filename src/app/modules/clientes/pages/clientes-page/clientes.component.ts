@@ -6,6 +6,7 @@ import { EncargosService } from "../../../encargos/services/encargos.service";
 import { ClientesService } from "../services/clientes.service";
 import { AuthService } from "../../../../core/services/auth.service";
 import { Router } from "@angular/router";
+import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 
 @Component({
     selector: 'app-clientes',
@@ -18,7 +19,9 @@ export class ClientesComponent {
     encargos: EncargoDto[] = [];
 
     loading = false;
-    isNuevoCliente = false;
+
+    clienteNuevo: Undefinable<Cliente>;
+    indiceEdit: Undefinable<number>;
 
     constructor(
         private clientesService: ClientesService,
@@ -32,7 +35,6 @@ export class ClientesComponent {
 
     async getMappedClients() {
 
-        this.isNuevoCliente = false;
         this.loading = true;
         try {
             await this.getEncargos();
@@ -50,6 +52,22 @@ export class ClientesComponent {
         } finally {
             this.loading = false;
         }
+    }
+
+    openModalNuevoCliente(indice: Undefinable<number>) {
+        console.log("🚀 ~ file: materiales.component.ts:38 ~ MatrialesComponent ~ openModalNuevaPieza ~ indice:", indice);
+        if (indice !== undefined) {
+            this.indiceEdit = indice;
+            this.clienteNuevo = { ...this.clientes[this.indiceEdit] };
+        } else {
+            this.indiceEdit = undefined;
+            this.clienteNuevo = {
+                id: "",
+                nombre: "",
+                userId: this.authService.getCurrentUser()?.uid ?? ""
+            };
+        }
+
     }
 
     getEncargosActivos(encargosCliente: EncargoDto[]) {

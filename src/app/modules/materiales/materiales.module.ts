@@ -14,6 +14,10 @@ import { SharedModule } from "../../shared/components/shared.module";
         MaterialesComponent,
         NuevoMaterialComponent
     ],
+    exports: [
+        MaterialesComponent,
+        NuevoMaterialComponent
+    ],
     imports: [
         MaterialesRoutingModule,
         FormsModule,

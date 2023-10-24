@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { AuthService } from "../../../../core/services/auth.service";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { Material } from "../../../../shared/models/interfaces/material.interface";
 import { MaterialesService } from "../../pages/services/materiales.service";
@@ -14,28 +13,30 @@ export class NuevoMaterialComponent {
     @Output()
     onGuardar = new EventEmitter();
 
+    @Input()
     materialNuevo: Undefinable<Material>;
 
+    @Input()
+    indiceEdit: Undefinable<number>;
+
     constructor(
-        private authService: AuthService,
         private materialesService: MaterialesService
+    ) { }
 
-    ) {
-        this.initMaterialNuevo();
-    }
-
-    initMaterialNuevo() {
-        this.materialNuevo = {
-            id: "",
-            nombre: "",
-            precioKg: 0,
-            userId: this.authService.getCurrentUser()?.uid ?? ""
-        };
-    }
     async addMaterial() {
         try {
             if (this.materialNuevo) {
                 await this.materialesService.addDoc(this.materialNuevo);
+                this.onGuardar.emit("");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    async updateMaterial() {
+        try {
+            if (this.materialNuevo) {
+                await this.materialesService.updateDoc(this.materialNuevo.id, this.materialNuevo);
                 this.onGuardar.emit("");
             }
         } catch (error) {

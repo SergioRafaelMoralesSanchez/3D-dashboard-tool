@@ -3,4 +3,5 @@ export interface Material {
     nombre: string
     precioKg: number
     userId: string
+    tasaFallo: number
 }
