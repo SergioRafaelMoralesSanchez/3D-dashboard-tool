@@ -1,41 +1,55 @@
-<div id="gear" class="d-flex justify-content-end p-4">
-    <div class="dropdown">
-        <button class="btn btn-primary " (click)="isNuevoMaterial = !isNuevoMaterial"> + </button>
-    </div>
-</div>
-
-<app-nuevo-material *ngIf="isNuevoMaterial" (onGuardar)="getMateriales()"></app-nuevo-material>
 <loading-spinner [loading]="loading"></loading-spinner>
-<div class="container-fluid" *ngIf="!loading">
+<div *ngIf="!loading">
     <div class="row">
-        <div class="col-12 col-lg-8">
-            <h3>Piezas</h3>
-            <table class="table table-striped">
-                <caption></caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Precio Kg</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let material of materiales; let i=index">
-                        <td>{{material.nombre}}</td>
-                        <td>{{material.precioKg}} €/kg</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-6">
+            <h3>Materiales</h3>
+        </div>
+        <div class="col-6 d-flex justify-content-end" *ngIf="!isComponente">
+            <button type="button" class="btn btn-primary btn-sm mx-2 text-nowrap" data-bs-toggle="modal"
+                (click)="openModalNuevoMaterial(undefined)" data-bs-target="#modalNuevoMaterial">
+                Nuevo Material
+            </button>
         </div>
     </div>
+    <section>
+        <table class="table table-striped">
+            <caption></caption>
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio Kg</th>
+                    <th scope="col">Tasa de Fallo</th>
+                    <th scope="col" class="text-nowrap" *ngIf="!isComponente">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let material of materiales; let i=index">
+                    <td>{{material.nombre}}</td>
+                    <td>{{material.precioKg}} €/kg</td>
+                    <td>{{material.tasaFallo}} %</td>
+                    <td *ngIf="!isComponente">
+                        <div class="d-flex">
+                            <div class="mx-1">
+                                <div class="d-flex align-items-center cursor-pointer"
+                                    (click)="openModalNuevoMaterial(i)" data-bs-toggle="modal"
+                                    data-bs-target="#modalNuevoMaterial">
+                                    <svg-edit></svg-edit>
+                                </div>
+                            </div>
+                            <div class="mx-1">
+                                <div class="d-flex align-items-center cursor-pointer"
+                                    (click)="deleteMaterial(material)">
+                                    <svg-trash></svg-trash>
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Pieza</h1>
-            </div>
-
-        </div>
-    </div>
-</div>
+<app-nuevo-material [materialNuevo]="materialNuevo" [indiceEdit]="indiceEdit" (onGuardar)="
+    getMateriales()"></app-nuevo-material>

@@ -1,0 +1,137 @@
+<section class="row">
+    <article class="col-12 col-xl-6">
+        <app-materiales [materiales]="materiales" [isComponente]="true"></app-materiales>
+    </article>
+    <article class=" col-12 col-xl-6">
+        <header>
+            <h3>Configurador de calculo de pieza</h3>
+        </header>
+        <p>
+            Actualmente el Calculo del precio por pieza se realiza con el siguiente calculo
+        </p>
+        <p>
+            (<strong>CantidadGramosPieza</strong> * <strong>PrecioKgMaterial</strong> + <strong>horas</strong> *
+            <strong>PrecioHora</strong>)* <strong>TasaDeFallo</strong>
+        </p>
+
+    </article>
+</section>
+
+<main class="row">
+    <section class="col-12 col-xl-8" aria-label="Tabla desglose Piezas">
+        <header class="row">
+            <div class="col-6">
+                <h3>Piezas</h3>
+            </div>
+            <aside class="col-6 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary btn-sm mx-2 text-nowrap" data-bs-toggle="modal"
+                    (click)="openModalNuevaPieza(undefined)" data-bs-target="#modalNuevaPieza">
+                    Nueva Pieza
+                </button>
+                <button type="button" class="btn btn-primary btn-sm mx-2 text-nowrap" data-bs-toggle="modal"
+                    data-bs-target="#modalGastoAdicional">
+                    Gasto Adicional
+                </button>
+            </aside>
+        </header>
+        <article style="overflow-x:auto;">
+            <table class="table table-striped">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th class="text-nowrap" scope="col">Nombre</th>
+                        <th class="text-nowrap" scope="col">Material</th>
+                        <th class="text-nowrap" scope="col">Horas</th>
+                        <th class="text-nowrap" scope="col">Gramos</th>
+                        <th class="text-nowrap" scope="col">Precio Horas</th>
+                        <th class="text-nowrap" scope="col">Precio Material</th>
+                        <th class="text-nowrap" scope="col">Precio Pieza</th>
+                        <th class="text-nowrap" scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pieza of encargo.piezas; let i=index">
+                        <td>{{pieza.nombre}}</td>
+                        <td>{{pieza.material.nombre}}</td>
+                        <td>{{pieza.horas}} h</td>
+                        <td>{{pieza.gramos}} gr</td>
+                        <td>{{pieza.horas * encargo.precioHora | number :"0.0-2"}} €</td>
+                        <td>{{(pieza.material.precioKg / 1000) * pieza.gramos | number :"0.0-2"}} €</td>
+                        <td>{{calculoPrecioPieza(pieza) | number: "0.0-2"}}€</td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="mx-1">
+                                    <div class="d-flex align-items-center cursor-pointer"
+                                        (click)="openModalNuevaPieza(i)" data-bs-toggle="modal"
+                                        data-bs-target="#modalNuevaPieza">
+                                        <svg-edit></svg-edit>
+                                    </div>
+                                </div>
+                                <div class="mx-1">
+                                    <div class="d-flex align-items-center cursor-pointer"
+                                        (click)="deletePiezaFromEncargo(i)">
+                                        <svg-trash></svg-trash>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Total</th>
+                        <td></td>
+                        <td></td>
+                        <td>{{totalHoras() | number :"0.0-2"}} h</td>
+                        <td>{{totalGramos() | number :"0.0-2"}} gr</td>
+                        <td>{{totalPrecioHoras() | number :"0.0-2"}} €</td>
+                        <td>{{totalPrecioPieza() | number :"0.0-2"}} €</td>
+                        <td>{{totalPrecio() | number :"0.0-2"}} €</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+    <section class="col-12 col-xl-4" aria-label="Tabla desglose Precio">
+        <header>
+            <h3>Desglose</h3>
+        </header>
+        <article>
+            <table class="table">
+                <caption></caption>
+                <tbody>
+                    <tr *ngFor="let gasto of encargo.gastosAdicionales; let i=index">
+                        <td>
+                            {{gasto.nombre}}
+                        </td>
+                        <td class="d-flex justify-content-end">
+                            <span class="m-2">{{gasto.precio}} €</span>
+                            <span class="d-flex align-items-center cursor-pointer" (click)="eliminarGasto(i)">
+                                <svg-trash></svg-trash>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Piezas impresas</td>
+                        <td class="d-flex justify-content-end">
+                            <span>
+                                {{totalPrecio()| number :"0.0-2"}} €
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">TOTAL ENCARGO</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo()| number :"0.0-2" }} €
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+</main>
+
+
+<app-nueva-pieza [(encargo)]="encargo" [materiales]="materiales" [piezasNuevas]="piezasNuevas"
+    [indiceEdit]="indiceEdit"></app-nueva-pieza>
+
+<app-gasto-adicional [(encargo)]="encargo"></app-gasto-adicional>

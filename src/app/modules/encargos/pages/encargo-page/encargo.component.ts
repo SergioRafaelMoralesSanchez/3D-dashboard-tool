@@ -39,9 +39,9 @@ export class EncargoComponent implements OnInit {
         private clientesService: ClientesService,
         private materialesService: MaterialesService,
         private router: Router,
-        private authSevice: AuthService
+        private authService: AuthService
     ) {
-        this.user = this.authSevice.getCurrentUser()!;
+        this.user = this.authService.getCurrentUser()!;
     }
     async ngOnInit(): Promise<void> {
         const routes = this.activatedRoute.snapshot.params;
@@ -74,6 +74,7 @@ export class EncargoComponent implements OnInit {
                         nombre: material.nombre,
                         precioKg: material.precioKg,
                         userId: material.userId,
+                        tasaFallo: material.tasaFallo,
                     }));
                     if (cliente && this.materiales) {
                         this.encargo = {

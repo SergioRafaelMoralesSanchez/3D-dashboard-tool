@@ -25,6 +25,10 @@ const routes: Routes = [
         path: 'login',
         loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule)
     },
+    {
+        path: 'simulador',
+        loadChildren: () => import('./modules/simulador/simulador.module').then(m => m.SimuladorModule)
+    },
     { path: '**', redirectTo: 'home' },
 ];
 

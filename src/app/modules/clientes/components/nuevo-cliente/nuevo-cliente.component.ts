@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthService } from "../../../../core/services/auth.service";
 import { Cliente } from "../../../../shared/models/interfaces/cliente.interface";
 import { ClientesService } from "../../pages/services/clientes.service";
@@ -14,26 +14,32 @@ export class NuevoClienteComponent {
     @Output()
     onGuardar = new EventEmitter();
 
+    @Input()
     clienteNuevo: Undefinable<Cliente>;
+
+    @Input()
+    indiceEdit: Undefinable<number>;
 
     constructor(
         private authService: AuthService,
         private clienteService: ClientesService
 
-    ) {
-        this.initClienteNuevo();
-    }
-    initClienteNuevo() {
-        this.clienteNuevo = {
-            id: "",
-            nombre: "",
-            userId: this.authService.getCurrentUser()?.uid ?? ""
-        };
-    }
+    ) { }
+
     async addCliente() {
         try {
             if (this.clienteNuevo) {
                 await this.clienteService.addDoc(this.clienteNuevo);
+                this.onGuardar.emit("");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    async updateCliente() {
+        try {
+            if (this.clienteNuevo) {
+                await this.clienteService.updateDoc(this.clienteNuevo.id, this.clienteNuevo);
                 this.onGuardar.emit("");
             }
         } catch (error) {

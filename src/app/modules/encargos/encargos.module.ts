@@ -18,6 +18,10 @@ import { EncargosComponent } from './pages/encargos-page/encargos.component';
     GastoAdicionalComponent,
     NuevaPiezaComponent
   ],
+  exports: [
+    GastoAdicionalComponent,
+    NuevaPiezaComponent
+  ],
   imports: [
     EncargosRoutingModule,
     FormsModule,
