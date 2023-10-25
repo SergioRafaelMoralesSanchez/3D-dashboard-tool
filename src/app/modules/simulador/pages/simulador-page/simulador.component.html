@@ -1,8 +1,8 @@
 <section class="row">
-    <article class="col-12 col-xl-6">
+    <article class="col-12 col-xl-6 my-2">
         <app-materiales [materiales]="materiales" [isComponente]="true"></app-materiales>
     </article>
-    <article class=" col-12 col-xl-6">
+    <article class="col-12 col-xl-6 my-2">
         <header>
             <h3>Configurador de calculo de pieza</h3>
         </header>
@@ -18,7 +18,7 @@
 </section>
 
 <main class="row">
-    <section class="col-12 col-xl-8" aria-label="Tabla desglose Piezas">
+    <section class="col-12 col-xl-8 my-2" aria-label="Tabla desglose Piezas">
         <header class="row">
             <div class="col-6">
                 <h3>Piezas</h3>
@@ -79,19 +79,19 @@
                     <tr>
                         <th scope="col">Total</th>
                         <td></td>
-                        <td></td>
                         <td>{{totalHoras() | number :"0.0-2"}} h</td>
                         <td>{{totalGramos() | number :"0.0-2"}} gr</td>
                         <td>{{totalPrecioHoras() | number :"0.0-2"}} €</td>
                         <td>{{totalPrecioPieza() | number :"0.0-2"}} €</td>
                         <td>{{totalPrecio() | number :"0.0-2"}} €</td>
                         <td></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
         </article>
     </section>
-    <section class="col-12 col-xl-4" aria-label="Tabla desglose Precio">
+    <section class="col-12 col-xl-4 my-2" aria-label="Tabla desglose Precio">
         <header>
             <h3>Desglose</h3>
         </header>
@@ -129,7 +129,6 @@
         </article>
     </section>
 </main>
-
 
 <app-nueva-pieza [(encargo)]="encargo" [materiales]="materiales" [piezasNuevas]="piezasNuevas"
     [indiceEdit]="indiceEdit"></app-nueva-pieza>

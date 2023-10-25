@@ -12,23 +12,25 @@ import { EncargoComponent } from './pages/encargo-page/encargo.component';
 import { EncargosComponent } from './pages/encargos-page/encargos.component';
 
 @NgModule({
-  declarations: [
-    EncargoComponent,
-    EncargosComponent,
-    GastoAdicionalComponent,
-    NuevaPiezaComponent
-  ],
-  exports: [
-    GastoAdicionalComponent,
-    NuevaPiezaComponent
-  ],
-  imports: [
-    EncargosRoutingModule,
-    FormsModule,
-    CommonModule,
-    EncargoCardComponent,
-    SharedModule
-  ],
-  providers: [MaterialesService]
+    declarations: [
+        EncargoComponent,
+        EncargosComponent,
+        GastoAdicionalComponent,
+        NuevaPiezaComponent
+    ],
+    exports: [
+        GastoAdicionalComponent,
+        NuevaPiezaComponent
+    ],
+    imports: [
+        EncargosRoutingModule,
+        FormsModule,
+        CommonModule,
+        EncargoCardComponent,
+        SharedModule
+    ],
+    providers: [
+        MaterialesService,
+    ]
 })
-export class EncargosModule {}
+export class EncargosModule { }

@@ -12,6 +12,7 @@ import { Pieza } from "../../../../shared/models/interfaces/pieza.interface";
 })
 export class NuevaPiezaComponent {
 
+    constructor() { }
     @Input()
     materiales: Material[] = [];
 
@@ -30,6 +31,10 @@ export class NuevaPiezaComponent {
     @Input()
     indiceEdit: Undefinable<number>;
 
+    copyToClipboard(value: string) {
+        alert("Texto Copiado al porta papeles");
+        navigator.clipboard.writeText(value);
+    }
     addPiezaNueva() {
         this.piezasNuevas.push(
             {
@@ -50,16 +55,21 @@ export class NuevaPiezaComponent {
         for (const file of jamon.target.files) {
             //Jamon_40g_1h22m.gcode
             const [nombre, gramos, tiempo] = file.name.replace('.gcode', '').split('_');
-            let hour = 0, min = 0;
-            if (tiempo.includes("h")) {
-                hour = Number(tiempo.replace('m', '').split('h')[0]);
-                min = Number(tiempo.replace('m', '').split('h')[1]);
+            let hour = 0, min = 0, days = 0;
+            const tiempoSplit = tiempo.replace("d", "_").replace("h", "_").replace("m", "").split("_");
+            if (tiempo.includes("d")) {
+                days = Number(tiempoSplit[0]);
+                hour = Number(tiempoSplit[1]);
+                min = Number(tiempoSplit[2]);
+            } else if (tiempo.includes("h")) {
+                hour = Number(tiempoSplit[0]);
+                min = Number(tiempoSplit[1]);
             } else {
-                min = Number(tiempo.replace('m', ''));
+                min = Number(tiempoSplit[0]);
             }
             this.piezasNuevas.push({
                 nombre,
-                horas: Number((hour + min / 60).toFixed(2)),
+                horas: Number((days * 24 + hour + min / 60).toFixed(2)),
                 gramos: Number(gramos.replace('g', '')),
                 material: this.materiales[0],
                 cantidad: 1,
@@ -67,10 +77,11 @@ export class NuevaPiezaComponent {
             });
         }
     }
+
     addPiezas() {
         if (this.piezasNuevas && this.encargo) {
             for (const fichero of this.piezasNuevas) {
-                if (this.indiceEdit) {
+                if (this.indiceEdit !== undefined) {
                     this.encargo.piezas[this.indiceEdit] = {
                         ...fichero,
                         material: this.getMaterial(fichero.material.id)
@@ -91,7 +102,6 @@ export class NuevaPiezaComponent {
     }
 
     getMaterial(id: string): Material {
-        console.log("🚀 ~ file: nueva-pieza.component.ts:108 ~ NuevaPiezaComponent ~ getMaterial ~ id:", id);
         return this.materiales.find(material => material.id === id)!;
     }
 

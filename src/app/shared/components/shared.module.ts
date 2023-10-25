@@ -10,25 +10,28 @@ import { HeaderComponent } from './header/header.component';
 import { GearSvgComponent } from './svg/gear.svg';
 import { RouterModule } from "@angular/router";
 import { AuthService } from "../../core/services/auth.service";
+import { UploadSvgComponent } from "./svg/upload.svg";
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    FooterComponent,
-    LoadingSpinnerComponent,
-    EditSvgComponent,
-    GearSvgComponent,
-    TrashSvgComponent
-  ],
-  exports: [
-    HeaderComponent,
-    FooterComponent,
-    LoadingSpinnerComponent,
-    EditSvgComponent,
-    GearSvgComponent,
-    TrashSvgComponent
-  ],
-  imports: [FormsModule, CommonModule,RouterModule],
-  providers: [AuthService]
+    declarations: [
+        HeaderComponent,
+        FooterComponent,
+        LoadingSpinnerComponent,
+        EditSvgComponent,
+        GearSvgComponent,
+        TrashSvgComponent,
+        UploadSvgComponent
+    ],
+    exports: [
+        HeaderComponent,
+        FooterComponent,
+        LoadingSpinnerComponent,
+        EditSvgComponent,
+        GearSvgComponent,
+        TrashSvgComponent,
+        UploadSvgComponent
+    ],
+    imports: [FormsModule, CommonModule, RouterModule],
+    providers: [AuthService]
 })
-export class SharedModule {}
+export class SharedModule { }

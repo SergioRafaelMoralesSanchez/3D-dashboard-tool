@@ -55,7 +55,6 @@ export class ClientesComponent {
     }
 
     openModalNuevoCliente(indice: Undefinable<number>) {
-        console.log("🚀 ~ file: materiales.component.ts:38 ~ MatrialesComponent ~ openModalNuevaPieza ~ indice:", indice);
         if (indice !== undefined) {
             this.indiceEdit = indice;
             this.clienteNuevo = { ...this.clientes[this.indiceEdit] };
