@@ -4,7 +4,7 @@
         <div class="col-6">
             <h3>Materiales</h3>
         </div>
-        <div class="col-6 d-flex justify-content-end" *ngIf="!isComponente">
+        <div class="col-6 d-flex justify-content-end">
             <button type="button" class="btn btn-primary btn-sm mx-2 text-nowrap" data-bs-toggle="modal"
                 (click)="openModalNuevoMaterial(undefined)" data-bs-target="#modalNuevoMaterial">
                 Nuevo Material
@@ -19,7 +19,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Precio Kg</th>
                     <th scope="col">Tasa de Fallo</th>
-                    <th scope="col" class="text-nowrap" *ngIf="!isComponente">Acciones</th>
+                    <th scope="col" class="text-nowrap">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
                     <td>{{material.nombre}}</td>
                     <td>{{material.precioKg}} €/kg</td>
                     <td>{{material.tasaFallo}} %</td>
-                    <td *ngIf="!isComponente">
+                    <td>
                         <div class="d-flex">
                             <div class="mx-1">
                                 <div class="d-flex align-items-center cursor-pointer"
@@ -38,7 +38,7 @@
                             </div>
                             <div class="mx-1">
                                 <div class="d-flex align-items-center cursor-pointer"
-                                    (click)="deleteMaterial(material)">
+                                    (click)="deleteMaterial(material, i)">
                                     <svg-trash></svg-trash>
                                 </div>
                             </div>
@@ -51,5 +51,6 @@
     </section>
 </div>
 
-<app-nuevo-material [materialNuevo]="materialNuevo" [indiceEdit]="indiceEdit" (onGuardar)="
+<app-nuevo-material [materialNuevo]="materialNuevo" [indiceEdit]="indiceEdit" [(materiales)]="materiales"
+    [isComponente]="isComponente" (onGuardar)="
     getMateriales()"></app-nuevo-material>

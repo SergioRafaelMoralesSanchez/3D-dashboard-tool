@@ -14,6 +14,7 @@ export class BaseService<T> {
     constructor(private authService: AuthService) {
         this.db = getFirestore(appFirebase);
     }
+
     async getAll(): Promise<T[]> {
         const user: Nullable<LocalUser> = this.authService.getCurrentUser();
 
@@ -30,6 +31,7 @@ export class BaseService<T> {
         }
         return [];
     }
+
     async getAllMapped(): Promise<Map<string, T>> {
         const user: Nullable<LocalUser> = this.authService.getCurrentUser();
         const data = new Map<string, T>();

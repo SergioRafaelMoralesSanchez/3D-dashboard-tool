@@ -47,7 +47,6 @@ export class MaterialesComponent implements OnInit {
     }
 
     openModalNuevoMaterial(indice: Undefinable<number>) {
-        console.log("🚀 ~ file: materiales.component.ts:38 ~ MatrialesComponent ~ openModalNuevaPieza ~ indice:", indice);
         if (indice !== undefined) {
             this.indiceEdit = indice;
             this.materialNuevo = { ...this.materiales[this.indiceEdit] };
@@ -64,12 +63,16 @@ export class MaterialesComponent implements OnInit {
 
     }
 
-    async deleteMaterial(material: Material) {
-        try {
-            await this.materialesService.deleteDoc(material.id);
-            await this.getMateriales();
-        } catch (error) {
-            console.error(error);
+    async deleteMaterial(material: Material, index: number) {
+        if (!this.isComponente) {
+            try {
+                await this.materialesService.deleteDoc(material.id);
+                await this.getMateriales();
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            this.materiales.splice(index, 1);
         }
 
     }

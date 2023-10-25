@@ -31,7 +31,7 @@ export class AuthService {
                     this.router.navigateByUrl("encargos");
                 }
             }).catch((error) => {
-                console.log("🚀 ~ file: auth.service.ts:24 ~ AuthService ~ .then ~ error:", error);
+                console.error("🚀 ~ file: auth.service.ts:24 ~ AuthService ~ .then ~ error:", error);
             });
     }
 
@@ -41,7 +41,7 @@ export class AuthService {
             localStorage.removeItem("3d-user");
             // Sign-out successful.
         }).catch((error) => {
-            console.log("🚀 ~ file: auth.service.ts:48 ~ AuthService ~ signOut ~ error:", error);
+            console.error("🚀 ~ file: auth.service.ts:48 ~ AuthService ~ signOut ~ error:", error);
             // An error happened.
         });
     }

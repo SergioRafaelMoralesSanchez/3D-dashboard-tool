@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Undefinable } from 'src/app/shared/models/helpers/Undefinable.interface';
-import { Encargo, EncargoDto } from 'src/app/shared/models/interfaces/encargo.interface';
+import { Encargo } from 'src/app/shared/models/interfaces/encargo.interface';
 import { EstadoPiezaEnum } from 'src/app/shared/models/interfaces/estado-pieza.enum';
 import { GastoAdicional } from 'src/app/shared/models/interfaces/gastoAdicional.interface';
 import { Material } from 'src/app/shared/models/interfaces/material.interface';
-import { Pieza, PiezaDto } from 'src/app/shared/models/interfaces/pieza.interface';
+import { Pieza } from 'src/app/shared/models/interfaces/pieza.interface';
 import { AuthService } from "../../../../core/services/auth.service";
 import { LocalUser } from "../../../../shared/models/interfaces/auth/local-user.interface";
 import { Cliente } from "../../../../shared/models/interfaces/cliente.interface";
@@ -68,23 +68,6 @@ export class SimuladorComponent {
         this.user = this.authService.getCurrentUser()!;
     }
 
-    // ...pieza, material: materiales.get(pieza.materialId)!
-    regeneratePiezas(encargoDto: EncargoDto, materiales: Map<string, Material>): Pieza[] {
-        return encargoDto.piezas.map((pieza: PiezaDto) => {
-            return {
-                nombre: pieza.nombre,
-                material: {
-                    ...materiales.get(pieza.materialId)!,
-                    id: pieza.materialId,
-                },
-                horas: pieza.horas,
-                gramos: pieza.gramos,
-                cantidad: 1,
-                estado: pieza.estado,
-            };
-        });
-    }
-
     calculoPrecioPieza(pieza: Pieza) {
         if (this.encargo) {
             const precioPieza = pieza.horas * this.encargo.precioHora + this.calculoMaterialPieza(pieza);
@@ -104,6 +87,7 @@ export class SimuladorComponent {
         }
         return 0;
     }
+
     totalGramos() {
         if (this.encargo) {
             return this.encargo.piezas.reduce(
@@ -113,6 +97,7 @@ export class SimuladorComponent {
         }
         return 0;
     }
+
     totalPrecio() {
         if (this.encargo) {
             return this.encargo.piezas.reduce(
