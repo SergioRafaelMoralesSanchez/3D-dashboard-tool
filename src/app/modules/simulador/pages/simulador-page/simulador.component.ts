@@ -122,7 +122,7 @@ export class SimuladorComponent {
         if (this.encargo) {
             return this.encargo.piezas.reduce(
                 (accumulator, pieza: Pieza) =>
-                    accumulator + pieza.horas * this.encargo!.precioHora,
+                    accumulator + pieza.horas * this.encargo.precioHora,
                 0
             );
         }

@@ -12,6 +12,7 @@ import { LocalUser } from "../../../../shared/models/interfaces/auth/local-user.
 import { ClientesService } from "../../../clientes/pages/services/clientes.service";
 import { MaterialesService } from "../../../materiales/pages/services/materiales.service";
 import { Cliente } from "../../../../shared/models/interfaces/cliente.interface";
+import { EstadoEncargoEnum } from "../../../../shared/models/interfaces/estado-encargo.enum";
 
 @Component({
     selector: 'app-encargo',
@@ -24,7 +25,23 @@ export class EncargoComponent implements OnInit {
     materialesMapped: Map<string, Material> = new Map();
     materiales: Material[] = [];
 
-    estados = EstadoPiezaEnum;
+    estadosEncargoEnum = EstadoEncargoEnum;
+    estadosEncargo = [
+        { key: EstadoEncargoEnum.Esperando, value: "Esperando" },
+        { key: EstadoEncargoEnum.Preparado, value: "Preparado" },
+        { key: EstadoEncargoEnum.EnProceso, value: "EnProceso" },
+        { key: EstadoEncargoEnum.Impreso, value: "Impreso" },
+        { key: EstadoEncargoEnum.Pagado, value: "Pagado" }
+    ];
+
+    estadosPiezaEnum = EstadoPiezaEnum;
+    estadosPieza = [
+        { key: EstadoPiezaEnum.Esperando, value: "Esperando" },
+        { key: EstadoPiezaEnum.Preparado, value: "Preparado" },
+        { key: EstadoPiezaEnum.EnProceso, value: "EnProceso" },
+        { key: EstadoPiezaEnum.Impreso, value: "Impreso" }
+    ];
+
     isEditing = false;
     piezasNuevas: Pieza[] = [];
     indiceEdit: Undefinable<number>;
@@ -49,6 +66,11 @@ export class EncargoComponent implements OnInit {
             this.encargoId = routes['id'];
             await this.getStoredEncargo();
         }
+    }
+
+    async uploadEstadoEncargo(estadoKey: number) {
+        this.encargo!.estado = estadoKey;
+        await this.uploadEncargo();
     }
 
     async activarModoEdicion() {
