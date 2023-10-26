@@ -1,55 +1,73 @@
 <loading-spinner [loading]="!encargo"></loading-spinner>
 <div *ngIf="encargo">
-
-    <div id="gear" class="  d-flex justify-content-end">
-        <div class="dropdown">
-            <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <aside id="gear" class="  d-flex justify-content-end">
+        <article class="dropdown dropstart">
+            <button class="btn btn-outline-dark fw-bold dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 <svg-gear></svg-gear>
             </button>
             <ul class="dropdown-menu">
-                <li><button class="dropdown-item text-info" *ngIf="!isEditing" (click)="activarModoEdicion()">Editar
-                        Encargo</button></li>
-                <li><button class="dropdown-item text-success" *ngIf="isEditing" (click)="uploadEncargo()">Guardar
-                        Encargo</button></li>
                 <li>
-                    <button class="dropdown-item text-danger" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">Eliminar Encargo</button>
+                    <button class="dropdown-item text-info" *ngIf="!isEditing" title="Haz Click para editar"
+                        (click)="activarModoEdicion()">
+                        Editar Encargo
+                    </button>
+                </li>
+                <li>
+                    <button class="dropdown-item text-success" *ngIf="isEditing" (click)="uploadEncargo()">
+                        Guardar Encargo
+                    </button>
+                </li>
+                <li>
+                    <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Eliminar Encargo
+                    </button>
                 </li>
             </ul>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-lg-3">
+        </article>
+    </aside>
+    <header class="row mb-3">
+        <article class="my-2 col-12 col-md-6 col-xl-3">
             <div>
-                <img [src]="encargo.img" class="rounded" style="height: 200px" alt="">
-                <input *ngIf="isEditing" [(ngModel)]="encargo.img" type="text" class="form-control"
-                    placeholder="Nombre encargo">
-            </div>
-        </div>
-        <div class="col-12 col-lg-4">
-            <div>
-                <div id="nombre-encargo">
-                    <h3 *ngIf="!isEditing">{{encargo.nombre}}</h3>
-                    <input *ngIf="isEditing" [(ngModel)]="encargo.nombre" type="text" class="form-control"
-                        placeholder="Nombre encargo">
+                <img title="Haz Click para editar" (click)="activarModoEdicion()" [src]="encargo.img"
+                    class="rounded img-fluid img-thumbnail cursor-pointer " style="max-height: 200px" alt="">
+                <div *ngIf="isEditing" class="mt-2">
+                    <label for="urlImg" class="form-label fw-bold">Nombre Encargo</label>
+                    <input [(ngModel)]="encargo.img" type="text" class="form-control" id="urlImg"
+                        placeholder="Url Imagen">
                 </div>
-                <div id="observaciones">
-                    <p *ngIf="!isEditing">
-                        {{encargo.observaciones}}
-                    </p>
-                    <textarea *ngIf="isEditing" class="form-control" name="" id="" style="width: 100%; height: 100%;"
+            </div>
+        </article>
+        <article class="my-2 col-12 col-md-6 col-xl-4">
+            <div>
+                <h3 *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
+                    {{encargo.nombre}}</h3>
+                <div *ngIf="isEditing">
+                    <label for="precioHora" class="form-label fw-bold">Nombre Encargo</label>
+                    <input [(ngModel)]="encargo.nombre" type="text" class="form-control" placeholder="Nombre encargo">
+                </div>
+            </div>
+            <div class="mt-2">
+                <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
+                    {{encargo.observaciones}}
+                </p>
+                <div class="form-floating" *ngIf="isEditing">
+                    <textarea *ngIf="isEditing" class="form-control" name="" id="observaciones"
+                        style="width: 100%; min-height: 150px;" placeholder="Fecha Fin, Pintar..."
                         [(ngModel)]="encargo.observaciones"></textarea>
+                    <label for="observaciones">Observaciones</label>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-lg-3 ">
-
+        </article>
+        <article class="my-2 col-12 col-md-6 col-xl-2">
             <h3>
                 Cliente
             </h3>
-            <h5 *ngIf="!isEditing">{{encargo.cliente.nombre}}</h5>
-            <div class="dropdown" *ngIf="isEditing">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            <h5 *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
+                {{encargo.cliente.nombre}}
+            </h5>
+            <div *ngIf="isEditing" class="dropdown">
+                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     {{encargo.cliente.nombre}}
                 </button>
@@ -59,28 +77,62 @@
                     </li>
                 </ul>
             </div>
+        </article>
+        <article class="my-2 col-12 col-md-6 col-xl-3">
+            <div>
+                <label for="precioHora" class="form-label fw-bold">Precio Hora</label>
+                <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()"
+                    (click)="activarModoEdicion()">
+                    {{encargo.precioHora}} €
+                </p>
+                <input type=" number" id="precioHora" [(ngModel)]="encargo.precioHora" class="form-control"
+                    placeholder="0.3" aria-describedby="helpId" *ngIf="isEditing">
+                <small id="helpId" class="text-muted">
+                    (Precio hora incluyendo desgaste de maquina y electricidad)
+                </small>
+            </div>
+            <div class="mt-2">
+                <label for="estado" class="form-label fw-bold">Estado Encargo</label>
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{estadosEncargoEnum[encargo.estado]}}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let estado of estadosEncargo">
+                            <span class="dropdown-item"
+                                (click)="uploadEstadoEncargo(estado.key)">{{estado.value}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </article>
 
-        </div>
-
-    </div>
-    <div class="row">
+        <article id="gear" *ngIf="isEditing" class="col-12 d-flex justify-content-end">
+            <button class="btn btn-success" (click)="uploadEncargo()">
+                Guardar Encargo
+            </button>
+        </article>
+    </header>
+    <main class="row">
         <div class="col-12 col-xl-8" *ngIf="encargo">
-            <div class="row">
-                <div class="col-6">
+            <header class="row">
+                <div class="col-12 col-sm-6">
                     <h3>Piezas</h3>
                 </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary btn-sm mx-2 text-nowrap" data-bs-toggle="modal"
-                        (click)="openModalNuevaPieza(undefined)" data-bs-target="#modalNuevaPieza">
+                <div class="col-12 col-sm-6 d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-dark fw-bold btn-sm mx-2 text-nowrap"
+                        data-bs-toggle="modal" (click)="openModalNuevaPieza(undefined)"
+                        data-bs-target="#modalNuevaPieza">
                         Nueva Pieza
                     </button>
-                    <button type="button" class="btn btn-primary btn-sm mx-2 text-nowrap" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-outline-dark fw-bold btn-sm text-nowrap" data-bs-toggle="modal"
                         data-bs-target="#modalGastoAdicional">
                         Gasto Adicional
                     </button>
                 </div>
-            </div>
-            <section style="overflow-x:auto;">
+            </header>
+            <article style="overflow-x:auto;">
                 <table class="table table-striped">
                     <caption></caption>
                     <thead>
@@ -100,7 +152,21 @@
                         <tr *ngFor="let pieza of encargo.piezas; let i=index">
                             <td>{{pieza.nombre}}</td>
                             <td>{{pieza.material.nombre}}</td>
-                            <td>{{estados[pieza.estado]}}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn text-dark dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{estadosPiezaEnum[pieza.estado]}}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li *ngFor="let estado of estadosPieza">
+                                            <span class="dropdown-item"
+                                                (click)="pieza.estado = estado.key">{{estado.value}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+
                             <td>{{pieza.horas}} h</td>
                             <td>{{pieza.gramos}} gr</td>
                             <td>{{pieza.horas * encargo.precioHora | number :"0.0-2"}} €</td>
@@ -138,7 +204,7 @@
 
                     </tbody>
                 </table>
-            </section>
+            </article>
         </div>
         <div class="col-12 col-xl-4" *ngIf="encargo">
             <h3>Desglose</h3>
@@ -173,22 +239,23 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </main>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" *ngIf="encargo">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Se va a Eliminar
+                    <strong>{{encargo.nombre}}</strong>
+                </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>
-                    Estas Seguro? Esta accion no se puede deshacer
-                </p>
+                <p> ¿Estas seguro de eliminar el encargo <strong>{{encargo.nombre}}</strong>? </p>
+                <p>Esta accion no se puede deshacer</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

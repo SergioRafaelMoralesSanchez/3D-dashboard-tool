@@ -6,7 +6,7 @@
             <h3>Clientes</h3>
         </div>
         <div class="col-6 d-flex justify-content-end">
-            <button type="button" class="btn btn-primary btn-sm mx-2 text-nowrap" data-bs-toggle="modal"
+            <button type="button" class="btn btn-outline-dark fw-bold btn-sm text-nowrap" data-bs-toggle="modal"
                 (click)="openModalNuevoCliente(undefined)" data-bs-target="#modalNuevoCliente">
                 Nuevo Cliente
             </button>
@@ -27,7 +27,7 @@
                 <tr *ngFor="let cliente of clientes; let i=index">
                     <td>{{cliente.nombre}}</td>
                     <td>{{cliente.encargosActivos}}/{{cliente.encargosFinalizados}}</td>
-                    <td>{{cliente.dineroTotal}}</td>
+                    <td>{{cliente.dineroTotal | number: "0.0-2"}}€ </td>
                     <td>
                         <div class="d-flex">
                             <div class="mx-1">
