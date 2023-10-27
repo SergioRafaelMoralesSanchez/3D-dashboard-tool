@@ -1,0 +1,52 @@
+<loading-spinner [loading]="!preferencias"></loading-spinner>
+
+<section class="row" *ngIf="preferencias">
+
+    <article class="my-2 col-12 col-md-6 col-xl-4">
+        <header>
+            <h3>Configurador de calculo de pieza</h3>
+        </header>
+        <p>
+            Actualmente el Calculo del precio por pieza se realiza con el siguiente calculo
+        </p>
+        <p>
+            (<strong>CantidadGramosPieza</strong> * <strong>PrecioKgMaterial</strong> + <strong>horas</strong> *
+            <strong>PrecioHora</strong>)* <strong>TasaDeFallo</strong>
+        </p>
+
+    </article>
+
+    <article class="my-2 col-12 col-md-6 col-xl-4">
+        <div>
+            <label for="precioHora" class="form-label fw-bold">Precio Hora</label>
+            <input type="number" id="precioHora" [(ngModel)]="preferencias.precioHora" class="form-control"
+                placeholder="0.3" aria-describedby="helpId">
+            <small id="helpId" class="text-muted">Precio hora incluyendo desgaste de maquina y electricidad</small>
+        </div>
+    </article>
+    <article class="my-2 col-12 col-md-6 col-xl-4">
+        <h3>
+            Cliente
+        </h3>
+        <div class="dropdown">
+            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                {{preferencias.idMaterialDefault}}
+            </button>
+            <ul class="dropdown-menu">
+                <li *ngFor="let material of materiales">
+                    <span class="dropdown-item"
+                        (click)="preferencias.idMaterialDefault = material.id">{{material.nombre}}</span>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <article id="gear" class="col-12 d-flex justify-content-end">
+        <loading-spinner [small]="true" [loading]="loading"></loading-spinner>
+
+        <button class="btn btn-success " (click)="updatePreferencias()">
+            Guardar Encargo
+        </button>
+
+    </article>
+</section>

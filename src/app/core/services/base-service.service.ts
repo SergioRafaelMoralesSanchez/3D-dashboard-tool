@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { DocumentData, DocumentReference, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
+import { DocumentData, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
 import { appFirebase } from "../../../main";
+import { Nullable } from "../../shared/models/helpers/Nullable.interface";
 import { Undefinable } from "../../shared/models/helpers/Undefinable.interface";
 import { LocalUser } from "../../shared/models/interfaces/auth/local-user.interface";
 import { AuthService } from "./auth.service";
-import { Nullable } from "../../shared/models/helpers/Nullable.interface";
 
 @Injectable()
 export class BaseService<T> {
@@ -15,6 +15,22 @@ export class BaseService<T> {
         this.db = getFirestore(appFirebase);
     }
 
+    async getFirst(): Promise<Undefinable<T>> {
+        const user: Nullable<LocalUser> = this.authService.getCurrentUser();
+
+        if (user) {
+            const q = query(collection(this.db, this.collectionName)
+                , where("userId", "==", user.uid)
+            );
+            const querySnapshot = await getDocs(q);
+            const data: T[] = querySnapshot.docs.map((d) => ({
+                ...d.data() as T,
+                id: d.id
+            }));
+            return data[0];
+        }
+        return undefined;
+    }
     async getAll(): Promise<T[]> {
         const user: Nullable<LocalUser> = this.authService.getCurrentUser();
 
@@ -61,12 +77,15 @@ export class BaseService<T> {
         }
     }
 
-    async addDoc(encargo: T): Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
+    async addDoc(encargo: T): Promise<T | undefined> {
         try {
             const docRef = await addDoc(collection(this.db, this.collectionName), encargo as DocumentData);
 
             console.log("Document written with ID: ", docRef.id);
-            return docRef;
+            return {
+                ...docRef as T,
+                id: docRef.id
+            };
         } catch (e) {
             console.error("Error adding document: ", e);
         }

@@ -32,16 +32,19 @@
                 <img title="Haz Click para editar" (click)="activarModoEdicion()" [src]="encargo.img"
                     class="rounded img-fluid img-thumbnail cursor-pointer " style="max-height: 200px" alt="">
                 <div *ngIf="isEditing" class="mt-2">
-                    <label for="urlImg" class="form-label fw-bold">Nombre Encargo</label>
+                    <label for="urlImg" class="form-label fw-bold">Url img</label>
                     <input [(ngModel)]="encargo.img" type="text" class="form-control" id="urlImg"
                         placeholder="Url Imagen">
                 </div>
             </div>
         </article>
+        <!-- Nombre y observaciones -->
         <article class="my-2 col-12 col-md-6 col-xl-4">
             <div>
                 <h3 *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
-                    {{encargo.nombre}}</h3>
+                    <span *ngIf="encargo.nombre.length>0">{{encargo.nombre}}</span>
+                    <span *ngIf="encargo.nombre.length===0">Nombre Encargo?</span>
+                </h3>
                 <div *ngIf="isEditing">
                     <label for="precioHora" class="form-label fw-bold">Nombre Encargo</label>
                     <input [(ngModel)]="encargo.nombre" type="text" class="form-control" placeholder="Nombre encargo">
@@ -59,6 +62,7 @@
                 </div>
             </div>
         </article>
+        <!-- CLIENTE -->
         <article class="my-2 col-12 col-md-6 col-xl-2">
             <h3>
                 Cliente
@@ -78,6 +82,7 @@
                 </ul>
             </div>
         </article>
+        <!-- Precio hora y estado -->
         <article class="my-2 col-12 col-md-6 col-xl-3">
             <div>
                 <label for="precioHora" class="form-label fw-bold">Precio Hora</label>
@@ -161,7 +166,7 @@
                                     <ul class="dropdown-menu">
                                         <li *ngFor="let estado of estadosPieza">
                                             <span class="dropdown-item"
-                                                (click)="pieza.estado = estado.key">{{estado.value}}</span>
+                                                (click)="cambiarEstadoPieza(pieza, estado.key)">{{estado.value}}</span>
                                         </li>
                                     </ul>
                                 </div>
