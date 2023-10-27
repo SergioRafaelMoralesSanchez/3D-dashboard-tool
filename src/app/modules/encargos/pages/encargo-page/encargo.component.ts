@@ -65,12 +65,29 @@ export class EncargoComponent implements OnInit {
         if (routes["id"]) {
             this.encargoId = routes['id'];
             await this.getStoredEncargo();
+            if (this.encargo?.nombre.length === 0) {
+                this.isEditing = true;
+            }
+
+        }
+    }
+
+    async cambiarEstadoPieza(pieza: Pieza, estado: number) {
+        if (this.encargo) {
+            pieza.estado = estado;
+            await this.uploadEncargo();
         }
     }
 
     async uploadEstadoEncargo(estadoKey: number) {
-        this.encargo!.estado = estadoKey;
-        await this.uploadEncargo();
+        if (this.encargo) {
+            this.encargo.estado = estadoKey;
+            this.encargo.piezas.forEach(pieza => pieza.estado = estadoKey);
+            if (EstadoEncargoEnum.Pagado === estadoKey) {
+                this.encargo?.piezas.map(pieza => pieza.estado = EstadoPiezaEnum.Impreso);
+            }
+            await this.uploadEncargo();
+        }
     }
 
     async activarModoEdicion() {
