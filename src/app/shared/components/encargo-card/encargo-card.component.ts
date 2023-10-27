@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Undefinable } from '../../models/helpers/Undefinable.interface';
 import { EncargoDto } from '../../models/interfaces/encargo.interface';
 import { EstadoPiezaEnum } from '../../models/interfaces/estado-pieza.enum';
@@ -13,35 +13,41 @@ import { EstadoPiezaEnum } from '../../models/interfaces/estado-pieza.enum';
     ],
     standalone: true
 })
-export class EncargoCardComponent implements OnInit {
+export class EncargoCardComponent {
 
     @Input()
     encargo: Undefinable<EncargoDto>;
 
-    ngOnInit(): void {
-        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-        //Add 'implements OnInit' to the class.
-   
-    }
-    getTotalHoras() {
-        let horasTotal = 0;
+    getTotalHorasTeminados() {
         if (this.encargo) {
-            this.encargo.piezas.forEach(pieza => {
-                horasTotal += pieza.horas;
-            });
+            return this.encargo.piezas.reduce(
+                (accumulator, pieza) => {
+                    if (pieza.estado === EstadoPiezaEnum.Impreso) accumulator += pieza.horas;
+                    return accumulator;
+                },
+                0
+            );
         }
-        return horasTotal;
+        return 0;
     }
 
-    getTotalHorasTeminados() {
-        let horasTotal = 0;
+    getTotalHoras() {
         if (this.encargo) {
-            this.encargo.piezas.forEach(pieza => {
-                if (pieza.estado === EstadoPiezaEnum.Impreso) {
-                    horasTotal += pieza.horas;
-                }
-            });
+            return this.encargo.piezas.reduce((accumulator, pieza) => accumulator + pieza.horas, 0);
         }
-        return horasTotal;
+        return 0;
+    }
+
+    getPiezasTerminadas() {
+        if (this.encargo) {
+            return this.encargo.piezas.reduce(
+                (accumulator, pieza) => {
+                    if (pieza.estado === EstadoPiezaEnum.Impreso) ++accumulator;
+                    return accumulator;
+                },
+                0
+            );
+        }
+        return 0;
     }
 }

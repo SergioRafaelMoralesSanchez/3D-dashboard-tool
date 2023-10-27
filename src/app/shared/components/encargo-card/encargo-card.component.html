@@ -1,6 +1,3 @@
-<!-- <pre>
-    {{encargo|json}}
-</pre> -->
 <div *ngIf="encargo" class="card" style="width: 18rem; min-height: 360px;">
     <img [src]="encargo.img" class="card-img-top" alt="">
     <div class="card-body">
@@ -12,8 +9,8 @@
                 </span>
             </div>
             <div class="col-6">
-                <span class="card-text"> 
-                    {{encargo.piezas.length}}/{{encargo.piezas.length}}
+                <span class="card-text">
+                    {{getPiezasTerminadas()}}/{{encargo.piezas.length}}
                 </span>
             </div>
         </div>
@@ -25,12 +22,12 @@
             </div>
             <div class="col-6">
                 <span class="card-text">
-                    {{getTotalHorasTeminados()}}/{{getTotalHoras()| number :"0.0-2"}} h
+                    {{getTotalHorasTeminados()| number :"0.0-2"}}/{{getTotalHoras()| number :"0.0-2"}} h
                 </span>
             </div>
         </div>
     </div>
-    <div class="card-footer">
+    <div class="card-footer d-flex justify-content-end">
         {{encargo.precioTotal | number :"0.0-2"}} €
     </div>
 </div>
