@@ -16,12 +16,20 @@
 
     </article>
 
-    <article class="my-2 col-12 col-md-6 col-xl-4">
+    <article class="my-2 col-12 col-md-6 col-xl-2">
         <div>
             <label for="precioHora" class="form-label fw-bold">Precio Hora</label>
             <input type="number" id="precioHora" [(ngModel)]="preferencias.precioHora" class="form-control"
-                placeholder="0.3" aria-describedby="helpId">
-            <small id="helpId" class="text-muted">Precio hora incluyendo desgaste de maquina y electricidad</small>
+                placeholder="0.3" aria-describedby="precioHora">
+            <small id="precioHora" class="text-muted">Precio hora incluyendo desgaste de maquina y electricidad</small>
+        </div>
+    </article>
+    <article class="my-2 col-12 col-md-6 col-xl-2">
+        <div>
+            <label for="iva" class="form-label fw-bold">IVA %</label>
+            <input type="number" id="iva" [(ngModel)]="preferencias.iva" class="form-control" placeholder="0.3"
+                aria-describedby="iva">
+            <small id="iva" class="text-muted">Dejar a 0 si no se quiere aplicar</small>
         </div>
     </article>
     <article class="my-2 col-12 col-md-6 col-xl-4">
@@ -31,12 +39,11 @@
         <div class="dropdown">
             <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                {{preferencias.idMaterialDefault}}
+                {{getMaterial(preferencias.idMaterialDefault).nombre}}
             </button>
             <ul class="dropdown-menu">
-                <li *ngFor="let material of materiales">
-                    <span class="dropdown-item"
-                        (click)="preferencias.idMaterialDefault = material.id">{{material.nombre}}</span>
+                <li *ngFor="let material of materiales" class="dropdown-item">
+                    <span (click)="preferencias.idMaterialDefault = material.id">{{material.nombre}}</span>
                 </li>
             </ul>
         </div>
@@ -45,7 +52,7 @@
         <loading-spinner [small]="true" [loading]="loading"></loading-spinner>
 
         <button class="btn btn-success " (click)="updatePreferencias()">
-            Guardar Encargo
+            Guardar Preferencias
         </button>
 
     </article>

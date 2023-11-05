@@ -84,7 +84,8 @@ export class EncargoComponent implements OnInit {
             this.encargo.estado = estadoKey;
             this.encargo.piezas.forEach(pieza => pieza.estado = estadoKey);
             if (EstadoEncargoEnum.Pagado === estadoKey) {
-                this.encargo?.piezas.map(pieza => pieza.estado = EstadoPiezaEnum.Impreso);
+                this.encargo.piezas.map(pieza => pieza.estado = EstadoPiezaEnum.Impreso);
+                this.encargo.fechaFinalizacion = new Date();
             }
             await this.uploadEncargo();
         }
@@ -256,6 +257,7 @@ export class EncargoComponent implements OnInit {
                     id: "",
                     fechaCreacion: this.encargo.fechaCreacion,
                     fechaFinalizacion: this.encargo.fechaFinalizacion,
+                    iva: 21,
                     nombre: this.encargo.nombre,
                     observaciones: this.encargo.observaciones,
                     piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
@@ -290,6 +292,7 @@ export class EncargoComponent implements OnInit {
                     id: "",
                     fechaCreacion: this.encargo.fechaCreacion,
                     fechaFinalizacion: this.encargo.fechaFinalizacion,
+                    iva: 21,
                     nombre: this.encargo.nombre,
                     observaciones: this.encargo.observaciones,
                     piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({

@@ -51,9 +51,9 @@ export class NuevaPiezaComponent {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     file_changed(event: any) {
         this.piezasNuevas = [];
-        const jamon = event as EventFile;
-        for (const file of jamon.target.files) {
-            //Jamon_40g_1h22m.gcode
+        const eventFile = event as EventFile;
+        for (const file of eventFile.target.files) {
+            //eventFile_40g_1h22m.gcode
             const [nombre, gramos, tiempo] = file.name.replace('.gcode', '').split('_');
             let hour = 0, min = 0, days = 0;
             const tiempoSplit = tiempo.replace("d", "_").replace("h", "_").replace("m", "").split("_");
@@ -126,4 +126,4 @@ interface FileGcode {
     size: number
     type: string
     webkitRelativePath: string
-} 
+}

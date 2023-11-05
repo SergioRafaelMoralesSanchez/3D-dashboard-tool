@@ -26,77 +26,89 @@
             </ul>
         </article>
     </aside>
-    <header class="row mb-3">
-        <article class="my-2 col-12 col-md-6 col-xl-3">
-            <div>
-                <img title="Haz Click para editar" (click)="activarModoEdicion()" [src]="encargo.img"
-                    class="rounded img-fluid img-thumbnail cursor-pointer " style="max-height: 200px" alt="">
-                <div *ngIf="isEditing" class="mt-2">
-                    <label for="urlImg" class="form-label fw-bold">Url img</label>
-                    <input [(ngModel)]="encargo.img" type="text" class="form-control" id="urlImg"
-                        placeholder="Url Imagen">
+    <header class="mb-3">
+        <section class="row">
+            <article class="my-2 col-12 col-md-6 col-xl-4">
+                <div>
+                    <img title="Haz Click para editar" (click)="activarModoEdicion()" [src]="encargo.img"
+                        class="rounded img-fluid img-thumbnail cursor-pointer " style="max-height: 200px" alt="">
+                    <div *ngIf="isEditing" class="mt-2">
+                        <label for="urlImg" class="form-label fw-bold">Url img</label>
+                        <input [(ngModel)]="encargo.img" type="text" class="form-control" id="urlImg"
+                            placeholder="Url Imagen">
+                    </div>
                 </div>
-            </div>
-        </article>
-        <!-- Nombre y observaciones -->
-        <article class="my-2 col-12 col-md-6 col-xl-4">
-            <div>
-                <h3 *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
-                    <span *ngIf="encargo.nombre.length>0">{{encargo.nombre}}</span>
-                    <span *ngIf="encargo.nombre.length===0">Nombre Encargo?</span>
+            </article>
+            <!-- Nombre y observaciones -->
+            <article class="my-2 col-12 col-md-6 col-xl-4">
+                <div>
+                    <h3 *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
+                        <span *ngIf="encargo.nombre.length>0">{{encargo.nombre}}</span>
+                        <span *ngIf="encargo.nombre.length===0">Nombre Encargo?</span>
+                    </h3>
+                    <div *ngIf="isEditing">
+                        <label for="precioHora" class="form-label fw-bold">Nombre Encargo</label>
+                        <input [(ngModel)]="encargo.nombre" type="text" class="form-control"
+                            placeholder="Nombre encargo">
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
+                        {{encargo.observaciones}}
+                    </p>
+                    <div class="form-floating" *ngIf="isEditing">
+                        <textarea *ngIf="isEditing" class="form-control" name="" id="observaciones"
+                            style="width: 100%; min-height: 150px;" placeholder="Fecha Fin, Pintar..."
+                            [(ngModel)]="encargo.observaciones"></textarea>
+                        <label for="observaciones">Observaciones</label>
+                    </div>
+                </div>
+            </article>
+            <!-- CLIENTE -->
+            <article class="my-2 col-12 col-md-6 col-xl-4">
+                <h3>
+                    Cliente
                 </h3>
-                <div *ngIf="isEditing">
-                    <label for="precioHora" class="form-label fw-bold">Nombre Encargo</label>
-                    <input [(ngModel)]="encargo.nombre" type="text" class="form-control" placeholder="Nombre encargo">
-                </div>
-            </div>
-            <div class="mt-2">
-                <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
-                    {{encargo.observaciones}}
-                </p>
-                <div class="form-floating" *ngIf="isEditing">
-                    <textarea *ngIf="isEditing" class="form-control" name="" id="observaciones"
-                        style="width: 100%; min-height: 150px;" placeholder="Fecha Fin, Pintar..."
-                        [(ngModel)]="encargo.observaciones"></textarea>
-                    <label for="observaciones">Observaciones</label>
-                </div>
-            </div>
-        </article>
-        <!-- CLIENTE -->
-        <article class="my-2 col-12 col-md-6 col-xl-2">
-            <h3>
-                Cliente
-            </h3>
-            <h5 *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
-                {{encargo.cliente.nombre}}
-            </h5>
-            <div *ngIf="isEditing" class="dropdown">
-                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                <h5 *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
                     {{encargo.cliente.nombre}}
-                </button>
-                <ul class="dropdown-menu">
-                    <li *ngFor="let cliente of clientes">
-                        <span class="dropdown-item" (click)="encargo.cliente = cliente">{{cliente.nombre}}</span>
-                    </li>
-                </ul>
-            </div>
-        </article>
-        <!-- Precio hora y estado -->
-        <article class="my-2 col-12 col-md-6 col-xl-3">
-            <div>
+                </h5>
+                <div *ngIf="isEditing" class="dropdown">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{encargo.cliente.nombre}}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let cliente of clientes">
+                            <span class="dropdown-item" (click)="encargo.cliente = cliente">{{cliente.nombre}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="row">
+            <article class=" col-12 col-md-2">
                 <label for="precioHora" class="form-label fw-bold">Precio Hora</label>
-                <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()"
-                    (click)="activarModoEdicion()">
+                <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
                     {{encargo.precioHora}} €
                 </p>
                 <input type=" number" id="precioHora" [(ngModel)]="encargo.precioHora" class="form-control"
-                    placeholder="0.3" aria-describedby="helpId" *ngIf="isEditing">
-                <small id="helpId" class="text-muted">
+                    placeholder="0.3" aria-describedby="precioHora" *ngIf="isEditing">
+                <small id="precioHora" class="text-muted">
                     (Precio hora incluyendo desgaste de maquina y electricidad)
                 </small>
-            </div>
-            <div class="mt-2">
+            </article>
+            <article class=" col-12 col-md-2">
+                <label for="iva" class="form-label fw-bold">IVA %</label>
+                <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
+                    {{encargo.iva}} %
+                </p>
+                <input type="number" id="iva" [(ngModel)]="encargo.iva" class="form-control" placeholder="21"
+                    aria-describedby="iva" *ngIf="isEditing">
+                <small id="iva" class="text-muted">Dejar a 0 si no se quiere aplicar</small>
+            </article>
+            <article class=" col-12 col-md-2">
                 <label for="estado" class="form-label fw-bold">Estado Encargo</label>
                 <div class="dropdown">
                     <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -104,15 +116,14 @@
                         {{estadosEncargoEnum[encargo.estado]}}
                     </button>
                     <ul class="dropdown-menu">
-                        <li *ngFor="let estado of estadosEncargo">
+                        <li *ngFor="let estado of estadosEncargo" class="cursor-pointer">
                             <span class="dropdown-item"
                                 (click)="uploadEstadoEncargo(estado.key)">{{estado.value}}</span>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </article>
-
+            </article>
+        </section>
         <article id="gear" *ngIf="isEditing" class="col-12 d-flex justify-content-end">
             <button class="btn btn-success" (click)="uploadEncargo()">
                 Guardar Encargo
@@ -235,10 +246,32 @@
                             </span>
                         </td>
                     </tr>
+                    <tr *ngIf="encargo.iva!==0">
+                        <th scope="col">TOTAL SIN IVA</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo()| number :"0.0-2" }} €
+                        </th>
+                    </tr>
                     <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr *ngIf="encargo.iva===0">
                         <th scope="col">TOTAL ENCARGO</th>
                         <th class="d-flex justify-content-end" scope="col">
                             {{totalEncargo()| number :"0.0-2" }} €
+                        </th>
+                    </tr>
+                    <tr *ngIf="encargo.iva!==0">
+                        <th scope="col">IVA {{encargo.iva}}%</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo() * encargo.iva/100| number :"0.0-2" }} €
+                        </th>
+                    </tr>
+                    <tr *ngIf="encargo.iva!==0">
+                        <th scope="col">TOTAL ENCARGO</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo() + totalEncargo() * encargo.iva/100| number :"0.0-2" }} €
                         </th>
                     </tr>
                 </tbody>

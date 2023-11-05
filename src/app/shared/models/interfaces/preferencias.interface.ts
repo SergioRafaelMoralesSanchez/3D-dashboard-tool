@@ -4,4 +4,5 @@ export interface Preferencias {
     calculoPrecio: string[]
     idMaterialDefault: string
     userId: string
+    iva: number
 }

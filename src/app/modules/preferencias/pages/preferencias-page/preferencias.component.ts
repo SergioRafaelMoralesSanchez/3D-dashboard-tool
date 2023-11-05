@@ -31,7 +31,10 @@ export class PreferenciasComponent implements OnInit {
         await this.getPreferencias();
         await this.getMateriales();
     }
-
+    
+    getMaterial(id: string): Material {
+        return this.materiales.find(material => material.id === id)!;
+    }
     async getMateriales() {
         try {
             this.materiales = await this.materialesService.getAll();
@@ -49,6 +52,7 @@ export class PreferenciasComponent implements OnInit {
                     precioHora: 0.3,
                     calculoPrecio: [],
                     idMaterialDefault: "",
+                    iva: 21,
                     userId: this.user.uid
                 };
                 await this.addPreferencias();
