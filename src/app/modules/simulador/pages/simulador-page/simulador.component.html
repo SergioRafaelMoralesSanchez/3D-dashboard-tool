@@ -24,6 +24,12 @@
                 aria-describedby="helpId">
             <small id="helpId" class="text-muted">Precio hora incluyendo desgaste de maquina y electricidad</small>
         </div>
+        <div class="mb-3 col-12 col-md-2">
+            <label for="iva" class="form-label fw-bold">IVA %</label>
+            <input type="number" id="iva" [(ngModel)]="encargo.iva" class="form-control" placeholder="21"
+            aria-describedby="helpId">
+            <small id="helpId" class="text-muted">Dejar a 0 si no se quiere aplicar</small>
+        </div>
     </article>
 </section>
 <main class="row">
@@ -127,10 +133,32 @@
                             </span>
                         </td>
                     </tr>
+                    <tr *ngIf="encargo.iva!==0">
+                        <th scope="col">TOTAL SIN IVA</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo()| number :"0.0-2" }} €
+                        </th>
+                    </tr>
                     <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr *ngIf="encargo.iva===0">
                         <th scope="col">TOTAL ENCARGO</th>
                         <th class="d-flex justify-content-end" scope="col">
                             {{totalEncargo()| number :"0.0-2" }} €
+                        </th>
+                    </tr>
+                    <tr *ngIf="encargo.iva!==0">
+                        <th scope="col">IVA {{encargo.iva}}%</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo() * encargo.iva/100| number :"0.0-2" }} €
+                        </th>
+                    </tr>
+                    <tr *ngIf="encargo.iva!==0">
+                        <th scope="col">TOTAL ENCARGO</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo() + totalEncargo() * encargo.iva/100| number :"0.0-2" }} €
                         </th>
                     </tr>
                 </tbody>

@@ -51,6 +51,7 @@ export class SimuladorComponent {
             id: "",
             fechaCreacion: null,
             fechaFinalizacion: null,
+            iva: 21,
             nombre: "",
             observaciones: "",
             piezas: [],

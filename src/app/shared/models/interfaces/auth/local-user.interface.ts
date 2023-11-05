@@ -1,5 +1,5 @@
 export interface LocalUser {
-  uid: string,
-  displayName: string,
-  photoURL: string,
+    uid: string,
+    displayName: string,
+    photoURL: string,
 }

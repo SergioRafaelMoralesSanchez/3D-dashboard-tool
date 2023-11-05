@@ -10,6 +10,7 @@ import { NuevaPiezaComponent } from './components/nueva-pieza/nueva-pieza.compon
 import { EncargosRoutingModule } from './encargos-routing.module';
 import { EncargoComponent } from './pages/encargo-page/encargo.component';
 import { EncargosComponent } from './pages/encargos-page/encargos.component';
+import { EncargosService } from "./services/encargos.service";
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { EncargosComponent } from './pages/encargos-page/encargos.component';
     ],
     providers: [
         MaterialesService,
+        EncargosService,
     ]
 })
 export class EncargosModule { }

@@ -7,6 +7,7 @@ import { ClientesService } from "../services/clientes.service";
 import { AuthService } from "../../../../core/services/auth.service";
 import { Router } from "@angular/router";
 import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
+import { PreferenciasService } from "../../../preferencias/services/materiales.service";
 
 @Component({
     selector: 'app-clientes',
@@ -26,6 +27,7 @@ export class ClientesComponent {
     constructor(
         private clientesService: ClientesService,
         private encargosService: EncargosService,
+        private preferenciasService: PreferenciasService,
         private router: Router,
         private authService: AuthService
     ) { }
@@ -111,22 +113,28 @@ export class ClientesComponent {
     }
 
     async nuevoEncargo(cliente: Cliente) {
-        const encargoDto: EncargoDto = {
-            "fechaCreacion": new Date(),
-            "precioHora": 0.3,
-            "gastosAdicionales": [],
-            "nombre": "",
-            "estado": 2,
-            "clienteId": cliente.id,
-            "precioTotal": 0,
-            "observaciones": "",
-            "piezas": [],
-            "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/3DBenchy.png/1024px-3DBenchy.png",
-            "fechaFinalizacion": null,
-            "id": "",
-            userId: this.authService.user?.uid ?? ""
-        };
-        const documentRef = await this.encargosService.addDoc(encargoDto);
-        if (documentRef) this.router.navigateByUrl("encargos/" + documentRef.id);
+        try {
+            const preferencias = await this.preferenciasService.getFirst();
+            const encargoDto: EncargoDto = {
+                fechaCreacion: new Date(),
+                iva:  preferencias?.iva ?? 21,
+                precioHora: preferencias?.precioHora ?? 0.3,
+                gastosAdicionales: [],
+                nombre: "",
+                estado: 2,
+                clienteId: cliente.id,
+                precioTotal: 0,
+                observaciones: "",
+                piezas: [],
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/3DBenchy.png/1024px-3DBenchy.png",
+                fechaFinalizacion: null,
+                id: "",
+                userId: this.authService.user?.uid ?? ""
+            };
+            const documentRef = await this.encargosService.addDoc(encargoDto);
+            if (documentRef) this.router.navigateByUrl("encargos/" + documentRef.id);
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

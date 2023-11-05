@@ -8,6 +8,7 @@ export interface Encargo {
     id: string
     fechaCreacion: Nullable<Date>
     fechaFinalizacion: Nullable<Date>
+    iva: number
     nombre: string
     observaciones?: string
     piezas: Pieza[]
@@ -23,6 +24,7 @@ export interface EncargoDto {
     id: string
     fechaCreacion: Nullable<Date>
     fechaFinalizacion: Nullable<Date>
+    iva: number
     nombre: string
     observaciones?: string
     piezas: PiezaDto[]

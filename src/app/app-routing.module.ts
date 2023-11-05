@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from "./core/guards/auth-guard.service";
 const routes: Routes = [
-    {
-        path: 'home',
-        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
-    },
+    // {
+    //     path: 'home',
+    //     loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
+    // },
     {
         path: 'materiales',
         loadChildren: () => import('./modules/materiales/materiales.module').then(m => m.MaterialesModule),
@@ -33,7 +33,7 @@ const routes: Routes = [
         path: 'preferencias',
         loadChildren: () => import('./modules/preferencias/preferencias.module').then(m => m.PreferenciasModule)
     },
-    { path: '**', redirectTo: 'home' },
+    { path: '**', redirectTo: 'simulador' },
 ];
 
 @NgModule({
