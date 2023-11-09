@@ -7,6 +7,7 @@ import { SharedModule } from "../../shared/components/shared.module";
 import { NuevoClienteComponent } from "./components/nuevo-cliente/nuevo-cliente.component";
 import { FormsModule } from "@angular/forms";
 import { ClientesService } from "./pages/services/clientes.service";
+import { PreferenciasService } from "../preferencias/services/materiales.service";
 
 @NgModule({
     declarations: [
@@ -19,6 +20,9 @@ import { ClientesService } from "./pages/services/clientes.service";
         ClientesRoutingModule,
         SharedModule
     ],
-    providers: [ClientesService]
+    providers: [
+        ClientesService,
+        PreferenciasService
+    ]
 })
 export class ClientesModule { }

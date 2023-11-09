@@ -28,8 +28,8 @@ export class PreferenciasComponent implements OnInit {
 
     }
     async ngOnInit(): Promise<void> {
-        await this.getPreferencias();
         await this.getMateriales();
+        await this.getPreferencias();
     }
     
     getMaterial(id: string): Material {

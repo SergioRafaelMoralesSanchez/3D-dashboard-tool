@@ -1,6 +1,5 @@
-<loading-spinner [loading]="!preferencias"></loading-spinner>
-
-<section class="row" *ngIf="preferencias">
+<loading-spinner [loading]="preferencias===undefined"></loading-spinner>
+<section class="row" *ngIf="preferencias !==undefined">
 
     <article class="my-2 col-12 col-md-6 col-xl-4">
         <header>
@@ -34,9 +33,9 @@
     </article>
     <article class="my-2 col-12 col-md-6 col-xl-4">
         <h3>
-            Cliente
+            Material Predefinido
         </h3>
-        <div class="dropdown">
+        <div class="dropdown" *ngIf="materiales">
             <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 {{getMaterial(preferencias.idMaterialDefault).nombre}}
