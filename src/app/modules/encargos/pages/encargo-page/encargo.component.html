@@ -35,7 +35,7 @@
                     <div *ngIf="isEditing" class="mt-2">
                         <label for="urlImg" class="form-label fw-bold">Url img</label>
                         <input [(ngModel)]="encargo.img" type="text" class="form-control" id="urlImg"
-                            placeholder="Url Imagen">
+                            placeholder="Url Imagen" (keyup.enter)="uploadEncargo()">
                     </div>
                 </div>
             </article>
@@ -49,7 +49,7 @@
                     <div *ngIf="isEditing">
                         <label for="precioHora" class="form-label fw-bold">Nombre Encargo</label>
                         <input [(ngModel)]="encargo.nombre" type="text" class="form-control"
-                            placeholder="Nombre encargo">
+                            placeholder="Nombre encargo" (keyup.enter)="uploadEncargo()">
                     </div>
                 </div>
                 <div class="mt-2">
@@ -94,7 +94,7 @@
                     {{encargo.precioHora}} €
                 </p>
                 <input type=" number" id="precioHora" [(ngModel)]="encargo.precioHora" class="form-control"
-                    placeholder="0.3" aria-describedby="precioHora" *ngIf="isEditing">
+                    placeholder="0.3" aria-describedby="precioHora" *ngIf="isEditing" (keyup.enter)="uploadEncargo()">
                 <small id="precioHora" class="text-muted">
                     (Precio hora incluyendo desgaste de maquina y electricidad)
                 </small>
@@ -105,7 +105,7 @@
                     {{encargo.iva}} %
                 </p>
                 <input type="number" id="iva" [(ngModel)]="encargo.iva" class="form-control" placeholder="21"
-                    aria-describedby="iva" *ngIf="isEditing">
+                    aria-describedby="iva" *ngIf="isEditing" (keyup.enter)="uploadEncargo()">
                 <small id="iva" class="text-muted">Dejar a 0 si no se quiere aplicar</small>
             </article>
             <article class=" col-12 col-md-2">
@@ -305,6 +305,6 @@
 </div>
 
 <app-nueva-pieza [(encargo)]="encargo" [materiales]="materiales" [piezasNuevas]="piezasNuevas" [indiceEdit]="indiceEdit"
-    (uploadEncargo)="uploadEncargo()"></app-nueva-pieza>
+    [materialDefault]="materialDefault" (uploadEncargo)="uploadEncargo()"></app-nueva-pieza>
 
 <app-gasto-adicional (uploadEncargo)="uploadEncargo()" [(encargo)]="encargo"></app-gasto-adicional>

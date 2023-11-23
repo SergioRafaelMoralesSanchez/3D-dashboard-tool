@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Preferencias } from "../../../../shared/models/interfaces/preferencias.interface";
-import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { AuthService } from "../../../../core/services/auth.service";
-import { PreferenciasService } from "../../services/materiales.service";
-import { Material } from "../../../../shared/models/interfaces/material.interface";
-import { MaterialesService } from "../../../materiales/pages/services/materiales.service";
+import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { LocalUser } from "../../../../shared/models/interfaces/auth/local-user.interface";
+import { Material } from "../../../../shared/models/interfaces/material.interface";
+import { Preferencias } from "../../../../shared/models/interfaces/preferencias.interface";
+import { MaterialesService } from "../../../materiales/pages/services/materiales.service";
+import { PreferenciasService } from "../../services/materiales.service";
 
 @Component({
     selector: 'app-preferencias',
@@ -31,10 +31,11 @@ export class PreferenciasComponent implements OnInit {
         await this.getMateriales();
         await this.getPreferencias();
     }
-    
+
     getMaterial(id: string): Material {
         return this.materiales.find(material => material.id === id)!;
     }
+
     async getMateriales() {
         try {
             this.materiales = await this.materialesService.getAll();

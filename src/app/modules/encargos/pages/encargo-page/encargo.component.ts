@@ -9,10 +9,12 @@ import { Material } from 'src/app/shared/models/interfaces/material.interface';
 import { Pieza, PiezaDto } from 'src/app/shared/models/interfaces/pieza.interface';
 import { AuthService } from "../../../../core/services/auth.service";
 import { LocalUser } from "../../../../shared/models/interfaces/auth/local-user.interface";
-import { ClientesService } from "../../../clientes/pages/services/clientes.service";
-import { MaterialesService } from "../../../materiales/pages/services/materiales.service";
 import { Cliente } from "../../../../shared/models/interfaces/cliente.interface";
 import { EstadoEncargoEnum } from "../../../../shared/models/interfaces/estado-encargo.enum";
+import { Preferencias } from "../../../../shared/models/interfaces/preferencias.interface";
+import { ClientesService } from "../../../clientes/pages/services/clientes.service";
+import { MaterialesService } from "../../../materiales/pages/services/materiales.service";
+import { PreferenciasService } from "../../../preferencias/services/materiales.service";
 
 @Component({
     selector: 'app-encargo',
@@ -24,6 +26,9 @@ export class EncargoComponent implements OnInit {
     encargo: Undefinable<Encargo>;
     materialesMapped: Map<string, Material> = new Map();
     materiales: Material[] = [];
+
+    preferencias: Undefinable<Preferencias>;
+    materialDefault: Undefinable<Material>;
 
     estadosEncargoEnum = EstadoEncargoEnum;
     estadosEncargo = [
@@ -56,7 +61,8 @@ export class EncargoComponent implements OnInit {
         private clientesService: ClientesService,
         private materialesService: MaterialesService,
         private router: Router,
-        private authService: AuthService
+        private authService: AuthService,
+        private preferenciasService: PreferenciasService
     ) {
         this.user = this.authService.getCurrentUser()!;
     }
@@ -68,8 +74,8 @@ export class EncargoComponent implements OnInit {
             if (this.encargo?.nombre.length === 0) {
                 this.isEditing = true;
             }
-
         }
+        this.preferencias = await this.preferenciasService.getFirst();
     }
 
     async cambiarEstadoPieza(pieza: Pieza, estado: number) {
@@ -116,6 +122,7 @@ export class EncargoComponent implements OnInit {
                         userId: material.userId,
                         tasaFallo: material.tasaFallo,
                     }));
+                    console.log(this.encargo);
                     if (cliente && this.materiales) {
                         this.encargo = {
                             ...encargoDto,
@@ -228,16 +235,21 @@ export class EncargoComponent implements OnInit {
             this.piezasNuevas = [{ ...this.encargo.piezas[this.indiceEdit] }];
         } else {
             this.indiceEdit = undefined;
-            this.piezasNuevas = [
-                {
-                    nombre: "",
-                    horas: 0,
-                    gramos: 0,
-                    estado: EstadoPiezaEnum.Esperando,
-                    cantidad: 1,
-                    material: this.materiales[0]
-                }
-            ];
+
+            if (this.preferencias) {
+                this.materialDefault = this.getMaterial(this.preferencias.idMaterialDefault);
+
+                this.piezasNuevas.push(
+                    {
+                        nombre: "",
+                        horas: 0,
+                        gramos: 0,
+                        estado: EstadoPiezaEnum.Esperando,
+                        cantidad: 1,
+                        material: this.materialDefault
+                    }
+                );
+            }
         }
     }
 
@@ -250,39 +262,6 @@ export class EncargoComponent implements OnInit {
         await this.uploadEncargo();
     }
 
-    async addEncargo() {
-        try {
-            if (this.encargo) {
-                const encargoDto: EncargoDto = {
-                    id: "",
-                    fechaCreacion: this.encargo.fechaCreacion,
-                    fechaFinalizacion: this.encargo.fechaFinalizacion,
-                    iva: 21,
-                    nombre: this.encargo.nombre,
-                    observaciones: this.encargo.observaciones,
-                    piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
-                        nombre: pieza.nombre,
-                        materialId: pieza.material.id,
-                        horas: pieza.horas,
-                        gramos: pieza.gramos,
-                        cantidad: pieza.cantidad,
-                        estado: pieza.estado,
-                    })),
-                    clienteId: this.encargo.cliente.id,
-                    precioHora: this.encargo.precioHora,
-                    gastosAdicionales: this.encargo.gastosAdicionales,
-                    precioTotal: this.encargo.precioTotal,
-                    img: this.encargo.img,
-                    estado: this.encargo.estado,
-                    userId: this.user.uid
-                };
-                await this.encargosService.addDoc(encargoDto);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-
-    }
     async uploadEncargo() {
         try {
 
@@ -292,7 +271,7 @@ export class EncargoComponent implements OnInit {
                     id: "",
                     fechaCreacion: this.encargo.fechaCreacion,
                     fechaFinalizacion: this.encargo.fechaFinalizacion,
-                    iva: 21,
+                    iva: this.encargo.iva,
                     nombre: this.encargo.nombre,
                     observaciones: this.encargo.observaciones,
                     piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
@@ -327,5 +306,9 @@ export class EncargoComponent implements OnInit {
             console.error(error);
         }
 
+    }
+
+    getMaterial(id: string): Material {
+        return this.materiales.find(material => material.id === id)!;
     }
 }

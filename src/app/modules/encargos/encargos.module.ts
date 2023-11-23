@@ -11,6 +11,7 @@ import { EncargosRoutingModule } from './encargos-routing.module';
 import { EncargoComponent } from './pages/encargo-page/encargo.component';
 import { EncargosComponent } from './pages/encargos-page/encargos.component';
 import { EncargosService } from "./services/encargos.service";
+import { PreferenciasService } from "../preferencias/services/materiales.service";
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { EncargosService } from "./services/encargos.service";
     providers: [
         MaterialesService,
         EncargosService,
+        PreferenciasService
     ]
 })
 export class EncargosModule { }

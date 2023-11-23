@@ -12,9 +12,11 @@ import { Pieza } from "../../../../shared/models/interfaces/pieza.interface";
 })
 export class NuevaPiezaComponent {
 
-    constructor() { }
     @Input()
     materiales: Material[] = [];
+
+    @Input()
+    materialDefault: Undefinable<Material> = this.materiales[0];
 
     @Input()
     piezasNuevas: Pieza[] = [];
@@ -36,45 +38,50 @@ export class NuevaPiezaComponent {
         navigator.clipboard.writeText(value);
     }
     addPiezaNueva() {
-        this.piezasNuevas.push(
-            {
-                nombre: "",
-                horas: 0,
-                gramos: 0,
-                estado: EstadoPiezaEnum.Esperando,
-                cantidad: 1,
-                material: this.materiales[0]
-            }
-        );
+        if (this.materialDefault) {
+
+            this.piezasNuevas.push(
+                {
+                    nombre: "",
+                    horas: 0,
+                    gramos: 0,
+                    estado: EstadoPiezaEnum.Esperando,
+                    cantidad: 1,
+                    material: this.materialDefault
+                }
+            );
+        }
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     file_changed(event: any) {
-        this.piezasNuevas = [];
-        const eventFile = event as EventFile;
-        for (const file of eventFile.target.files) {
-            //eventFile_40g_1h22m.gcode
-            const [nombre, gramos, tiempo] = file.name.replace('.gcode', '').split('_');
-            let hour = 0, min = 0, days = 0;
-            const tiempoSplit = tiempo.replace("d", "_").replace("h", "_").replace("m", "").split("_");
-            if (tiempo.includes("d")) {
-                days = Number(tiempoSplit[0]);
-                hour = Number(tiempoSplit[1]);
-                min = Number(tiempoSplit[2]);
-            } else if (tiempo.includes("h")) {
-                hour = Number(tiempoSplit[0]);
-                min = Number(tiempoSplit[1]);
-            } else {
-                min = Number(tiempoSplit[0]);
+        if (this.materialDefault) {
+            this.piezasNuevas = [];
+            const eventFile = event as EventFile;
+            for (const file of eventFile.target.files) {
+                //eventFile_40g_1h22m.gcode
+                const [nombre, gramos, tiempo] = file.name.replace('.gcode', '').split('_');
+                let hour = 0, min = 0, days = 0;
+                const tiempoSplit = tiempo.replace("d", "_").replace("h", "_").replace("m", "").split("_");
+                if (tiempo.includes("d")) {
+                    days = Number(tiempoSplit[0]);
+                    hour = Number(tiempoSplit[1]);
+                    min = Number(tiempoSplit[2]);
+                } else if (tiempo.includes("h")) {
+                    hour = Number(tiempoSplit[0]);
+                    min = Number(tiempoSplit[1]);
+                } else {
+                    min = Number(tiempoSplit[0]);
+                }
+                this.piezasNuevas.push({
+                    nombre,
+                    horas: Number((days * 24 + hour + min / 60).toFixed(2)),
+                    gramos: Number(gramos.replace('g', '')),
+                    material: this.materialDefault,
+                    cantidad: 1,
+                    estado: EstadoPiezaEnum.Esperando
+                });
             }
-            this.piezasNuevas.push({
-                nombre,
-                horas: Number((days * 24 + hour + min / 60).toFixed(2)),
-                gramos: Number(gramos.replace('g', '')),
-                material: this.materiales[0],
-                cantidad: 1,
-                estado: EstadoPiezaEnum.Esperando
-            });
         }
     }
 
