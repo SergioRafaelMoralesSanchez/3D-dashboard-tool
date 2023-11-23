@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-12 col-xl-2">
                                 <label for="gramos" class="form-label">Material</label>
-                                <select class="form-control" name="materialId"
+                                <select class="form-control" name="materialId" [(ngModel)]="pieza.material.id"
                                     (change)="cambioMaterialPieza(pieza,matSelect.value)" #matSelect>
                                     <option *ngFor="let material of materiales" [value]="material.id">
                                         {{material.nombre}} - {{material.precioKg}} €
