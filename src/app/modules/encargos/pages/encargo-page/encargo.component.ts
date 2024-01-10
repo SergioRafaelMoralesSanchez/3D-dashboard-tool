@@ -122,10 +122,11 @@ export class EncargoComponent implements OnInit {
                         userId: material.userId,
                         tasaFallo: material.tasaFallo,
                     }));
-                    console.log(this.encargo);
                     if (cliente && this.materiales) {
                         this.encargo = {
                             ...encargoDto,
+                            dineroAdelantado: encargoDto.dineroAdelantado ?? 0,
+                            iva: encargoDto.iva ?? this.preferencias?.iva ?? 0,
                             id: encargoDto.id,
                             piezas: this.regeneratePiezas(encargoDto, this.materialesMapped),
                             cliente,
@@ -288,7 +289,8 @@ export class EncargoComponent implements OnInit {
                     precioTotal: this.encargo.precioTotal,
                     img: this.encargo.img,
                     estado: this.encargo.estado,
-                    userId: this.user.uid
+                    userId: this.user.uid,
+                    dineroAdelantado: this.encargo.dineroAdelantado,
                 };
                 await this.encargosService.updateDoc(this.encargo.id, encargoDto);
             }

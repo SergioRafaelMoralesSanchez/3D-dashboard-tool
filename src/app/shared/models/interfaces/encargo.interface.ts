@@ -18,6 +18,7 @@ export interface Encargo {
     precioTotal: number
     img: string
     estado: EstadoEncargoEnum
+    dineroAdelantado: number
 
 }
 export interface EncargoDto {
@@ -35,4 +36,5 @@ export interface EncargoDto {
     img: string
     estado: EstadoEncargoEnum
     userId: string
+    dineroAdelantado: number
 }

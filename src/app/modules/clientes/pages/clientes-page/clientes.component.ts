@@ -117,7 +117,7 @@ export class ClientesComponent {
             const preferencias = await this.preferenciasService.getFirst();
             const encargoDto: EncargoDto = {
                 fechaCreacion: new Date(),
-                iva:  preferencias?.iva ?? 21,
+                iva: preferencias?.iva ?? 21,
                 precioHora: preferencias?.precioHora ?? 0.3,
                 gastosAdicionales: [],
                 nombre: "",
@@ -129,7 +129,8 @@ export class ClientesComponent {
                 img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/3DBenchy.png/1024px-3DBenchy.png",
                 fechaFinalizacion: null,
                 id: "",
-                userId: this.authService.user?.uid ?? ""
+                userId: this.authService.user?.uid ?? "",
+                dineroAdelantado: 0
             };
             const documentRef = await this.encargosService.addDoc(encargoDto);
             if (documentRef) this.router.navigateByUrl("encargos/" + documentRef.id);

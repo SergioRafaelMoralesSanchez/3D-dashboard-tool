@@ -28,7 +28,7 @@
     </aside>
     <header class="mb-3">
         <section class="row">
-            <article class="my-2 col-12 col-md-6 col-xl-4">
+            <article class="my-2 col-12 col-md-6 col-xl-2">
                 <div>
                     <img title="Haz Click para editar" (click)="activarModoEdicion()" [src]="encargo.img"
                         class="rounded img-fluid img-thumbnail cursor-pointer " style="max-height: 200px" alt="">
@@ -40,7 +40,7 @@
                 </div>
             </article>
             <!-- Nombre y observaciones -->
-            <article class="my-2 col-12 col-md-6 col-xl-4">
+            <article class="my-2 col-12 col-md-6 col-xl-5">
                 <div>
                     <h3 *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
                         <span *ngIf="encargo.nombre.length>0">{{encargo.nombre}}</span>
@@ -65,7 +65,7 @@
                 </div>
             </article>
             <!-- CLIENTE -->
-            <article class="my-2 col-12 col-md-6 col-xl-4">
+            <article class="my-2 col-12 col-md-6 col-xl-5">
                 <h3>
                     Cliente
                 </h3>
@@ -104,9 +104,18 @@
                 <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
                     {{encargo.iva}} %
                 </p>
-                <input type="number" id="iva" [(ngModel)]="encargo.iva" class="form-control" placeholder="21"
+                <input type="number" id="iva" [(ngModel)]="encargo.iva" class="form-control" placeholder="21 %"
                     aria-describedby="iva" *ngIf="isEditing" (keyup.enter)="uploadEncargo()">
                 <small id="iva" class="text-muted">Dejar a 0 si no se quiere aplicar</small>
+            </article>
+            <article class=" col-12 col-md-2">
+                <label for="dineroAdelantado" class="form-label fw-bold">Dinero Adelantado</label>
+                <p *ngIf="!isEditing" title="Haz Click para editar" (click)="activarModoEdicion()">
+                    {{encargo.dineroAdelantado}} €
+                </p>
+                <input type="number" id="dineroAdelantado" [(ngModel)]="encargo.dineroAdelantado" class="form-control"
+                    placeholder="" aria-describedby="dineroAdelantado" *ngIf="isEditing"
+                    (keyup.enter)="uploadEncargo()">
             </article>
             <article class=" col-12 col-md-2">
                 <label for="estado" class="form-label fw-bold">Estado Encargo</label>
@@ -262,6 +271,12 @@
                             {{totalEncargo()| number :"0.0-2" }} €
                         </th>
                     </tr>
+                    <tr *ngIf="encargo.iva===0 && encargo.dineroAdelantado!==0">
+                        <th scope="col">TOTAL RESTANTE</th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo() - encargo.dineroAdelantado| number :"0.0-2" }} €
+                        </th>
+                    </tr>
                     <tr *ngIf="encargo.iva!==0">
                         <th scope="col">IVA {{encargo.iva}}%</th>
                         <th class="d-flex justify-content-end" scope="col">
@@ -272,6 +287,13 @@
                         <th scope="col">TOTAL ENCARGO</th>
                         <th class="d-flex justify-content-end" scope="col">
                             {{totalEncargo() + totalEncargo() * encargo.iva/100| number :"0.0-2" }} €
+                        </th>
+                    </tr>
+                    <tr *ngIf="encargo.iva!==0 && encargo.dineroAdelantado!==0">
+                        <th scope="col">DINERO RESTANTE </th>
+                        <th class="d-flex justify-content-end" scope="col">
+                            {{totalEncargo() + totalEncargo() * encargo.iva/100 - encargo.dineroAdelantado | number
+                            :"0.0-2" }} €
                         </th>
                     </tr>
                 </tbody>

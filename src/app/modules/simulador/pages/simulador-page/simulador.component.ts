@@ -63,6 +63,7 @@ export class SimuladorComponent {
             precioHora: 0.3,
             gastosAdicionales: [],
             precioTotal: 0,
+            dineroAdelantado: 0,
             img: "",
             estado: EstadoEncargoEnum.EnProceso,
         } as Encargo;

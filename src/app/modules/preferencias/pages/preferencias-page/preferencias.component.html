@@ -26,7 +26,7 @@
     <article class="my-2 col-12 col-md-6 col-xl-2">
         <div>
             <label for="iva" class="form-label fw-bold">IVA %</label>
-            <input type="number" id="iva" [(ngModel)]="preferencias.iva" class="form-control" placeholder="0.3"
+            <input type="number" id="iva" [(ngModel)]="preferencias.iva" class="form-control" placeholder="21"
                 aria-describedby="iva">
             <small id="iva" class="text-muted">Dejar a 0 si no se quiere aplicar</small>
         </div>
@@ -35,16 +35,25 @@
         <h3>
             Material Predefinido
         </h3>
-        <div class="dropdown" *ngIf="materiales">
+        <div class="dropdown" *ngIf="materiales.length>0">
             <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                {{getMaterial(preferencias.idMaterialDefault).nombre}}
+                <span *ngIf="preferencias.idMaterialDefault">
+                    {{getMaterial(preferencias.idMaterialDefault).nombre}}
+                </span>
+                <span *ngIf="!preferencias.idMaterialDefault">
+                    Selecciona un mateial predefinido
+                </span>
             </button>
             <ul class="dropdown-menu">
-                <li *ngFor="let material of materiales" class="dropdown-item">
-                    <span (click)="preferencias.idMaterialDefault = material.id">{{material.nombre}}</span>
+                <li *ngFor="let material of materiales" class="dropdown-item cursor-pointer"
+                    (click)="preferencias.idMaterialDefault = material.id">
+                    <span>{{material.nombre}}</span>
                 </li>
             </ul>
+        </div>
+        <div class="dropdown" *ngIf="materiales.length===0">
+            <small class="text-danger">Debes de añadir primero algun Manterial</small>
         </div>
     </article>
     <article id="gear" class="col-12 d-flex justify-content-end">

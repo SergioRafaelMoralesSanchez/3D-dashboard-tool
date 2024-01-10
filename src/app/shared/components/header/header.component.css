@@ -1,0 +1,12 @@
+.navbar {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between; 
+}
+
+
+@media (max-width: 575px) {
+    .navbar { 
+        align-items: flex-start;
+    }
+  }
