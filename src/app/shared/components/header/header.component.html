@@ -1,8 +1,6 @@
 <div class="mb-3">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <!-- Container wrapper -->
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <div>
             <!-- Toggle button -->
             <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -10,17 +8,12 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Collapsible wrapper -->
             <div class="collapse navbar-collapse mt-2" id="navbarNav">
-                <!-- Navbar brand -->
                 <a class="navbar-brand mt-2 mt-lg-0">
-                    <img [routerLink]="['/simulador']" class="cursor-pointer" [src]="'assets/img/logo.png'" height="35" alt="3D Dashboard Tool Logo" loading="lazy" />
+                    <img class="cursor-pointer" [src]="'assets/img/logo.png'" height="40" alt="3D Dashboard Tool Logo"
+                        loading="lazy" />
                 </a>
-                <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!-- <li class="nav-item">
-                        <a [routerLink]="['/home']" class="nav-link">Inicio</a>
-                    </li> -->
                     <li class="nav-item">
                         <a [routerLink]="['/simulador']" class="nav-link">Simulador</a>
                     </li>
@@ -38,32 +31,26 @@
                     </li>
 
                 </ul>
-                <!-- Left links -->
             </div>
-            <!-- Collapsible wrapper -->
-
-            <!-- Right elements -->
-            <div class="d-flex align-items-center">
-
-                <!-- Avatar -->
-                <div class="dropdown" *ngIf="user">
-                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" id="navbarDropdownMenuAvatar"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img [src]="user.photoURL" class="rounded-circle" height="25" alt="user Img" loading="lazy" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                        <li>
-                            <a class="dropdown-item" [routerLink]="['/preferencias']">Preferencias</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" (click)="signOut()">LogOut</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- Right elements -->
+   
         </div>
-        <!-- Container wrapper -->
+        <div class="d-flex align-items-center">
+            <!-- Avatar -->
+            <div class="dropdown" *ngIf="user" style="padding: 10px;">
+                <a class="dropdown-toggle d-flex align-items-center hidden-arrow" id="navbarDropdownMenuAvatar"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img [src]="user.photoURL" class="rounded-circle" height="25" alt="user Img" loading="lazy" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                    <li>
+                        <a class="dropdown-item" [routerLink]="['/preferencias']">Preferencias</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" (click)="signOut()">LogOut</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
 
 </div>
