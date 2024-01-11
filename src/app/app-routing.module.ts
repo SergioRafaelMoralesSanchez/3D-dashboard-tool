@@ -33,6 +33,10 @@ const routes: Routes = [
         path: 'preferencias',
         loadChildren: () => import('./modules/preferencias/preferencias.module').then(m => m.PreferenciasModule)
     },
+    {
+        path: 'sugerencias',
+        loadChildren: () => import('./modules/sugerencias/sugerencias.module').then(m => m.SugerenciasModule)
+    },
     { path: '**', redirectTo: 'simulador' },
 ];
 

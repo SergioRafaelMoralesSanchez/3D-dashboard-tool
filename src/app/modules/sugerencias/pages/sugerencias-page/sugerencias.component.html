@@ -1,0 +1,48 @@
+<div class="container">
+    <form [formGroup]="sugerenciaForm" (ngSubmit)="sentSugenrencia()">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Tu nombre *</label>
+            <input type="text" formControlName="nombre" class="form-control" id="nombre" placeholder="">
+            <div
+                *ngIf="sugerenciaForm.controls['nombre'].invalid && (sugerenciaForm.controls['nombre'].dirty || sugerenciaForm.controls['nombre'].touched)">
+                <small class="text-danger"
+                    *ngIf="sugerenciaForm.controls['nombre'].errors && sugerenciaForm.controls['nombre'].errors['required']">
+                    EL nombre es requerido
+                </small>
+            </div>
+        </div>
+        <div class="col-auto">
+            <label for="email" class="form-label">Email *</label>
+            <input type="text" formControlName="email" class="form-control" id="email">
+            <div
+                *ngIf="sugerenciaForm.controls['email'].invalid && (sugerenciaForm.controls['email'].dirty || sugerenciaForm.controls['email'].touched)">
+                <small class="text-danger"
+                    *ngIf="sugerenciaForm.controls['email'].errors && sugerenciaForm.controls['email'].errors['required']">
+                    El Email es requerido
+                </small>
+                <small class="text-danger"
+                    *ngIf="sugerenciaForm.controls['email'].errors && sugerenciaForm.controls['email'].errors['email']">
+                    El Email debe de ser valido
+                </small>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="sugerenciaTextArea" class="form-label">Sugerencia *</label>
+            <textarea formControlName="sugerencia" class="form-control" id="sugerenciaTextArea" rows="5"></textarea>
+            <div
+                *ngIf="sugerenciaForm.controls['sugerencia'].invalid && (sugerenciaForm.controls['sugerencia'].dirty || sugerenciaForm.controls['sugerencia'].touched)">
+                <small class="text-danger"
+                    *ngIf="sugerenciaForm.controls['sugerencia'].errors && sugerenciaForm.controls['sugerencia'].errors['required']">
+                    Debe de escribir la sugerencia
+                </small>
+            </div>
+        </div>
+        <div class="mb-3">
+            <button type="submit" [disabled]="!sugerenciaForm.valid" class="btn btn-success mb-3"
+                (click)="sentSugenrencia()">Enviar</button>
+        </div>
+    </form>
+    <div class="alert alert-success" role="alert" *ngIf="enviado">
+        Se ha Enviado tu sugerencia, gracias!
+    </div>
+</div>
