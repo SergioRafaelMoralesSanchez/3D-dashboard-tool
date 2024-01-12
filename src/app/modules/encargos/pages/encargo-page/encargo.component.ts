@@ -15,6 +15,7 @@ import { Preferencias } from "../../../../shared/models/interfaces/preferencias.
 import { ClientesService } from "../../../clientes/pages/services/clientes.service";
 import { MaterialesService } from "../../../materiales/pages/services/materiales.service";
 import { PreferenciasService } from "../../../preferencias/services/materiales.service";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
     selector: 'app-encargo',
@@ -22,6 +23,13 @@ import { PreferenciasService } from "../../../preferencias/services/materiales.s
     styleUrls: ['./encargo.component.css']
 })
 export class EncargoComponent implements OnInit {
+
+    encargoForm: FormGroup = new FormGroup({
+        nombre: new FormControl("", {
+            validators: Validators.required
+        })
+    });
+
     encargoId: Undefinable<string>;
     encargo: Undefinable<Encargo>;
     materialesMapped: Map<string, Material> = new Map();
@@ -131,6 +139,9 @@ export class EncargoComponent implements OnInit {
                             piezas: this.regeneratePiezas(encargoDto, this.materialesMapped),
                             cliente,
                         };
+                        this.encargoForm.setValue({
+                            nombre: encargoDto.nombre
+                        });
                     }
                 }
             }
@@ -264,38 +275,41 @@ export class EncargoComponent implements OnInit {
     }
 
     async uploadEncargo() {
-        try {
-
-            this.isEditing = false;
-            if (this.encargo) {
-                const encargoDto: EncargoDto = {
-                    id: "",
-                    fechaCreacion: this.encargo.fechaCreacion,
-                    fechaFinalizacion: this.encargo.fechaFinalizacion,
-                    iva: this.encargo.iva,
-                    nombre: this.encargo.nombre,
-                    observaciones: this.encargo.observaciones,
-                    piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
-                        nombre: pieza.nombre,
-                        materialId: pieza.material.id,
-                        horas: pieza.horas,
-                        gramos: pieza.gramos,
-                        cantidad: pieza.cantidad,
-                        estado: pieza.estado,
-                    })),
-                    clienteId: this.encargo.cliente.id,
-                    precioHora: this.encargo.precioHora,
-                    gastosAdicionales: this.encargo.gastosAdicionales,
-                    precioTotal: this.encargo.precioTotal,
-                    img: this.encargo.img,
-                    estado: this.encargo.estado,
-                    userId: this.user.uid,
-                    dineroAdelantado: this.encargo.dineroAdelantado,
-                };
-                await this.encargosService.updateDoc(this.encargo.id, encargoDto);
+        console.log("🚀 ~ EncargoComponent ~ uploadEncargo ~ this.encargoForm.valid:", this.encargoForm.valid);
+        if (this.encargoForm.valid) {
+            try {
+                this.isEditing = false;
+                if (this.encargo) {
+                    this.encargo.nombre = this.encargoForm.value["nombre"];
+                    const encargoDto: EncargoDto = {
+                        id: "",
+                        fechaCreacion: this.encargo.fechaCreacion,
+                        fechaFinalizacion: this.encargo.fechaFinalizacion,
+                        iva: this.encargo.iva,
+                        nombre: this.encargo.nombre,
+                        observaciones: this.encargo.observaciones,
+                        piezas: this.encargo.piezas.map<PiezaDto>(pieza => ({
+                            nombre: pieza.nombre,
+                            materialId: pieza.material.id,
+                            horas: pieza.horas,
+                            gramos: pieza.gramos,
+                            cantidad: pieza.cantidad,
+                            estado: pieza.estado,
+                        })),
+                        clienteId: this.encargo.cliente.id,
+                        precioHora: this.encargo.precioHora,
+                        gastosAdicionales: this.encargo.gastosAdicionales,
+                        precioTotal: this.encargo.precioTotal,
+                        img: this.encargo.img,
+                        estado: this.encargo.estado,
+                        userId: this.user.uid,
+                        dineroAdelantado: this.encargo.dineroAdelantado,
+                    };
+                    await this.encargosService.updateDoc(this.encargo.id, encargoDto);
+                }
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
         }
     }
     async deleteEncargo() {

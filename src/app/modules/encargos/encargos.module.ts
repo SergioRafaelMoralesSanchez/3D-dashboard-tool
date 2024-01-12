@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EncargoCardComponent } from '../../shared/components/encargo-card/encargo-card.component';
 import { SharedModule } from '../../shared/components/shared.module';
 import { MaterialesService } from '../materiales/pages/services/materiales.service';
@@ -29,7 +29,8 @@ import { PreferenciasService } from "../preferencias/services/materiales.service
         FormsModule,
         CommonModule,
         EncargoCardComponent,
-        SharedModule
+        SharedModule,
+        ReactiveFormsModule
     ],
     providers: [
         MaterialesService,

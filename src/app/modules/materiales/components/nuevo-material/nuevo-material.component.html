@@ -2,45 +2,70 @@
     tabindex="-1" aria-labelledby="modalNuevoMaterialLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalNuevoMaterialLabel">Nuevo Material</h1>
-            </div>
-            <div class="modal-body" *ngIf="materialNuevo">
-                <div class="row">
-                    <div class="col-12 col-md-4 ">
-                        <div class=" mx-3">
-                            <label for="nombreCliente" class="form-label">Nombre</label>
-                            <input [(ngModel)]="materialNuevo.nombre" type="text" class="form-control"
-                                id="nombreCliente" placeholder="Nombre Material">
+            <form [formGroup]="materialForm">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalNuevoMaterialLabel">Nuevo Material</h1>
+                </div>
+                <div class="modal-body" *ngIf="materialNuevo">
+                    <div class="row">
+                        <div class="col-12 col-md-4 ">
+                            <div class=" mx-3">
+                                <label for="nombreCliente" class="form-label">Nombre</label>
+                                <input formControlName="nombre" type="text" class="form-control" id="nombreCliente"
+                                    placeholder="Nombre Material">
+                                <div
+                                    *ngIf="materialForm.controls['nombre'].invalid && (materialForm.controls['nombre'].dirty || materialForm.controls['nombre'].touched)">
+                                    <small class="text-danger"
+                                        *ngIf="materialForm.controls['nombre'].errors && materialForm.controls['nombre'].errors['required']">
+                                        EL nombre es requerido
+                                    </small>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-4 ">
-                        <div class=" mx-3">
-                            <label for="precioKg" class="form-label">Precio Kg</label>
-                            <input [(ngModel)]="materialNuevo.precioKg" type="number" class="form-control" id="precioKg"
-                                placeholder="€">
+                        <div class="col-12 col-md-4 ">
+                            <div class=" mx-3">
+                                <label for="precioKg" class="form-label">Precio Kg</label>
+                                <input formControlName="precioKg" type="number" class="form-control" id="precioKg"
+                                    placeholder="€">
+                                <div
+                                    *ngIf="materialForm.controls['precioKg'].invalid && (materialForm.controls['precioKg'].dirty || materialForm.controls['precioKg'].touched)">
+                                    <small class="text-danger"
+                                        *ngIf="materialForm.controls['precioKg'].errors && materialForm.controls['precioKg'].errors['required']">
+                                        EL precioKg es requerido
+                                    </small>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-4 ">
-                        <div class=" mx-3">
-                            <label for="tasaFallo" class="form-label">Tasa Fallo</label>
-                            <input [(ngModel)]="materialNuevo.tasaFallo" type="number" class="form-control"
-                                id="tasaFallo" placeholder="€">
+                        <div class="col-12 col-md-4 ">
+                            <div class=" mx-3">
+                                <label for="tasaFallo" class="form-label">Tasa Fallo</label>
+                                <input formControlName="tasaFallo" type="number" class="form-control" id="tasaFallo"
+                                    placeholder="%">
+                                <div
+                                    *ngIf="materialForm.controls['tasaFallo'].invalid && (materialForm.controls['tasaFallo'].dirty || materialForm.controls['tasaFallo'].touched)">
+                                    <small class="text-danger"
+                                        *ngIf="materialForm.controls['tasaFallo'].errors && materialForm.controls['tasaFallo'].errors['required']">
+                                        La tasaFallo es requerida al menos a 0
+                                    </small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cacelar</button>
-                <button *ngIf="indiceEdit ===undefined" type="button" (click)="addMaterial()" class="btn btn-success"
-                    data-bs-dismiss="modal">
-                    Añadir
-                </button>
-                <button *ngIf="indiceEdit !==undefined" type="button" (click)="updateMaterial()" class="btn btn-success"
-                    data-bs-dismiss="modal">
-                    Guardar
-                </button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="materialForm.reset()"
+                        data-bs-dismiss="modal">Cacelar</button>
+                    <button *ngIf="indiceEdit === undefined" [disabled]="materialForm.invalid" type="button" (click)="addMaterial()"
+                        class="btn btn-success" data-bs-dismiss="modal">
+                        Añadir
+                    </button>
+                    <button *ngIf="indiceEdit !== undefined" [disabled]="materialForm.invalid" type="button" (click)="updateMaterial()"
+                        class="btn btn-success" data-bs-dismiss="modal">
+                        Guardar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

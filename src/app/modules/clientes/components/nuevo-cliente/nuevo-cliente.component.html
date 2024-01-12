@@ -1,28 +1,38 @@
 <div class="modal modal-xl fade" id="modalNuevoCliente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalNuevoClienteLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalNuevoClienteLabel">Nueva Pieza</h1>
-            </div>
-            <div class="modal-body" *ngIf="clienteNuevo">
-                <div class=" mx-3">
-                    <label for="nombreCliente" class="form-label">Nombre</label>
-                    <input [(ngModel)]="clienteNuevo.nombre" type="text" class="form-control" id="nombreCliente"
-                        placeholder="Nombre Cliente">
+        <div class="modal-content" *ngIf="clienteNuevo">
+            <form [formGroup]="clienteForm">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalNuevoClienteLabel">Nuevo Cliente</h1>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cacelar</button>
-                <button *ngIf="indiceEdit ===undefined" type="button" (click)="addCliente()" class="btn btn-success"
-                    data-bs-dismiss="modal">
-                    Añadir
-                </button>
-                <button *ngIf="indiceEdit !==undefined" type="button" (click)="updateCliente()" class="btn btn-success"
-                    data-bs-dismiss="modal">
-                    Guardar
-                </button>
-            </div>
+                <div class="modal-body">
+                    <div class=" mx-3">
+                        <label for="nombreCliente" class="form-label">Nombre</label>
+                        <input formControlName="nombre" type="text" class="form-control" id="nombreCliente"
+                            placeholder="Nombre Cliente">
+                        <div
+                            *ngIf="clienteForm.controls['nombre'].invalid && (clienteForm.controls['nombre'].dirty || clienteForm.controls['nombre'].touched)">
+                            <small class="text-danger"
+                                *ngIf="clienteForm.controls['nombre'].errors && clienteForm.controls['nombre'].errors['required']">
+                                EL nombre es requerido
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="clienteForm.reset()"
+                        data-bs-dismiss="modal">Cacelar</button>
+                    <button *ngIf="indiceEdit === undefined" [disabled]="clienteForm.invalid" type="button"
+                        (click)="addCliente()" class="btn btn-success" data-bs-dismiss="modal">
+                        Añadir
+                    </button>
+                    <button *ngIf="indiceEdit !== undefined" [disabled]="clienteForm.invalid" type="button"
+                        (click)="updateCliente()" class="btn btn-success" data-bs-dismiss="modal">
+                        Guardar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

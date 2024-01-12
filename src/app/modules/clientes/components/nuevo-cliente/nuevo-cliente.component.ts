@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AuthService } from "../../../../core/services/auth.service";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { Cliente } from "../../../../shared/models/interfaces/cliente.interface";
 import { ClientesService } from "../../pages/services/clientes.service";
-import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 
 @Component({
     selector: 'app-nuevo-cliente',
@@ -10,6 +10,12 @@ import { Undefinable } from "../../../../shared/models/helpers/Undefinable.inter
     styleUrls: ['./nuevo-cliente.component.css']
 })
 export class NuevoClienteComponent {
+
+    clienteForm: FormGroup = new FormGroup({
+        nombre: new FormControl("", {
+            validators: Validators.required
+        })
+    });
 
     @Output()
     onGuardar = new EventEmitter();
@@ -20,16 +26,19 @@ export class NuevoClienteComponent {
     @Input()
     indiceEdit: Undefinable<number>;
 
-    constructor(
-        private authService: AuthService,
-        private clienteService: ClientesService
+    constructor(private clienteService: ClientesService) { }
 
-    ) { }
+    loadForm(cliente: Cliente): void {
+        this.clienteForm.setValue({ nombre: cliente.nombre });
+    }
 
     async addCliente() {
         try {
             if (this.clienteNuevo) {
-                await this.clienteService.addDoc(this.clienteNuevo);
+                await this.clienteService.addDoc({
+                    ...this.clienteNuevo,
+                    nombre: this.clienteForm.value["nombre"]
+                });
                 this.onGuardar.emit("");
             }
         } catch (error) {
@@ -39,11 +48,15 @@ export class NuevoClienteComponent {
     async updateCliente() {
         try {
             if (this.clienteNuevo) {
-                await this.clienteService.updateDoc(this.clienteNuevo.id, this.clienteNuevo);
+                await this.clienteService.updateDoc(this.clienteNuevo.id, {
+                    ...this.clienteNuevo,
+                    nombre: this.clienteForm.value["nombre"]
+                });
                 this.onGuardar.emit("");
             }
         } catch (error) {
             console.error(error);
         }
     }
+
 }
