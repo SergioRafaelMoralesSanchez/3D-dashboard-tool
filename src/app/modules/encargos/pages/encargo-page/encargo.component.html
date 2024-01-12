@@ -27,16 +27,16 @@
         </article>
     </aside>
     <header class="mb-3">
+
         <section class="row">
             <article class="my-2 col-12 col-md-6 col-xl-2">
-                <div>
-                    <img title="Haz Click para editar" (click)="activarModoEdicion()" [src]="encargo.img"
-                        class="rounded img-fluid img-thumbnail cursor-pointer " style="max-height: 200px" alt="">
-                    <div *ngIf="isEditing" class="mt-2">
-                        <label for="urlImg" class="form-label fw-bold">Url img</label>
-                        <input [(ngModel)]="encargo.img" type="text" class="form-control" id="urlImg"
-                            placeholder="Url Imagen" (keyup.enter)="uploadEncargo()">
-                    </div>
+                <img title="Haz Click para editar" (click)="activarModoEdicion()"
+                    [src]="encargo.img ? encargo.img  :'assets/img/logo.png'"
+                    class="rounded img-fluid img-thumbnail cursor-pointer " style="max-height: 200px" alt="">
+                <div *ngIf="isEditing" class="mt-2">
+                    <label for="urlImg" class="form-label fw-bold">Url img</label>
+                    <input [(ngModel)]="encargo.img" type="text" class="form-control" id="urlImg"
+                        placeholder="Url Imagen" (keyup.enter)="uploadEncargo()">
                 </div>
             </article>
             <!-- Nombre y observaciones -->
@@ -47,9 +47,18 @@
                         <span *ngIf="encargo.nombre.length===0">Nombre Encargo?</span>
                     </h3>
                     <div *ngIf="isEditing">
-                        <label for="precioHora" class="form-label fw-bold">Nombre Encargo</label>
-                        <input [(ngModel)]="encargo.nombre" type="text" class="form-control"
-                            placeholder="Nombre encargo" (keyup.enter)="uploadEncargo()">
+                        <form [formGroup]="encargoForm" (ngSubmit)="uploadEncargo()">
+                            <label for="precioHora" class="form-label fw-bold">Nombre Encargo</label>
+                            <input formControlName="nombre" type="text" class="form-control"
+                                placeholder="Nombre encargo" (keyup.enter)="uploadEncargo()">
+                            <div
+                                *ngIf="encargoForm.controls['nombre'].invalid && (encargoForm.controls['nombre'].dirty || encargoForm.controls['nombre'].touched)">
+                                <small class="text-danger"
+                                    *ngIf="encargoForm.controls['nombre'].errors && encargoForm.controls['nombre'].errors['required']">
+                                    EL nombre es requerido
+                                </small>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="mt-2">

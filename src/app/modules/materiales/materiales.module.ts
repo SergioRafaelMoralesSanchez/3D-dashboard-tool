@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EncargoCardComponent } from "../../shared/components/encargo-card/encargo-card.component";
 import { MaterialesRoutingModule } from "./materiales-routing.module";
 import { MaterialesComponent } from "./pages/materiales-page/materiales.component";
@@ -23,7 +23,8 @@ import { SharedModule } from "../../shared/components/shared.module";
         FormsModule,
         CommonModule,
         EncargoCardComponent,
-        SharedModule
+        SharedModule,
+        ReactiveFormsModule
     ],
     providers: [
         MaterialesService

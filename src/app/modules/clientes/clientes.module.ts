@@ -5,7 +5,7 @@ import { ClientesRoutingModule } from './clientes-routing.module';
 import { ClientesComponent } from "./pages/clientes-page/clientes.component";
 import { SharedModule } from "../../shared/components/shared.module";
 import { NuevoClienteComponent } from "./components/nuevo-cliente/nuevo-cliente.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ClientesService } from "./pages/services/clientes.service";
 import { PreferenciasService } from "../preferencias/services/materiales.service";
 
@@ -18,6 +18,7 @@ import { PreferenciasService } from "../preferencias/services/materiales.service
         FormsModule,
         CommonModule,
         ClientesRoutingModule,
+        ReactiveFormsModule,
         SharedModule
     ],
     providers: [

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Cliente, ClienteDto } from "../../../../shared/models/interfaces/cliente.interface";
 import { EncargoDto } from "../../../../shared/models/interfaces/encargo.interface";
 import { EstadoEncargoEnum } from "../../../../shared/models/interfaces/estado-encargo.enum";
@@ -8,6 +8,7 @@ import { AuthService } from "../../../../core/services/auth.service";
 import { Router } from "@angular/router";
 import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { PreferenciasService } from "../../../preferencias/services/materiales.service";
+import { NuevoClienteComponent } from "../../components/nuevo-cliente/nuevo-cliente.component";
 
 @Component({
     selector: 'app-clientes',
@@ -15,6 +16,8 @@ import { PreferenciasService } from "../../../preferencias/services/materiales.s
     styleUrls: ['./clientes.component.css']
 })
 export class ClientesComponent {
+
+    @ViewChild("nuevoCliente") nuevoClienteComponent!: NuevoClienteComponent;
 
     clientes: ClienteDto[] = [];
     encargos: EncargoDto[] = [];
@@ -60,6 +63,7 @@ export class ClientesComponent {
         if (indice !== undefined) {
             this.indiceEdit = indice;
             this.clienteNuevo = { ...this.clientes[this.indiceEdit] };
+            this.nuevoClienteComponent.loadForm(this.clienteNuevo);
         } else {
             this.indiceEdit = undefined;
             this.clienteNuevo = {
@@ -121,12 +125,12 @@ export class ClientesComponent {
                 precioHora: preferencias?.precioHora ?? 0.3,
                 gastosAdicionales: [],
                 nombre: "",
-                estado: 2,
+                estado: EstadoEncargoEnum.Esperando,
                 clienteId: cliente.id,
                 precioTotal: 0,
                 observaciones: "",
                 piezas: [],
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/3DBenchy.png/1024px-3DBenchy.png",
+                img: "",
                 fechaFinalizacion: null,
                 id: "",
                 userId: this.authService.user?.uid ?? "",

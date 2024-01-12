@@ -51,6 +51,6 @@
     </section>
 </div>
 
-<app-nuevo-material [materialNuevo]="materialNuevo" [indiceEdit]="indiceEdit" [(materiales)]="materiales"
+<app-nuevo-material #nuevoMaterial [materialNuevo]="materialNuevo" [indiceEdit]="indiceEdit" [(materiales)]="materiales"
     [isComponente]="isComponente" (onGuardar)="
     getMateriales()"></app-nuevo-material>

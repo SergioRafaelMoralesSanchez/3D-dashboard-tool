@@ -1,8 +1,9 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit, ViewChild } from '@angular/core';
 import { Material } from "../../../../shared/models/interfaces/material.interface";
 import { MaterialesService } from "../services/materiales.service";
 import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { AuthService } from "../../../../core/services/auth.service";
+import { NuevoMaterialComponent } from "../../components/nuevo-material/nuevo-material.component";
 
 @Component({
     selector: 'app-materiales',
@@ -10,6 +11,9 @@ import { AuthService } from "../../../../core/services/auth.service";
     styleUrls: ['./materiales.component.css']
 })
 export class MaterialesComponent implements OnInit {
+
+    @ViewChild("nuevoMaterial") nuevoMaterialComponent!: NuevoMaterialComponent;
+
     @Input()
     materiales: Material[] = [];
 
@@ -50,6 +54,7 @@ export class MaterialesComponent implements OnInit {
         if (indice !== undefined) {
             this.indiceEdit = indice;
             this.materialNuevo = { ...this.materiales[this.indiceEdit] };
+            this.nuevoMaterialComponent.loadForm(this.materialNuevo);
         } else {
             this.indiceEdit = undefined;
             this.materialNuevo = {

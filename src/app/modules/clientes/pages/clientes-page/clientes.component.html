@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                             <div class="mx-1">
-                                <div class="d-flex align-items-center" (click)="deleteCliente(cliente)">
+                                <div class="d-flex align-items-center cursor-pointer" (click)="deleteCliente(cliente)">
                                     <svg-trash></svg-trash>
                                 </div>
                             </div>
@@ -54,5 +54,5 @@
     </section>
 </div>
 
-<app-nuevo-cliente [clienteNuevo]="clienteNuevo" [indiceEdit]="indiceEdit"
+<app-nuevo-cliente #nuevoCliente [clienteNuevo]="clienteNuevo" [indiceEdit]="indiceEdit"
     (onGuardar)="getMappedClients()"></app-nuevo-cliente>
