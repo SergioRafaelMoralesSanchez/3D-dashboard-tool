@@ -22,14 +22,14 @@ export class SimuladorComponent {
 
     materiales: Material[] = [
         {
-            id: "",
+            id: "0",
             nombre: "PLA",
             precioKg: 20,
             userId: "",
             tasaFallo: 10,
         },
         {
-            id: "",
+            id: "1",
             nombre: "ASA",
             precioKg: 25,
             userId: "",
@@ -68,6 +68,7 @@ export class SimuladorComponent {
             estado: EstadoEncargoEnum.EnProceso,
         } as Encargo;
         this.user = this.authService.getCurrentUser()!;
+        // TODO ELIMINAr
     }
 
     calculoPrecioPieza(pieza: Pieza) {

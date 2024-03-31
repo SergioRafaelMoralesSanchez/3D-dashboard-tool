@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Undefinable } from "../../../../shared/models/helpers/Undefinable.interface";
 import { Encargo } from "../../../../shared/models/interfaces/encargo.interface";
 import { EstadoPiezaEnum } from "../../../../shared/models/interfaces/estado-pieza.enum";
@@ -10,13 +10,13 @@ import { Pieza } from "../../../../shared/models/interfaces/pieza.interface";
     templateUrl: './nueva-pieza.component.html',
     styleUrls: ['./nueva-pieza.component.css']
 })
-export class NuevaPiezaComponent {
+export class NuevaPiezaComponent implements OnInit {
 
     @Input()
     materiales: Material[] = [];
 
     @Input()
-    materialDefault: Undefinable<Material> = this.materiales[0];
+    materialDefault: Undefinable<Material>;
 
     @Input()
     piezasNuevas: Pieza[] = [];
@@ -32,6 +32,10 @@ export class NuevaPiezaComponent {
 
     @Input()
     indiceEdit: Undefinable<number>;
+
+    ngOnInit(): void {
+        this.materialDefault = this.materiales[0];
+    }
 
     copyToClipboard(value: string) {
         alert("Texto Copiado al porta papeles");
@@ -56,11 +60,20 @@ export class NuevaPiezaComponent {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     file_changed(event: any) {
         if (this.materialDefault) {
-            this.piezasNuevas = [];
             const eventFile = event as EventFile;
+            this.piezasNuevas = [];
             for (const file of eventFile.target.files) {
                 //eventFile_40g_1h22m.gcode
-                const [nombre, gramos, tiempo] = file.name.replace('.gcode', '').split('_');
+                const nombreFichero = file.name.replace('.gcode', '');
+                let nombre = "", gramos = "", tiempo = "";
+                if (nombreFichero.split("_").length === 3) {
+                    [nombre, gramos, tiempo] = nombreFichero.split('_');
+                } else {
+                    const ArrayFichero = nombreFichero.split('_');
+                    nombre = ArrayFichero.slice(0, -2).join("_");
+                    tiempo = ArrayFichero.slice(-1)[0];
+                    gramos = ArrayFichero.slice(-2, ArrayFichero.length - 1)[0];
+                }
                 let hour = 0, min = 0, days = 0;
                 const tiempoSplit = tiempo.replace("d", "_").replace("h", "_").replace("m", "").split("_");
                 if (tiempo.includes("d")) {
@@ -81,6 +94,19 @@ export class NuevaPiezaComponent {
                     cantidad: 1,
                     estado: EstadoPiezaEnum.Esperando
                 });
+                // } else {
+                //     this.piezasNuevas.push(
+                //         {
+                //             nombre: "",
+                //             horas: 0,
+                //             gramos: 0,
+                //             estado: EstadoPiezaEnum.Esperando,
+                //             cantidad: 1,
+                //             material: this.materialDefault
+                //         }
+                //     );
+                //     console.error("formato incorrecto");
+                // }
             }
         }
     }
@@ -114,10 +140,6 @@ export class NuevaPiezaComponent {
 
     deletePieza(index: number) {
         this.piezasNuevas.splice(index, 1);
-    }
-
-    cambioMaterialPieza(pieza: Pieza, materialId: string) {
-        pieza.material = this.getMaterial(materialId);
     }
 }
 

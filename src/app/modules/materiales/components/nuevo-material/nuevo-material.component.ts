@@ -66,7 +66,12 @@ export class NuevoMaterialComponent {
                     console.error(error);
                 }
             } else {
-                this.materiales.push(this.materialNuevo);
+                this.materiales.push({
+                    ...this.materialNuevo,
+                    nombre: this.materialForm.value["nombre"],
+                    precioKg: this.materialForm.value["precioKg"],
+                    tasaFallo: this.materialForm.value["tasaFallo"]
+                });
                 this.materialesChange.emit(this.materiales);
             }
         }
@@ -86,7 +91,12 @@ export class NuevoMaterialComponent {
                     console.error(error);
                 }
             } else if (this.indiceEdit !== undefined) {
-                this.materiales[this.indiceEdit] = this.materialNuevo;
+                this.materiales[this.indiceEdit] = {
+                    ...this.materialNuevo,
+                    nombre: this.materialForm.value["nombre"],
+                    precioKg: this.materialForm.value["precioKg"],
+                    tasaFallo: this.materialForm.value["tasaFallo"]
+                };
                 this.materialesChange.emit(this.materiales);
             }
         }
