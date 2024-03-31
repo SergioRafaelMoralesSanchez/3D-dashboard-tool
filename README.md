@@ -16,3 +16,13 @@ El proyecto esta creado enteramente en Angulara y Firebase de almacenamiento de 
 **Autor**
 
 Sergio Rafael Morales Sanchez
+
+
+**generate module**
+
+ng generate module /modules/clientes --route /clientes --module app.module
+
+
+**generate module**
+
+ng generate module /modules/clientes --route /clientes --module encargo.module
