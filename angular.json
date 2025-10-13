@@ -68,10 +68,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "3D-dashboard-tool:build:production"
+                          "buildTarget": "3D-dashboard-tool:build:production"
                         },
                         "development": {
-                            "browserTarget": "3D-dashboard-tool:build:development"
+                          "buildTarget": "3D-dashboard-tool:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "3D-dashboard-tool:build"
+                      "buildTarget": "3D-dashboard-tool:build"
                     }
                 }
             }
