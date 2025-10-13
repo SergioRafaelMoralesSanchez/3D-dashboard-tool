@@ -10,7 +10,8 @@ import { PreferenciasService } from "../../services/materiales.service";
 @Component({
     selector: 'app-preferencias',
     templateUrl: './preferencias.component.html',
-    styleUrls: ['./preferencias.component.css']
+    styleUrls: ['./preferencias.component.css'],
+    standalone: false
 })
 export class PreferenciasComponent implements OnInit {
     loading = false;

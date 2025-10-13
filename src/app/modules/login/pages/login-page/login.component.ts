@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import 'firebase/auth';
 import { AuthService } from "../../../../core/services/auth.service";
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: false
 })
 export class LoginComponent {
 

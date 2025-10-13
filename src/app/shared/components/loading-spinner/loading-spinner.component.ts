@@ -6,9 +6,10 @@ import { registerLocaleData } from '@angular/common';
 registerLocaleData(es);
 
 @Component({
-  selector: 'loading-spinner',
-  templateUrl: './loading-spinner.component.html',
-  styleUrls: ['./loading-spinner.component.scss']
+    selector: 'loading-spinner',
+    templateUrl: './loading-spinner.component.html',
+    styleUrls: ['./loading-spinner.component.scss'],
+    standalone: false
 })
 export class LoadingSpinnerComponent {
   @Input()

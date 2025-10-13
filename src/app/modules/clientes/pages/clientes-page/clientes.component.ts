@@ -13,7 +13,8 @@ import { NuevoClienteComponent } from "../../components/nuevo-cliente/nuevo-clie
 @Component({
     selector: 'app-clientes',
     templateUrl: './clientes.component.html',
-    styleUrls: ['./clientes.component.css']
+    styleUrls: ['./clientes.component.css'],
+    standalone: false
 })
 export class ClientesComponent {
 

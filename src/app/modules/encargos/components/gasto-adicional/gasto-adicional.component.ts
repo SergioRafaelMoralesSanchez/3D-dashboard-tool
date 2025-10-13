@@ -6,7 +6,8 @@ import { Encargo } from "../../../../shared/models/interfaces/encargo.interface"
 @Component({
     selector: 'app-gasto-adicional',
     templateUrl: './gasto-adicional.component.html',
-    styleUrls: ['./gasto-adicional.component.css']
+    styleUrls: ['./gasto-adicional.component.css'],
+    standalone: false
 })
 export class GastoAdicionalComponent {
 
