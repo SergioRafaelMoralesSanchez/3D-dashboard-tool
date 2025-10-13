@@ -1,67 +1,74 @@
 <loading-spinner [loading]="preferencias===undefined"></loading-spinner>
-<section class="row" *ngIf="preferencias !==undefined">
-
+@if (preferencias !==undefined) {
+  <section class="row">
     <article class="my-2 col-12 col-md-6 col-xl-4">
-        <header>
-            <h3>Configurador de calculo de pieza</h3>
-        </header>
-        <p>
-            Actualmente el Calculo del precio por pieza se realiza con el siguiente calculo
-        </p>
-        <p>
-            (<strong>CantidadGramosPieza</strong> * <strong>PrecioKgMaterial</strong> + <strong>horas</strong> *
-            <strong>PrecioHora</strong>)* <strong>TasaDeFallo</strong>
-        </p>
-
+      <header>
+        <h3>Configurador de calculo de pieza</h3>
+      </header>
+      <p>
+        Actualmente el Calculo del precio por pieza se realiza con el siguiente calculo
+      </p>
+      <p>
+        (<strong>CantidadGramosPieza</strong> * <strong>PrecioKgMaterial</strong> + <strong>horas</strong> *
+        <strong>PrecioHora</strong>)* <strong>TasaDeFallo</strong>
+      </p>
     </article>
-
     <article class="my-2 col-12 col-md-6 col-xl-2">
-        <div>
-            <label for="precioHora" class="form-label fw-bold">Precio Hora</label>
-            <input type="number" id="precioHora" [(ngModel)]="preferencias.precioHora" class="form-control"
-                placeholder="0.3" aria-describedby="precioHora">
-            <small id="precioHora" class="text-muted">Precio hora incluyendo desgaste de maquina y electricidad</small>
+      <div>
+        <label for="precioHora" class="form-label fw-bold">Precio Hora</label>
+        <input type="number" id="precioHora" [(ngModel)]="preferencias.precioHora" class="form-control"
+          placeholder="0.3" aria-describedby="precioHora">
+          <small id="precioHora" class="text-muted">Precio hora incluyendo desgaste de maquina y electricidad</small>
         </div>
-    </article>
-    <article class="my-2 col-12 col-md-6 col-xl-2">
+      </article>
+      <article class="my-2 col-12 col-md-6 col-xl-2">
         <div>
-            <label for="iva" class="form-label fw-bold">IVA %</label>
-            <input type="number" id="iva" [(ngModel)]="preferencias.iva" class="form-control" placeholder="21"
-                aria-describedby="iva">
+          <label for="iva" class="form-label fw-bold">IVA %</label>
+          <input type="number" id="iva" [(ngModel)]="preferencias.iva" class="form-control" placeholder="21"
+            aria-describedby="iva">
             <small id="iva" class="text-muted">Dejar a 0 si no se quiere aplicar</small>
-        </div>
-    </article>
-    <article class="my-2 col-12 col-md-6 col-xl-4">
-        <h3>
+          </div>
+        </article>
+        <article class="my-2 col-12 col-md-6 col-xl-4">
+          <h3>
             Material Predefinido
-        </h3>
-        <div class="dropdown" *ngIf="materiales.length>0">
-            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          </h3>
+          @if (materiales.length>0) {
+            <div class="dropdown">
+              <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <span *ngIf="preferencias.idMaterialDefault">
+                @if (preferencias.idMaterialDefault) {
+                  <span>
                     {{getMaterial(preferencias.idMaterialDefault).nombre}}
-                </span>
-                <span *ngIf="!preferencias.idMaterialDefault">
+                  </span>
+                }
+                @if (!preferencias.idMaterialDefault) {
+                  <span>
                     Selecciona un mateial predefinido
-                </span>
-            </button>
-            <ul class="dropdown-menu">
-                <li *ngFor="let material of materiales" class="dropdown-item cursor-pointer"
+                  </span>
+                }
+              </button>
+              <ul class="dropdown-menu">
+                @for (material of materiales; track material) {
+                  <li class="dropdown-item cursor-pointer"
                     (click)="preferencias.idMaterialDefault = material.id">
                     <span>{{material.nombre}}</span>
-                </li>
-            </ul>
-        </div>
-        <div class="dropdown" *ngIf="materiales.length===0">
-            <small class="text-danger">Debes de añadir primero algun Manterial</small>
-        </div>
-    </article>
-    <article id="gear" class="col-12 d-flex justify-content-end">
-        <loading-spinner [small]="true" [loading]="loading"></loading-spinner>
-
-        <button class="btn btn-success " (click)="updatePreferencias()">
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+          @if (materiales.length===0) {
+            <div class="dropdown">
+              <small class="text-danger">Debes de añadir primero algun Manterial</small>
+            </div>
+          }
+        </article>
+        <article id="gear" class="col-12 d-flex justify-content-end">
+          <loading-spinner [small]="true" [loading]="loading"></loading-spinner>
+          <button class="btn btn-success " (click)="updatePreferencias()">
             Guardar Preferencias
-        </button>
-
-    </article>
-</section>
+          </button>
+        </article>
+      </section>
+    }

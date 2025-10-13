@@ -1,8 +1,14 @@
-<div *ngIf="loading" class="mx-3 d-flex justify-content-center align-items-center h-100">
-    <div class="divSpinner" *ngIf="!small">
+@if (loading) {
+  <div class="mx-3 d-flex justify-content-center align-items-center h-100">
+    @if (!small) {
+      <div class="divSpinner">
         <span class="spinner"></span>
-    </div>
-    <div class="divSpinnerSmall" *ngIf="small">
+      </div>
+    }
+    @if (small) {
+      <div class="divSpinnerSmall">
         <span class="spinnerSmall"></span>
-    </div>
-</div>
+      </div>
+    }
+  </div>
+}
