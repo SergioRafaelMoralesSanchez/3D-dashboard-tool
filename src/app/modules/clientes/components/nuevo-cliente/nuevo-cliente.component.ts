@@ -7,7 +7,8 @@ import { ClientesService } from "../../pages/services/clientes.service";
 @Component({
     selector: 'app-nuevo-cliente',
     templateUrl: './nuevo-cliente.component.html',
-    styleUrls: ['./nuevo-cliente.component.css']
+    styleUrls: ['./nuevo-cliente.component.css'],
+    standalone: false
 })
 export class NuevoClienteComponent {
 

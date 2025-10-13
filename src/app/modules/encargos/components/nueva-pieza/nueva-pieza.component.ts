@@ -8,7 +8,8 @@ import { Pieza } from "../../../../shared/models/interfaces/pieza.interface";
 @Component({
     selector: 'app-nueva-pieza',
     templateUrl: './nueva-pieza.component.html',
-    styleUrls: ['./nueva-pieza.component.css']
+    styleUrls: ['./nueva-pieza.component.css'],
+    standalone: false
 })
 export class NuevaPiezaComponent implements OnInit {
 

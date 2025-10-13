@@ -5,7 +5,8 @@ import { EncargoDto } from 'src/app/shared/models/interfaces/encargo.interface';
 @Component({
     selector: 'app-encargos',
     templateUrl: './encargos.component.html',
-    styleUrls: ['./encargos.component.css']
+    styleUrls: ['./encargos.component.css'],
+    standalone: false
 })
 export class EncargosComponent implements OnInit {
 

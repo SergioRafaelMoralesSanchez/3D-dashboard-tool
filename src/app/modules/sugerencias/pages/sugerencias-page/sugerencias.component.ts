@@ -4,7 +4,8 @@ import { SugerenciasService } from "../../services/sugerencias.service";
 @Component({
     selector: 'app-sugerencias',
     templateUrl: './sugerencias.component.html',
-    styleUrls: ['./sugerencias.component.css']
+    styleUrls: ['./sugerencias.component.css'],
+    standalone: false
 })
 export class SugerenciasComponent {
     enviado = false;

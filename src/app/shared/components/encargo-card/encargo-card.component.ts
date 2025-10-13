@@ -10,8 +10,7 @@ import { EstadoPiezaEnum } from '../../models/interfaces/estado-pieza.enum';
     styleUrls: ['./encargo-card.component.css'],
     imports: [
         CommonModule
-    ],
-    standalone: true
+    ]
 })
 export class EncargoCardComponent {
 

@@ -13,7 +13,8 @@ import { EstadoEncargoEnum } from "../../../../shared/models/interfaces/estado-e
 @Component({
     selector: 'app-simulador',
     templateUrl: './simulador.component.html',
-    styleUrls: ['./simulador.component.css']
+    styleUrls: ['./simulador.component.css'],
+    standalone: false
 })
 export class SimuladorComponent {
 

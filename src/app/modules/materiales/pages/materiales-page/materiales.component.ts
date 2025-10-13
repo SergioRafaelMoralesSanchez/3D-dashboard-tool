@@ -8,7 +8,8 @@ import { NuevoMaterialComponent } from "../../components/nuevo-material/nuevo-ma
 @Component({
     selector: 'app-materiales',
     templateUrl: './materiales.component.html',
-    styleUrls: ['./materiales.component.css']
+    styleUrls: ['./materiales.component.css'],
+    standalone: false
 })
 export class MaterialesComponent implements OnInit {
 

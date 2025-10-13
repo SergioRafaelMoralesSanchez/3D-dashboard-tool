@@ -20,7 +20,8 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 @Component({
     selector: 'app-encargo',
     templateUrl: './encargo.component.html',
-    styleUrls: ['./encargo.component.css']
+    styleUrls: ['./encargo.component.css'],
+    standalone: false
 })
 export class EncargoComponent implements OnInit {
 

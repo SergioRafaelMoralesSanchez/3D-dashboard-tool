@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'svg-trash',
-  template: `
+    selector: 'svg-trash',
+    template: `
        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-trash3" viewBox="0 0 16 16">
                                     <path
@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
                                     </path>
                                 </svg>
                                 `,
-
+    standalone: false
 })
 export class TrashSvgComponent {
 

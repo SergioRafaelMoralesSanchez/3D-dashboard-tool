@@ -1,86 +1,100 @@
 <div class="modal modal-xl fade" id="modalNuevaPieza" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="modalNuevaPiezaLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <header class="modal-header">
-                <h1 class="modal-title fs-5" id="modalNuevaPiezaLabel">Nueva Pieza</h1>
-            </header>
-            <div class="modal-body">
-                <section>
-                    <article class="mb-5">
-                        <div class="row" *ngIf="indiceEdit ===undefined">
-                            <div class="col-12 col-xl-7">
-                                <p>
-                                    Para obtener los valores del nombre en prusaSlicer debes de introducir en:<br>
-                                    Configuración de impresión>Opciones de Salida> Formato de nombre de salida
-                                </p>
-                                <strong class="cursor-pointer" #format (click)="copyToClipboard(format.innerHTML)"
-                                    title="Haz Click para copiarme">
-                                    &#123;input_filename_base&#125; _ &#123;int(total_weight)+1&#125;g _
-                                    &#123;print_time&#125;.gcode
-                                </strong>
-                            </div>
-                            <div class="col-12 col-xl-5   ">
-                                <label for="formFileMultiple"
-                                    class="btn btn-outline-info h-100 w-100 d-flex justify-content-center align-items-center">
-                                    <svg-upload class="m-2"></svg-upload>
-                                    Pulsa para subir archivos
-                                </label>
-                                <input accept=".gcode" (change)="file_changed($event)" class="d-none" type="file"
-                                    id="formFileMultiple" multiple>
-                            </div>
+  aria-labelledby="modalNuevaPiezaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h1 class="modal-title fs-5" id="modalNuevaPiezaLabel">Nueva Pieza</h1>
+      </header>
+      <div class="modal-body">
+        <section>
+          <article class="mb-5">
+            @if (indiceEdit ===undefined) {
+              <div class="row">
+                <div class="col-12 col-xl-7">
+                  <p>
+                    Para obtener los valores del nombre en prusaSlicer debes de introducir en:<br>
+                    Configuración de impresión>Opciones de Salida> Formato de nombre de salida
+                  </p>
+                  <strong class="cursor-pointer" #format (click)="copyToClipboard(format.innerHTML)"
+                    title="Haz Click para copiarme">
+                    &#123;input_filename_base&#125; _ &#123;int(total_weight)+1&#125;g _
+                    &#123;print_time&#125;.gcode
+                  </strong>
+                </div>
+                <div class="col-12 col-xl-5   ">
+                  <label for="formFileMultiple"
+                    class="btn btn-outline-info h-100 w-100 d-flex justify-content-center align-items-center">
+                    <svg-upload class="m-2"></svg-upload>
+                    Pulsa para subir archivos
+                  </label>
+                  <input accept=".gcode" (change)="file_changed($event)" class="d-none" type="file"
+                    id="formFileMultiple" multiple>
+                  </div>
+                </div>
+              }
+            </article>
+            <article class="my-5">
+              @for (pieza of piezasNuevas; track pieza; let i = $index) {
+                <div class="row">
+                  <div class="col-12 col-xl-2">
+                    <label for="nombrePieza" class="form-label">Nombre</label>
+                    <input [(ngModel)]="pieza.nombre" type="text" class="form-control" id="nombrePieza"
+                      placeholder="Nombre Pieza">
+                    </div>
+                    <div class="col-12 col-xl-2">
+                      <label for="horas" class="form-label">Horas</label>
+                      <input [(ngModel)]="pieza.horas" type="number" class="form-control" id="horas"
+                        placeholder="h">
+                      </div>
+                      <div class="col-12 col-xl-2">
+                        <label for="gramos" class="form-label">Gramos</label>
+                        <input [(ngModel)]="pieza.gramos" type="number" class="form-control" id="gramos"
+                          placeholder="gr">
                         </div>
-                    </article>
-                    <article class="my-5">
-                        <div class="row" *ngFor="let pieza of piezasNuevas; let i=index">
-                            <div class="col-12 col-xl-2">
-                                <label for="nombrePieza" class="form-label">Nombre</label>
-                                <input [(ngModel)]="pieza.nombre" type="text" class="form-control" id="nombrePieza"
-                                    placeholder="Nombre Pieza">
+                        @if (indiceEdit===undefined) {
+                          <div class="col-12 col-xl-2">
+                            <label for="gramos" class="form-label">Cantidad</label>
+                            <input [(ngModel)]="pieza.cantidad" type="number" class="form-control" id="1"
+                              placeholder="1">
                             </div>
-                            <div class="col-12 col-xl-2">
-                                <label for="horas" class="form-label">Horas</label>
-                                <input [(ngModel)]="pieza.horas" type="number" class="form-control" id="horas"
-                                    placeholder="h">
-                            </div>
-                            <div class="col-12 col-xl-2">
-                                <label for="gramos" class="form-label">Gramos</label>
-                                <input [(ngModel)]="pieza.gramos" type="number" class="form-control" id="gramos"
-                                    placeholder="gr">
-                            </div>
-                            <div class="col-12 col-xl-2" *ngIf="indiceEdit===undefined">
-                                <label for="gramos" class="form-label">Cantidad</label>
-                                <input [(ngModel)]="pieza.cantidad" type="number" class="form-control" id="1"
-                                    placeholder="1">
-                            </div>
-                            <div class="col-12 col-xl-2">
-                                <label for="gramos" class="form-label">Material</label>
-                                <select class="form-control" name="materialId" [(ngModel)]="pieza.material">
-                                    <option *ngFor="let material of materiales" [ngValue]="material">
-                                        {{material.nombre}} - {{material.precioKg}} €
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-xl-2 d-flex align-items-end mt-2">
-                                <button class="btn btn-primary" *ngIf="indiceEdit ===undefined"
-                                    (click)="addPiezaNueva()"> + </button>
-                                <button class="mx-3 btn btn-danger" [disabled]="piezasNuevas.length<2"
-                                    (click)="deletePieza(i)">
-                                    <svg-trash></svg-trash>
-                                </button>
-                            </div>
+                          }
+                          <div class="col-12 col-xl-2">
+                            <label for="gramos" class="form-label">Material</label>
+                            <select class="form-control" name="materialId" [(ngModel)]="pieza.material">
+                              @for (material of materiales; track material) {
+                                <option [ngValue]="material">
+                                  {{material.nombre}} - {{material.precioKg}} €
+                                </option>
+                              }
+                            </select>
+                          </div>
+                          <div class="col-12 col-xl-2 d-flex align-items-end mt-2">
+                            @if (indiceEdit ===undefined) {
+                              <button class="btn btn-primary"
+                              (click)="addPiezaNueva()"> + </button>
+                            }
+                            <button class="mx-3 btn btn-danger" [disabled]="piezasNuevas.length<2"
+                              (click)="deletePieza(i)">
+                              <svg-trash></svg-trash>
+                            </button>
+                          </div>
                         </div>
+                      }
                     </article>
-                </section>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cacelar</button>
-                <button type="button" [disabled]="!piezasNuevas.length" (click)="addPiezas()" class="btn btn-success"
+                  </section>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cacelar</button>
+                  <button type="button" [disabled]="!piezasNuevas.length" (click)="addPiezas()" class="btn btn-success"
                     data-bs-dismiss="modal">
-                    <span *ngIf="indiceEdit ===undefined">Añadir</span>
-                    <span *ngIf="indiceEdit !==undefined">Guardar</span>
-                </button>
+                    @if (indiceEdit ===undefined) {
+                      <span>Añadir</span>
+                    }
+                    @if (indiceEdit !==undefined) {
+                      <span>Guardar</span>
+                    }
+                  </button>
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
-</div>
+          </div>

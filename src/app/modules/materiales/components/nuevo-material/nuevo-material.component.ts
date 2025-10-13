@@ -7,7 +7,8 @@ import { MaterialesService } from "../../pages/services/materiales.service";
 @Component({
     selector: 'app-nuevo-material',
     templateUrl: './nuevo-material.component.html',
-    styleUrls: ['./nuevo-material.component.css']
+    styleUrls: ['./nuevo-material.component.css'],
+    standalone: false
 })
 export class NuevoMaterialComponent {
 

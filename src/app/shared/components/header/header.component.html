@@ -1,59 +1,69 @@
 <div class="mb-3">
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <div>
-            <!-- Toggle button -->
-            <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div>
+      <!-- Toggle button -->
+      <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-bs-toggle="collapse"
+        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-            <div class="collapse navbar-collapse mt-2" id="navbarNav">
-                <a class="navbar-brand mt-2 mt-lg-0">
-                    <img class="cursor-pointer" [src]="'assets/img/logo.svg'" height="40" alt="3D Dashboard Tool Logo"
-                        loading="lazy" />
-                </a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a [routerLink]="['/simulador']" class="nav-link">Simulador</a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a [routerLink]="['/sugerencias']" class="nav-link">Sugerencias</a>
-                    </li> -->
-                    <li class="nav-item" *ngIf="user!==null">
-                        <a [routerLink]="['/encargos']" class="nav-link">Encargos</a>
-                    </li>
-                    <li class="nav-item" *ngIf="user!==null">
-                        <a [routerLink]="['/clientes']" class="nav-link">Clientes</a>
-                    </li>
-                    <li class="nav-item" *ngIf="user!==null">
-                        <a [routerLink]="['/materiales']" class="nav-link">Materiales</a>
-                    </li>
-                    <li class="nav-item" *ngIf="user===null">
-                        <a [routerLink]="['/login']" class="nav-link">Inicio sesion</a>
-                    </li>
+      <div class="collapse navbar-collapse mt-2" id="navbarNav">
+        <a class="navbar-brand mt-2 mt-lg-0">
+          <img class="cursor-pointer" [src]="'assets/img/logo.svg'" height="40" alt="3D Dashboard Tool Logo"
+            loading="lazy" />
+          </a>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a [routerLink]="['/simulador']" class="nav-link">Simulador</a>
+            </li>
+            <!-- <li class="nav-item">
+            <a [routerLink]="['/sugerencias']" class="nav-link">Sugerencias</a>
+          </li> -->
+          @if (user!==null) {
+            <li class="nav-item">
+              <a [routerLink]="['/encargos']" class="nav-link">Encargos</a>
+            </li>
+          }
+          @if (user!==null) {
+            <li class="nav-item">
+              <a [routerLink]="['/clientes']" class="nav-link">Clientes</a>
+            </li>
+          }
+          @if (user!==null) {
+            <li class="nav-item">
+              <a [routerLink]="['/materiales']" class="nav-link">Materiales</a>
+            </li>
+          }
+          @if (user===null) {
+            <li class="nav-item">
+              <a [routerLink]="['/login']" class="nav-link">Inicio sesion</a>
+            </li>
+          }
 
-                </ul>
-            </div>
+        </ul>
+      </div>
 
+    </div>
+    <div class="d-flex align-items-center">
+      <!-- Avatar -->
+      @if (user) {
+        <div class="dropdown" style="padding: 10px;">
+          <a class="dropdown-toggle d-flex align-items-center hidden-arrow" id="navbarDropdownMenuAvatar"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img [src]="user.photoURL" class="rounded-circle" height="25" alt="user Img" loading="lazy" />
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+            <li>
+              <a class="dropdown-item" [routerLink]="['/preferencias']">Preferencias</a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="signOut()">LogOut</a>
+            </li>
+          </ul>
         </div>
-        <div class="d-flex align-items-center">
-            <!-- Avatar -->
-            <div class="dropdown" *ngIf="user" style="padding: 10px;">
-                <a class="dropdown-toggle d-flex align-items-center hidden-arrow" id="navbarDropdownMenuAvatar"
-                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img [src]="user.photoURL" class="rounded-circle" height="25" alt="user Img" loading="lazy" />
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                    <li>
-                        <a class="dropdown-item" [routerLink]="['/preferencias']">Preferencias</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" (click)="signOut()">LogOut</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+      }
+    </div>
+  </nav>
 
 </div>
