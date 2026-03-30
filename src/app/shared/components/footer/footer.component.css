@@ -28,10 +28,3 @@ a:active {
     height: 100%;
     text-align: center;
 }
-
-@media screen and (min-height: 1100px) {
-    footer {
-        position: fixed;
-        bottom: 0;
-    }
-}

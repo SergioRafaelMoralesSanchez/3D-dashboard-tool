@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { Nullable } from "../helpers/Nullable.interface";
 import { Cliente } from './cliente.interface';
 import { EstadoEncargoEnum } from "./estado-encargo.enum";
@@ -6,8 +7,8 @@ import { Pieza, PiezaDto } from './pieza.interface';
 
 export interface Encargo {
     id: string
-    fechaCreacion: Nullable<Date>
-    fechaFinalizacion: Nullable<Date>
+    fechaCreacion: Nullable<Timestamp>
+    fechaFinalizacion: Nullable<Timestamp>
     iva: number
     nombre: string
     observaciones?: string
@@ -23,8 +24,8 @@ export interface Encargo {
 }
 export interface EncargoDto {
     id: string
-    fechaCreacion: Nullable<Date>
-    fechaFinalizacion: Nullable<Date>
+    fechaCreacion: Nullable<Timestamp>
+    fechaFinalizacion: Nullable<Timestamp>
     iva: number
     nombre: string
     observaciones?: string
